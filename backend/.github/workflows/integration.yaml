@@ -24,10 +24,6 @@ jobs:
               run: |
                   yarn install
 
-            - name: Build backend
-              run: |
-                  yarn build
-
             - name: Run tests
               run: |
                   yarn test

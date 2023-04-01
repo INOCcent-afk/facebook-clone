@@ -18,7 +18,7 @@ const Query = {
 		return [
 			{
 				id: 1,
-				username: "dave",
+				username: "dave noice",
 				name: "inoc",
 				email: "daveinoc@gmail.com",
 			},

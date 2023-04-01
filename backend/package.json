@@ -3,8 +3,9 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"license": "MIT",
+	"type": "commonjs",
 	"scripts": {
-		"start": "node src/main.js",
+		"start": "ts-node src/main.ts",
 		"dev": "nodemon src/main.ts"
 	},
 	"dependencies": {

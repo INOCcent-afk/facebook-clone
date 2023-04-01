@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+    db:
+        image: postgres
+        env_file:
+            - ./env/postgres.env
+        volumes:
+            - dbdata:/var/lib/postgresql/data
+        container_name: fb_postgresdb
+
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.dev
+        volumes:
+            - ./backend/src:/app/src
+        ports:
+            - 4000:4000
+        env_file:
+            - ./env/backend.env
+        container_name: fb_backend
+        depends_on:
+            - db
+
+    frontend:
+        stdin_open: true
+        tty: true
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.dev
+        volumes:
+            - ./frontend/src:/app/src
+        ports:
+            - 3000:3000
+        container_name: fb_frontend
+        depends_on:
+            - backend
+
+volumes:
+    dbdata:
