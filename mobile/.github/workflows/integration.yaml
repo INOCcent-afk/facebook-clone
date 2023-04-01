@@ -1,7 +1,7 @@
-name: Test and Build Frontend app
+name: Expo Test App
 
 on:
-    pull_request:
+    push:
         branches:
             [] # Don't trigger workflow for now
             # - main
@@ -9,24 +9,19 @@ on:
             - "**"
 
 jobs:
-    build:
+    build-and-publish:
         runs-on: ubuntu-latest
-
         steps:
-            - uses: actions/checkout@v3
+            - name: Checkout code
+              uses: actions/checkout@v3
 
             - name: Set up Node.js
-            - uses: actions/setup-node@v2
+              uses: actions/setup-node@v2
               with:
                   cache: "yarn"
 
             - name: Install dependencies
-              run: |
-                  yarn install
-
-            - name: Build frontend
-              run: |
-                  yarn build
+              run: yarn install
 
             - name: Run tests
               run: |

@@ -1,4 +1,4 @@
-name: Integration
+name: Test and Build Backend app
 
 on:
     pull_request:
@@ -14,16 +14,20 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
+
             - name: Set up Node.js
             - uses: actions/setup-node@v2
               with:
                   cache: "yarn"
-            - name: Install Dependencies
+
+            - name: Install dependencies
               run: |
                   yarn install
+
             - name: Build backend
               run: |
                   yarn build
+
             - name: Run tests
               run: |
                   yarn test
