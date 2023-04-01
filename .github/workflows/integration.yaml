@@ -1,0 +1,35 @@
+name: Integration
+
+on:
+  pull_request:
+    branches: [] # Don't trigger workflow for now
+      # - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'yarn'
+      - name: Install Frontend and Backend Dependencies
+        run: |
+          cd frontend
+          yarn install
+          cd ../backend
+          yarn install
+      - name: Build Frontned and Backend
+        run: |
+          cd frontend
+          yarn build
+          cd ../backend
+          yarn build
+      - name: Run Backend and Frontend Tests
+        run: |
+          cd frontend
+          yarn test
+          cd ../backend
+          yarn test
