@@ -13,4 +13,4 @@ COPY . .
 EXPOSE 19000
 EXPOSE 19006
 
-CMD [ "yarn", "web" ]
+CMD [ "yarn", "start" ]
