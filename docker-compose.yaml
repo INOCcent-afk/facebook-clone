@@ -43,19 +43,5 @@ services:
         depends_on:
             - backend
 
-    # mobile:
-    #     build:
-    #         context: ./mobile
-    #         dockerfile: Dockerfile.dev
-    #     ports:
-    #         - "19000:19000"
-    #         - "19006:19006"
-
-    #     volumes:
-    #         - ./mobile:/app
-    #     container_name: fb_mobile
-    #     depends_on:
-    #         - backend
-
 volumes:
     dbdata:
