@@ -43,7 +43,7 @@ services:
             dockerfile: Dockerfile.dev
         ports:
             - "19000:19000"
-            - "19001:19001"
+            - "19006:19006"
 
         volumes:
             - ./mobile:/app
