@@ -8,6 +8,7 @@ services:
         volumes:
             - dbdata:/var/lib/postgresql/data
         container_name: fb_postgresdb
+        restart: always
 
     backend:
         build:
@@ -15,6 +16,7 @@ services:
             dockerfile: Dockerfile.dev
         volumes:
             - ./backend/src:/app/src
+            - ./backend/prisma:/app/prisma
         ports:
             - 4000:4000
         env_file:
