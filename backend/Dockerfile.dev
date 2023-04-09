@@ -1,8 +1,13 @@
 FROM node:alpine
 
+RUN apk add --no-cache openssl
+
+RUN npm install -g --unsafe-perm prisma
+
 WORKDIR /app
 
 COPY package.json yarn.lock .
+COPY prisma ./prisma/
 
 RUN yarn install
 
@@ -12,4 +17,4 @@ RUN npx prisma generate
 
 EXPOSE 4000
 
-CMD ["yarn", "run", "dev"]
+CMD ["yarn", "run", "dev"] 
