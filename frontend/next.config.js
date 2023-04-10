@@ -8,6 +8,10 @@ const nextConfig = {
 		};
 		return config;
 	},
+	webpack: (config) => {
+		config.resolve.alias["@"] = __dirname + "/src";
+		return config;
+	},
 };
 
 module.exports = nextConfig;
