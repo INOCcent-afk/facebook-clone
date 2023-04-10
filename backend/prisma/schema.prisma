@@ -11,7 +11,95 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  name     String
-  password String?
+  id               Int               @id @default(autoincrement())
+  uid              String
+  name             String
+  email            String            @unique
+  followedBy       User[]            @relation("UserFollows")
+  following        User[]            @relation("UserFollows")
+  profile          Profile?
+  posts            Post[]
+  comments         Comment[]
+  notifications    Notification[]
+  reactions        Reaction[]
+  chatPrivateRooms ChatRoomPrivate[]
+  chatRoomGroups   ChatRoomGroup[]
+}
+
+model Profile {
+  id             Int     @id @default(autoincrement())
+  user           User    @relation(fields: [userId], references: [id])
+  userId         Int     @unique
+  coverPhoto     String?
+  profilePicture String?
+  bio            String?
+}
+
+model Notification {
+  id                  Int      @id @default(autoincrement())
+  createdBy           User     @relation(fields: [userId], references: [id])
+  userId              Int
+  notificationMessage String
+  createdFor          Int // Id of user
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Post {
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [userId], references: [id])
+  userId       Int
+  postParentId Int?
+  comments     Comment[]
+  image        String?
+  video        String?
+  images       Post[]    @relation("Images")
+  videos       Post[]    @relation("Videos")
+
+  // This second "side" of the Images relation exists solely 
+  // to satisfy prisma's requirements; we won't access it directly.
+  symmetricTweets Post[]     @relation("Images")
+  symmetricVideos Post[]     @relation("Videos")
+  reactions       Reaction[]
+}
+
+model Comment {
+  id              Int    @id @default(autoincrement())
+  user            User   @relation(fields: [userId], references: [id])
+  userId          Int
+  post            Post   @relation(fields: [postId], references: [id])
+  postId          Int
+  commentParentId String
+}
+
+model Reaction {
+  id     Int   @id @default(autoincrement())
+  user   User  @relation(fields: [userId], references: [id])
+  userId Int
+  post   Post  @relation(fields: [postId], references: [id])
+  postId Int
+  emoji  Emoji
+}
+
+enum Emoji {
+  LIKE
+  HEART
+  LAUGH
+  SUPRISE
+  CRY
+  ANGRY
+}
+
+model ChatRoomPrivate {
+  id           Int    @id @default(autoincrement())
+  user         User   @relation(fields: [userId], references: [id])
+  userId       Int
+  chatRoomName String
+}
+
+model ChatRoomGroup {
+  id      Int      @id @default(autoincrement())
+  User    User     @relation(fields: [userId], references: [id])
+  userId  Int
+  members String[]
 }
