@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { AuthDashboard } from "./AuthDashboard";
-import { Feed } from "./Feed";
+import { AuthDashboard } from "../AuthDashboard";
+import { Feed } from "../Feed";
 import { useState } from "react";
 
 export const Home = () => {
