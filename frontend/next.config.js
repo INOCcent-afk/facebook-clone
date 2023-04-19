@@ -12,6 +12,9 @@ const nextConfig = {
 		config.resolve.alias["@"] = __dirname + "/src";
 		return config;
 	},
+	images: {
+		domains: ["scontent.fmnl30-2.fna.fbcdn.net"],
+	},
 };
 
 module.exports = nextConfig;
