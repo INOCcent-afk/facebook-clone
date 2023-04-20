@@ -9,6 +9,18 @@ export const Button = defineStyleConfig({
 			padding: 0,
 			height: "fit-content",
 			width: "fit-content",
+			fontWeight: "normal",
+
+			...Object.fromEntries(
+				[
+					"_hover",
+					"_active",
+					"_focus",
+					"_visited",
+					"_focusVisible",
+					"_focusWithin",
+				].map((prop) => [prop, { opacity: 1 }])
+			),
 		},
 	},
 });

@@ -1,25 +1,21 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { colors } from "@/styles/chakra/theme";
+import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import React, { FC } from "react";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 
-interface Props {
-	imageUrl: string;
-	name: string;
-}
+type Props =
+	| { type: "user"; imageUrl: string; name: string }
+	| { type: "add_account" };
 
-export const UserCard: FC<Props> = ({ imageUrl, name }) => {
+export const UserCard: FC<Props> = (props): JSX.Element => {
+	const CARD_HEIGHT = 160;
+	const CARD_WIDTH = 160;
+
+	const isUser = props.type === "user";
+
 	return (
-		<Box
-			position="relative"
-			borderRadius={4}
-			overflow="hidden"
-			width={160}
-			height={206}
-			backgroundColor="white"
-			border={1}
-			boxShadow="gray" // Remember to make this work
-		>
+		<Box position="relative">
 			<Button
 				variant="unstyled"
 				position="absolute"
@@ -27,14 +23,57 @@ export const UserCard: FC<Props> = ({ imageUrl, name }) => {
 				left={1}
 				zIndex={10}
 			>
-				<AiFillCloseCircle size={24} />
+				<AiFillCloseCircle
+					size={20}
+					aria-label="remove previous signedin user"
+				/>
 			</Button>
-			<Box position="relative" height={160} width={160}>
-				<Image fill priority src={imageUrl} alt={`Profile image of ${name}`} />
-			</Box>
-			<Box textAlign="center" padding={4}>
-				<Text>{name}</Text>
-			</Box>
+			<Button
+				borderRadius={4}
+				overflow="hidden"
+				width={CARD_WIDTH}
+				height={206}
+				backgroundColor="white"
+				border={1}
+				boxShadow="gray"
+				_hover={{
+					opacity: 1,
+				}}
+				variant="unstyled"
+			>
+				<VStack height="full">
+					<Box
+						position="relative"
+						height={CARD_HEIGHT}
+						width={CARD_WIDTH}
+						display="flex"
+						alignItems="center"
+						justifyContent="center"
+						backgroundColor="gray.100"
+					>
+						{isUser ? (
+							<Image
+								fill
+								priority
+								src={props.imageUrl}
+								alt={`Profile image of ${name}`}
+							/>
+						) : (
+							<AiFillPlusCircle size={48} color={colors.brand} />
+						)}
+					</Box>
+					<Box
+						textAlign="center"
+						flex={1}
+						height="full"
+						marginTop="0px !important"
+						display="flex"
+						alignItems="center"
+					>
+						<Text>{isUser ? props.name : "ADD ACOUNT"} </Text>
+					</Box>
+				</VStack>
+			</Button>
 		</Box>
 	);
 };
