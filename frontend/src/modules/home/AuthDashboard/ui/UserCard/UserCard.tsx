@@ -56,7 +56,7 @@ export const UserCard: FC<Props> = (props): JSX.Element => {
 								fill
 								priority
 								src={props.imageUrl}
-								alt={`Profile image of ${name}`}
+								alt={`Profile image of ${props.name}`}
 							/>
 						) : (
 							<AiFillPlusCircle size={48} color={colors.brand} />
