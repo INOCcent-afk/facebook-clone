@@ -2,9 +2,21 @@ import { defineStyleConfig } from "@chakra-ui/react";
 
 export const Button = defineStyleConfig({
 	baseStyle: {
-		borderRadius: 15,
+		borderRadius: 8,
+		paddingY: 2,
+		paddingX: 4,
+		color: "white",
 	},
+
 	variants: {
+		primary: {
+			backgroundColor: "brand",
+		},
+
+		secondary: {
+			backgroundColor: "green.900",
+		},
+
 		unstyled: {
 			padding: 0,
 			height: "fit-content",
@@ -22,5 +34,10 @@ export const Button = defineStyleConfig({
 				].map((prop) => [prop, { opacity: 1 }])
 			),
 		},
+	},
+
+	defaultProps: {
+		variant: "primary",
+		size: "md",
 	},
 });

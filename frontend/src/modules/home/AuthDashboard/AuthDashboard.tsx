@@ -9,7 +9,7 @@ export const AuthDashboard = () => {
 			<HStack
 				paddingY={100}
 				justifyContent="space-between"
-				maxW={800}
+				maxW={1000}
 				marginX="auto"
 				alignItems="center"
 				height="full"
