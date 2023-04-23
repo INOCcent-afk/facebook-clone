@@ -10,7 +10,7 @@ export const SearchFacebook = () => {
 			backgroundColor="gray.800"
 			borderRadius={16}
 			_hover={{
-				backgroundColor: "#4e4f50",
+				backgroundColor: "gray.500",
 			}}
 		>
 			<FormLabel
@@ -27,9 +27,18 @@ export const SearchFacebook = () => {
 					paddingLeft={8}
 				>
 					<Box position="absolute" left={2}>
-						<AiOutlineSearch size={20} color="#B0B3B8" />
+						<AiOutlineSearch size={20} color="gray.600" />
 					</Box>
-					<Input variant="unstyled" size="sm" padding={0} />
+					<Input
+						variant="unstyled"
+						size="sm"
+						padding={0}
+						placeholder="Search Facebook"
+						color="white"
+						_placeholder={{
+							color: "gray.600",
+						}}
+					/>
 				</HStack>
 			</FormLabel>
 		</FormControl>

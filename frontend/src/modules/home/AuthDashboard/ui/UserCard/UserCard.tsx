@@ -69,8 +69,9 @@ export const UserCard: FC<Props> = (props): JSX.Element => {
 						marginTop="0px !important"
 						display="flex"
 						alignItems="center"
+						color={isUser ? "black" : "brand"}
 					>
-						<Text>{isUser ? props.name : "ADD ACOUNT"} </Text>
+						<Text>{isUser ? props.name : "Add Account"} </Text>
 					</Box>
 				</VStack>
 			</Button>
