@@ -1,4 +1,3 @@
-import { colors } from "@/styles/chakra/theme";
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import React, { FC } from "react";
@@ -59,7 +58,9 @@ export const UserCard: FC<Props> = (props): JSX.Element => {
 								alt={`Profile image of ${props.name}`}
 							/>
 						) : (
-							<AiFillPlusCircle size={48} color={colors.brand} />
+							<Box color="brand">
+								<AiFillPlusCircle size={48} />
+							</Box>
 						)}
 					</Box>
 					<Box
