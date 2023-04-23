@@ -26,8 +26,8 @@ export const SearchFacebook = () => {
 					position="relative"
 					paddingLeft={8}
 				>
-					<Box position="absolute" left={2}>
-						<AiOutlineSearch size={20} color="gray.600" />
+					<Box position="absolute" left={2} color="gray.600">
+						<AiOutlineSearch size={20} />
 					</Box>
 					<Input
 						variant="unstyled"
