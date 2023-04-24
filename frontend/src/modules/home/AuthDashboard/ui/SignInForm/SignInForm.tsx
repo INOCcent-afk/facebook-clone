@@ -14,8 +14,12 @@ export const SignInForm = () => {
 		>
 			<VStack gap={4}>
 				<VStack width="full">
-					<Input type="text" placeholder="Email" />
-					<Input type="password" placeholder="Password" />
+					<Input type="text" placeholder="Email" variant="gray" />
+					<Input
+						type="password"
+						placeholder="Password"
+						variant="gray"
+					/>
 				</VStack>
 				<Button size="lg" width="full" type="submit">
 					Log in
