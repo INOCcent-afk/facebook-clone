@@ -8,7 +8,7 @@ import { MOCK_FACEBOOK_LOGO } from "@/utils/facebookLogo.mock";
 export const AuthDashboard = () => {
 	return (
 		<>
-			<Box background="gray.50" minHeight="800px" height="full">
+			<Box backgroundColor="gray.50" minHeight="800px" height="full">
 				<HStack
 					paddingY={100}
 					justifyContent="space-between"

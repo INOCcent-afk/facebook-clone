@@ -8,6 +8,13 @@ export const Button = defineStyleConfig({
 		color: "white",
 	},
 
+	sizes: {
+		circledMd: {
+			width: 38,
+			height: 38,
+		},
+	},
+
 	variants: {
 		primary: {
 			backgroundColor: "brand",
@@ -15,6 +22,16 @@ export const Button = defineStyleConfig({
 
 		secondary: {
 			backgroundColor: "green.900",
+		},
+
+		circledButton: {
+			backgroundColor: "gray.800",
+			borderRadius: "50%",
+			padding: 0,
+
+			_hover: {
+				backgroundColor: "gray",
+			},
 		},
 
 		unstyled: {

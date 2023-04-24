@@ -1,10 +1,15 @@
 import { HEADER_HEIGHT } from "@/modules/home/Feed/utils";
-import { Box, HStack } from "@chakra-ui/react";
+import { Avatar, Box, Button, HStack, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import { SearchFacebook } from "../SearchFacebook";
+import { SearchFacebook } from "../";
+import { FaFacebookMessenger } from "react-icons/fa";
+import { IoNotificationsSharp } from "react-icons/io5";
+import { BiChevronDown } from "react-icons/bi";
 
 export const Header = () => {
+	const CIRCLED_BUTTON_SIZE = 38;
+
 	return (
 		<HStack
 			backgroundColor="gray.700"
@@ -30,7 +35,47 @@ export const Header = () => {
 				</svg>
 			</Link>
 			<SearchFacebook />
-			<HStack></HStack>
+			<HStack gap={1}>
+				<Tooltip label="Messenger">
+					<Button
+						variant="circledButton"
+						width={CIRCLED_BUTTON_SIZE}
+						height={CIRCLED_BUTTON_SIZE}
+					>
+						<FaFacebookMessenger size={20} />
+					</Button>
+				</Tooltip>
+				<Tooltip label="Notifications">
+					<Button
+						variant="circledButton"
+						width={CIRCLED_BUTTON_SIZE}
+						height={CIRCLED_BUTTON_SIZE}
+					>
+						<IoNotificationsSharp size={20} />
+					</Button>
+				</Tooltip>
+
+				<Tooltip label="Account">
+					<Button variant="unstyled" position="relative">
+						<Avatar
+							width={CIRCLED_BUTTON_SIZE}
+							height={CIRCLED_BUTTON_SIZE}
+							name="Dan Abrahmov"
+							src="https://bit.ly/dan-abramov"
+						/>
+						<Box
+							position="absolute"
+							bottom={0}
+							right={-1}
+							backgroundColor="gray.800"
+							borderRadius="full"
+							padding="1px"
+						>
+							<BiChevronDown size={16} color="white" />
+						</Box>
+					</Button>
+				</Tooltip>
+			</HStack>
 		</HStack>
 	);
 };
