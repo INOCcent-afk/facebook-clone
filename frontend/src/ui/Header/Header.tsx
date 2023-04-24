@@ -8,8 +8,6 @@ import { IoNotificationsSharp } from "react-icons/io5";
 import { BiChevronDown } from "react-icons/bi";
 
 export const Header = () => {
-	const CIRCLED_BUTTON_SIZE = 38;
-
 	return (
 		<HStack
 			backgroundColor="gray.700"
@@ -37,29 +35,23 @@ export const Header = () => {
 			<SearchFacebook />
 			<HStack gap={1}>
 				<Tooltip label="Messenger">
-					<Button
-						variant="circledButton"
-						width={CIRCLED_BUTTON_SIZE}
-						height={CIRCLED_BUTTON_SIZE}
-					>
+					<Button variant="circledButton" size="circledMd">
 						<FaFacebookMessenger size={20} />
 					</Button>
 				</Tooltip>
 				<Tooltip label="Notifications">
-					<Button
-						variant="circledButton"
-						width={CIRCLED_BUTTON_SIZE}
-						height={CIRCLED_BUTTON_SIZE}
-					>
+					<Button variant="circledButton" size="circledMd">
 						<IoNotificationsSharp size={20} />
 					</Button>
 				</Tooltip>
 
 				<Tooltip label="Account">
-					<Button variant="unstyled" position="relative">
+					<Button
+						variant="unstyled"
+						position="relative"
+						size="circledMd"
+					>
 						<Avatar
-							width={CIRCLED_BUTTON_SIZE}
-							height={CIRCLED_BUTTON_SIZE}
 							name="Dan Abrahmov"
 							src="https://bit.ly/dan-abramov"
 						/>

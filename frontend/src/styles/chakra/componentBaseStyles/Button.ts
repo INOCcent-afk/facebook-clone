@@ -9,6 +9,8 @@ export const Button = defineStyleConfig({
 	},
 
 	sizes: {
+		md: {},
+
 		circledMd: {
 			width: 38,
 			height: 38,
