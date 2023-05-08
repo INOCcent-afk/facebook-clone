@@ -1,23 +1,28 @@
 import { BoxProps, HStack, Text } from "@chakra-ui/react";
 import React, { FC, ReactNode } from "react";
 
-interface Props extends BoxProps {
+interface Props {
 	icon: ReactNode;
 	label: string;
+	textSize?: "xs" | "sm" | "md" | "lg";
 }
 
-export const LabelledAction: FC<Props> = ({ icon, label, ...restProps }) => {
+export const LabelledAction: FC<Props> = ({ icon, label, textSize = "xs" }) => {
 	return (
 		<HStack
 			backgroundColor="transparent"
 			borderRadius="lg"
+			cursor="pointer"
+			padding={2}
 			_hover={{
-				backgroundColor: "red.100",
+				backgroundColor: "gray.800",
 			}}
-			{...restProps}
+			marginLeft={3}
 		>
 			{icon}
-			<Text>{label}</Text>
+			<Text size={textSize} color="white">
+				{label}
+			</Text>
 		</HStack>
 	);
 };
