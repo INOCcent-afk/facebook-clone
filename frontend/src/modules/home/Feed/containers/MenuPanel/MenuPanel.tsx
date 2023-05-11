@@ -1,5 +1,6 @@
 import { LabelledAction } from "@/ui/LabelledAction";
 import { Avatar, Box, Divider, Text } from "@chakra-ui/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { AiFillHome } from "react-icons/ai";
@@ -18,20 +19,24 @@ export const MenuPanel = () => {
 					borderBottomRightRadius="md"
 					backgroundColor="brand"
 				></Box>
-				<LabelledAction
-					icon={
-						<Text color="brand" marginTop={-1}>
-							<AiFillHome size={24} />
-						</Text>
-					}
-					label="Home"
-				/>
+				<Link href="/">
+					<LabelledAction
+						icon={
+							<Text color="brand" marginTop={-1}>
+								<AiFillHome size={24} />
+							</Text>
+						}
+						label="Home"
+					/>
+				</Link>
 			</Box>
 			<Box position="relative">
-				<LabelledAction
-					icon={<Avatar size="xs" />}
-					label="Michael Dave"
-				/>
+				<Link href="/">
+					<LabelledAction
+						icon={<Avatar size="xs" />}
+						label="Michael Dave"
+					/>
+				</Link>
 			</Box>
 			<Box padding={2} paddingRight={0}>
 				<Divider />
