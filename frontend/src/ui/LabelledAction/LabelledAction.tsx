@@ -18,6 +18,7 @@ export const LabelledAction: FC<Props> = ({ icon, label, textSize = "xs" }) => {
 				backgroundColor: "gray.800",
 			}}
 			marginLeft={3}
+			gap={1}
 		>
 			{icon}
 			<Text size={textSize} color="white">

@@ -22,7 +22,7 @@ export const Header = () => {
 				borderColor="gray.800"
 				justifyContent="space-between"
 			>
-				<Box flexBasis="15%">
+				<Box flexBasis="20%">
 					<Link href="/">
 						<svg
 							aria-label="Facebook logo"
