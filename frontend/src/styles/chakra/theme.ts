@@ -2,7 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 import { Button, Input, Tooltip, Avatar } from "./componentBaseStyles";
 import global from "./global";
 
-const colors = {
+export const colors = {
 	brand: "#1877f2",
 	green: {
 		"900": "#42b72a",

@@ -1,4 +1,5 @@
 import { LabelledAction } from "@/ui/LabelledAction";
+import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
 import { Avatar, Box, Divider, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -33,7 +34,7 @@ export const MenuPanel = () => {
 			<Box position="relative">
 				<Link href="/">
 					<LabelledAction
-						icon={<Avatar size="xs" />}
+						icon={<Avatar size="xs" src={MOCK_PROFILE_PICTURE} />}
 						label="Michael Dave"
 					/>
 				</Link>

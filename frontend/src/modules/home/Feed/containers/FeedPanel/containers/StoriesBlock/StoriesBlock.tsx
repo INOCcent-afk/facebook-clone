@@ -4,10 +4,12 @@ import React from "react";
 
 export const StoriesBlock = () => {
 	return (
-		<Box backgroundColor="gray.700" borderRadius="md" padding={2}>
-			<Text color="white">Stories</Text>
+		<Box backgroundColor="gray.700" borderRadius="md" padding={4}>
+			<Text color="white" marginBottom={2}>
+				Stories
+			</Text>
 			<HStack>
-				<Story />
+				<Story createStory />
 				<Story />
 				<Story />
 				<Story />
