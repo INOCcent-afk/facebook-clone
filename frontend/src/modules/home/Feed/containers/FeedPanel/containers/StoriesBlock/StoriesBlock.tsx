@@ -10,6 +10,9 @@ export const StoriesBlock = () => {
 				<Story />
 				<Story />
 				<Story />
+				<Story />
+				<Story />
+				<Story />
 			</HStack>
 		</Box>
 	);
