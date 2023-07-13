@@ -38,7 +38,9 @@ export const Story: FC<Props> = ({ createStory = false }) => {
 					</Box>
 
 					<Box position="absolute" bottom={2} left={2}>
-						<Text color="white">Jerome Carbonell</Text>
+						<Text fontSize={12} fontWeight="bold" color="white">
+							Jerome Carbonell
+						</Text>
 					</Box>
 				</>
 			)}
@@ -73,8 +75,8 @@ export const Story: FC<Props> = ({ createStory = false }) => {
 						<IoAdd color="white" fontSize={20} />
 					</Box>
 
-					<Text color="white" fontSize="xs">
-						Create Story
+					<Text color="white" fontWeight="bold" fontSize="xs">
+						Create story
 					</Text>
 				</Box>
 			)}
