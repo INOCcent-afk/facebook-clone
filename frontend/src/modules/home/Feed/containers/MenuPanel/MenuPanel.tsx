@@ -2,7 +2,6 @@ import { LabelledAction } from "@/ui/LabelledAction";
 import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
 import { Avatar, Box, Divider, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import { AiFillHome } from "react-icons/ai";
 

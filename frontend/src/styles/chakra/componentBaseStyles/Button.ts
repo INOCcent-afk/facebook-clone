@@ -36,6 +36,10 @@ export const Button = defineStyleConfig({
 			},
 		},
 
+		gray: {
+			backgroundColor: "gray.400",
+		},
+
 		unstyled: {
 			padding: 0,
 			height: "fit-content",

@@ -7,10 +7,22 @@ const { defineMultiStyleConfig } = createMultiStyleConfigHelpers(
 
 export const Avatar = defineMultiStyleConfig({
 	sizes: {
+		lg: {
+			container: {
+				height: "60px",
+				width: "60px",
+			},
+		},
 		md: {
 			container: {
-				height: 38,
-				width: 38,
+				height: "38px",
+				width: "38px",
+			},
+		},
+		sm: {
+			container: {
+				height: "24px",
+				width: "24px",
 			},
 		},
 	},

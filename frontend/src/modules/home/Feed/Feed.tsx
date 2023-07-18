@@ -1,10 +1,8 @@
 import { Header } from "@/ui";
-import { Box, HStack, VStack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import { HEADER_HEIGHT } from "./utils";
-import { MenuPanel } from "./containers/MenuPanel";
-import { FeedPanel } from "./containers/FeedPanel";
-import { MessengerPanel } from "./containers/MessengerPanel";
+import { ConversationPanel, FeedPanel, MenuPanel } from "./containers";
 
 export const Feed = () => {
 	const TOTAL_FEED_PADDING_TOP = HEADER_HEIGHT * 4 + 16;
@@ -23,7 +21,7 @@ export const Feed = () => {
 			>
 				<MenuPanel />
 				<FeedPanel />
-				<MessengerPanel />
+				<ConversationPanel />
 			</Box>
 		</>
 	);
