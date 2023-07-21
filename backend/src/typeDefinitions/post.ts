@@ -9,6 +9,24 @@ export const postTypeDef = gql`
 		images: [String]
 		videos: [String]
 		comments: [Comment!]!
+		postContent: String
+	}
+
+	type Mutation {
+		postCreate(post: PostInput!): PostPayload!
+	}
+
+	input PostInput {
+		postContent: String
+	}
+
+	type PostPayload {
+		userErrors: [UserError!]!
+		post: Post
+	}
+
+	type UserError {
+		message: String!
 	}
 
 	${commentTypeDef}
