@@ -8,6 +8,7 @@ export const SearchFacebook = () => {
 		<FormControl
 			maxWidth={FEED_MID_COLUMN_MAX_WIDTH}
 			backgroundColor="gray.800"
+			flexBasis="60%"
 			borderRadius={16}
 			_hover={{
 				backgroundColor: "gray.500",
@@ -20,12 +21,7 @@ export const SearchFacebook = () => {
 				}}
 				margin={0}
 			>
-				<HStack
-					width="full"
-					height="full"
-					position="relative"
-					paddingLeft={8}
-				>
+				<HStack width="full" height="full" position="relative" paddingLeft={8}>
 					<Box position="absolute" left={2} color="gray.600">
 						<AiOutlineSearch size={20} />
 					</Box>

@@ -36,7 +36,7 @@ export const Header = () => {
 					</Link>
 				</Box>
 				<SearchFacebook />
-				<HStack gap={1} flexBasis="15%" justifyContent="flex-end">
+				<HStack gap={1} flexBasis="20%" justifyContent="flex-end">
 					<Tooltip label="Messenger">
 						<Button variant="circledButton" size="circledMd">
 							<FaFacebookMessenger size={20} />
@@ -49,15 +49,8 @@ export const Header = () => {
 					</Tooltip>
 
 					<Tooltip label="Account">
-						<Button
-							variant="unstyled"
-							position="relative"
-							size="circledMd"
-						>
-							<Avatar
-								name="Dan Abrahmov"
-								src="https://bit.ly/dan-abramov"
-							/>
+						<Button variant="unstyled" position="relative" size="circledMd">
+							<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
 							<Box
 								position="absolute"
 								bottom={0}
