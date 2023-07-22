@@ -1,5 +1,12 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 export interface Context {
-	prisma: PrismaClient;
+	prisma: PrismaClient<
+		Prisma.PrismaClientOptions,
+		never,
+		Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
+	>;
+	userInfo: {
+		userId: number;
+	} | null;
 }

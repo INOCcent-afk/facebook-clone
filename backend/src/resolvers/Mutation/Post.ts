@@ -1,4 +1,5 @@
 import { Context } from "@/models/global";
+import { canUserMutatePost } from "@/utils";
 import { Post, Prisma } from "@prisma/client";
 
 interface PostArgs {
@@ -16,9 +17,21 @@ export const postResolvers = {
 	postCreate: async (
 		_: any,
 		{ post }: PostArgs,
-		{ prisma }: Context
+		{ prisma, userInfo }: Context
 	): Promise<PostPayloadType> => {
+		if (!userInfo) {
+			return {
+				userErrors: [
+					{
+						message: "Forbidden access (unauthenticated)",
+					},
+				],
+				post: null,
+			};
+		}
+
 		const { postContent } = post;
+
 		if (!postContent) {
 			return {
 				userErrors: [
@@ -39,6 +52,130 @@ export const postResolvers = {
 					postContent,
 				},
 			}),
+		};
+	},
+	postUpdate: async (
+		_: any,
+		{ post, postId }: { postId: string; post: PostArgs["post"] },
+		{ prisma, userInfo }: Context
+	): Promise<PostPayloadType> => {
+		if (!userInfo) {
+			return {
+				userErrors: [
+					{
+						message: "Forbidden access (unauthenticated)",
+					},
+				],
+				post: null,
+			};
+		}
+
+		const error = await canUserMutatePost({
+			userId: userInfo.userId,
+			postId: Number(postId),
+			prisma,
+		});
+
+		if (error) return error;
+
+		const { postContent } = post;
+
+		if (!postContent) {
+			return {
+				userErrors: [
+					{
+						message: "Need to have at least one field to update",
+					},
+				],
+				post: null,
+			};
+		}
+
+		const existingPost = await prisma.post.findUnique({
+			where: {
+				id: Number(postId),
+			},
+		});
+
+		if (!existingPost) {
+			return {
+				userErrors: [
+					{
+						message: "Post does not exist",
+					},
+				],
+				post: null,
+			};
+		}
+
+		let payloadToUpdate: PostArgs["post"] = {
+			postContent,
+		};
+
+		if (!postContent) delete payloadToUpdate.postContent;
+
+		return {
+			userErrors: [],
+			post: prisma.post.update({
+				data: {
+					...payloadToUpdate,
+				},
+				where: {
+					id: Number(postId),
+				},
+			}),
+		};
+	},
+	postDelete: async (
+		_: any,
+		{ postId }: { postId: string },
+		{ prisma, userInfo }: Context
+	): Promise<PostPayloadType> => {
+		if (!userInfo) {
+			return {
+				userErrors: [
+					{
+						message: "Forbidden access (unauthenticated)",
+					},
+				],
+				post: null,
+			};
+		}
+
+		const error = await canUserMutatePost({
+			userId: userInfo.userId,
+			postId: Number(postId),
+			prisma,
+		});
+
+		if (error) return error;
+
+		const post = await prisma.post.findUnique({
+			where: {
+				id: Number(postId),
+			},
+		});
+
+		if (!post) {
+			return {
+				userErrors: [
+					{
+						message: "Post does not exist",
+					},
+				],
+				post: null,
+			};
+		}
+
+		await prisma.post.delete({
+			where: {
+				id: Number(postId),
+			},
+		});
+
+		return {
+			userErrors: [],
+			post,
 		};
 	},
 };
