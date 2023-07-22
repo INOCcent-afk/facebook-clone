@@ -20,11 +20,11 @@ export const postResolvers = {
 	): Promise<PostPayloadType> => {
 		const { postContent } = post;
 		if (!postContent) {
-			console.log(postContent);
 			return {
 				userErrors: [
 					{
-						message: "you must provide a title and content to create a post",
+						message:
+							"you must provide a title and content to create a post",
 					},
 				],
 				post: null,
