@@ -1,4 +1,4 @@
-import { Context } from "@/models/global";
+import { Context } from "@/models";
 import { canUserMutatePost } from "@/utils";
 import { Post, Prisma } from "@prisma/client";
 
