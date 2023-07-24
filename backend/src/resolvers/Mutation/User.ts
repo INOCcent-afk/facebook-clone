@@ -1,56 +1,102 @@
-import { Post, Prisma } from "@prisma/client";
+import { User, Prisma } from "@prisma/client";
 import { Context } from "../../models";
+import { admin } from "../../firebaseConfig/firebase-config";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
 
-interface PostArgs {
-	post: {
-		postContent?: string;
+interface UserProps {
+	user: {
+		firstName: string;
+		lastName: string;
+		username: string;
+		email: string;
+		password: string;
 	};
 }
 
-interface PostPayloadType {
-	userErrors: { message: string }[];
-	post: null | Prisma.Prisma__PostClient<Post, never> | Post;
+interface UserPayloadType {
+	error: { message: string }[];
+	user: null | Prisma.Prisma__UserClient<User, never> | User;
 }
 
 export const userResolvers = {
-	userCreate: async (
+	registerUser: async (
 		_: any,
-		{ post }: PostArgs,
-		{ prisma, userInfo }: Context
-	): Promise<PostPayloadType> => {
-		if (!userInfo) {
+		{ user }: UserProps,
+		{ prisma }: Context
+	): Promise<UserPayloadType> => {
+		const { email, firstName, lastName, username, password } = user;
+
+		const generateMissingFieldsError = (field: string) => {
 			return {
-				userErrors: [
+				error: [
 					{
-						message: "Forbidden access (unauthenticated)",
+						message: `you must provide a ${field}`,
 					},
 				],
-				post: null,
+				user: null,
 			};
-		}
-
-		const { postContent } = post;
-
-		if (!postContent) {
-			return {
-				userErrors: [
-					{
-						message:
-							"you must provide a title and content to create a post",
-					},
-				],
-				post: null,
-			};
-		}
-
-		return {
-			userErrors: [],
-			post: prisma.post.create({
-				data: {
-					userId: 1,
-					postContent,
-				},
-			}),
 		};
+
+		if (!firstName) {
+			return generateMissingFieldsError("firstName");
+		}
+
+		if (!lastName) {
+			return generateMissingFieldsError("lastName");
+		}
+
+		if (!email) {
+			return generateMissingFieldsError("email");
+		}
+
+		if (!username) {
+			return generateMissingFieldsError("username");
+		}
+
+		let result = {} as UserRecord;
+
+		try {
+			result = await admin.auth().createUser({
+				email,
+				password,
+			});
+		} catch (error) {
+			return {
+				error: [
+					{
+						message: JSON.stringify(error),
+					},
+				],
+				user: null,
+			};
+		}
+
+		try {
+			const user = await prisma.user.create({
+				data: {
+					firstName,
+					email,
+					lastName,
+					username,
+					uid: result.uid,
+				},
+			});
+
+			return {
+				error: [],
+				user,
+			};
+		} catch (error) {
+			await admin.auth().deleteUser(result.uid);
+
+			return {
+				error: [
+					{
+						message: JSON.stringify(error),
+					},
+				],
+				user: null,
+			};
+		}
 	},
 };

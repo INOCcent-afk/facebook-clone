@@ -3,9 +3,33 @@ import { gql } from "apollo-server";
 export const userTypeDef = gql`
 	type User {
 		id: ID!
-		name: String
+		uid: String
+		firstName: String
+		lastName: String
+		username: String
 		email: String
 		followedBy: [User!]!
 		following: [User!]!
+	}
+
+	type Mutation {
+		registerUser(user: UserInput!): UserPayload!
+	}
+
+	input UserInput {
+		firstName: String
+		lastName: String
+		username: String
+		email: String
+		password: String
+	}
+
+	type UserPayload {
+		error: [Error!]!
+		user: User
+	}
+
+	type Error {
+		message: String!
 	}
 `;

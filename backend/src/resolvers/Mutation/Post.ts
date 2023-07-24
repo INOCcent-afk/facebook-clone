@@ -9,7 +9,7 @@ interface PostArgs {
 }
 
 interface PostPayloadType {
-	userErrors: { message: string }[];
+	error: { message: string }[];
 	post: null | Prisma.Prisma__PostClient<Post, never> | Post;
 }
 
@@ -17,24 +17,24 @@ export const postResolvers = {
 	postCreate: async (
 		_: any,
 		{ post }: PostArgs,
-		{ prisma, userInfo }: Context
+		{ prisma }: Context
 	): Promise<PostPayloadType> => {
-		if (!userInfo) {
-			return {
-				userErrors: [
-					{
-						message: "Forbidden access (unauthenticated)",
-					},
-				],
-				post: null,
-			};
-		}
+		// if (!userInfo) {
+		// 	return {
+		// 		error: [
+		// 			{
+		// 				message: "Forbidden access (unauthenticated)",
+		// 			},
+		// 		],
+		// 		post: null,
+		// 	};
+		// }
 
 		const { postContent } = post;
 
 		if (!postContent) {
 			return {
-				userErrors: [
+				error: [
 					{
 						message:
 							"you must provide a title and content to create a post",
@@ -45,7 +45,7 @@ export const postResolvers = {
 		}
 
 		return {
-			userErrors: [],
+			error: [],
 			post: prisma.post.create({
 				data: {
 					userId: 1,
@@ -61,7 +61,7 @@ export const postResolvers = {
 	): Promise<PostPayloadType> => {
 		if (!userInfo) {
 			return {
-				userErrors: [
+				error: [
 					{
 						message: "Forbidden access (unauthenticated)",
 					},
@@ -82,7 +82,7 @@ export const postResolvers = {
 
 		if (!postContent) {
 			return {
-				userErrors: [
+				error: [
 					{
 						message: "Need to have at least one field to update",
 					},
@@ -99,7 +99,7 @@ export const postResolvers = {
 
 		if (!existingPost) {
 			return {
-				userErrors: [
+				error: [
 					{
 						message: "Post does not exist",
 					},
@@ -115,7 +115,7 @@ export const postResolvers = {
 		if (!postContent) delete payloadToUpdate.postContent;
 
 		return {
-			userErrors: [],
+			error: [],
 			post: prisma.post.update({
 				data: {
 					...payloadToUpdate,
@@ -133,7 +133,7 @@ export const postResolvers = {
 	): Promise<PostPayloadType> => {
 		if (!userInfo) {
 			return {
-				userErrors: [
+				error: [
 					{
 						message: "Forbidden access (unauthenticated)",
 					},
@@ -158,7 +158,7 @@ export const postResolvers = {
 
 		if (!post) {
 			return {
-				userErrors: [
+				error: [
 					{
 						message: "Post does not exist",
 					},
@@ -174,7 +174,7 @@ export const postResolvers = {
 		});
 
 		return {
-			userErrors: [],
+			error: [],
 			post,
 		};
 	},

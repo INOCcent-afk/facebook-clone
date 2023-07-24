@@ -23,11 +23,11 @@ export const postTypeDef = gql`
 	}
 
 	type PostPayload {
-		userErrors: [UserError!]!
+		error: [Error!]!
 		post: Post
 	}
 
-	type UserError {
+	type Error {
 		message: String!
 	}
 
