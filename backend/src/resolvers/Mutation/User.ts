@@ -2,6 +2,7 @@ import { User, Prisma } from "@prisma/client";
 import { Context } from "../../models";
 import { admin } from "../../firebaseConfig/firebase-config";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
+import { generateErrorMessage } from "../../utils";
 
 interface UserProps {
 	user: {
@@ -15,7 +16,7 @@ interface UserProps {
 
 interface UserPayloadType {
 	error: { message: string }[];
-	user: null | Prisma.Prisma__UserClient<User, never> | User;
+	user?: null | Prisma.Prisma__UserClient<User, never> | User;
 }
 
 export const userResolvers = {
@@ -26,32 +27,14 @@ export const userResolvers = {
 	): Promise<UserPayloadType> => {
 		const { email, firstName, lastName, username, password } = user;
 
-		const generateMissingFieldsError = (field: string) => {
-			return {
-				error: [
-					{
-						message: `you must provide a ${field}`,
-					},
-				],
-				user: null,
-			};
-		};
-
-		if (!firstName) {
-			return generateMissingFieldsError("firstName");
-		}
-
-		if (!lastName) {
-			return generateMissingFieldsError("lastName");
-		}
-
-		if (!email) {
-			return generateMissingFieldsError("email");
-		}
-
-		if (!username) {
-			return generateMissingFieldsError("username");
-		}
+		// Check for missing fields using early returns
+		if (!firstName)
+			return generateErrorMessage("you must provide a firstName");
+		if (!lastName)
+			return generateErrorMessage("you must provide a lastName");
+		if (!email) return generateErrorMessage("you must provide an email");
+		if (!username)
+			return generateErrorMessage("you must provide a username");
 
 		let result = {} as UserRecord;
 
@@ -61,18 +44,11 @@ export const userResolvers = {
 				password,
 			});
 		} catch (error) {
-			return {
-				error: [
-					{
-						message: JSON.stringify(error),
-					},
-				],
-				user: null,
-			};
+			return generateErrorMessage(JSON.stringify(error));
 		}
 
 		try {
-			const user = await prisma.user.create({
+			const newUser = await prisma.user.create({
 				data: {
 					firstName,
 					email,
@@ -84,19 +60,19 @@ export const userResolvers = {
 
 			return {
 				error: [],
-				user,
+				user: newUser,
 			};
 		} catch (error) {
 			await admin.auth().deleteUser(result.uid);
 
-			return {
-				error: [
-					{
-						message: JSON.stringify(error),
-					},
-				],
-				user: null,
-			};
+			if (
+				error instanceof Prisma.PrismaClientKnownRequestError &&
+				error.code === "P2002"
+			) {
+				return generateErrorMessage("Username already exists");
+			}
+
+			return generateErrorMessage(JSON.stringify(error));
 		}
 	},
 };
