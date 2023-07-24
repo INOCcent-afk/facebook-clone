@@ -1,4 +1,4 @@
-import { Context } from "@/models/global";
+import { Context } from "../models";
 
 export const Query = {
 	users: async (_: any, __: any, { prisma }: Context) => {

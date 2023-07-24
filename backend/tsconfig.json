@@ -16,15 +16,9 @@
         "strictNullChecks": true,
         "sourceMap": true,
         "outDir": "./dist",
-        "baseUrl": ".",
-        "paths": {
-            "@/*": [
-                "src/*"
-            ]
-        }
     },
     "include": [
-        "src/**/*"
+        "src"
     ],
     "exclude": [
         "node_modules",

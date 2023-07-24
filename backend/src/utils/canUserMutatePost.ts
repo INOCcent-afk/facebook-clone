@@ -1,4 +1,4 @@
-import { Context } from "@/models/global";
+import { Context } from "../models";
 
 interface Props {
 	userId: number;
