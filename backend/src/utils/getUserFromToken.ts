@@ -1,11 +1,11 @@
 import JWT from "jsonwebtoken";
-require("dotenv").config();
+import { JWT_SIGNATURE } from "./config";
 
 export const getUserFromToken = (token: string) => {
 	try {
-		if (!process.env.JWT_SIGNATURE) return null;
+		if (!JWT_SIGNATURE) return null;
 
-		return JWT.verify(token, process.env.JWT_SIGNATURE) as {
+		return JWT.verify(token, JWT_SIGNATURE) as {
 			userId: number;
 		};
 	} catch (error) {
