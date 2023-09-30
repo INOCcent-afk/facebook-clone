@@ -13,7 +13,11 @@ const nextConfig = {
 		return config;
 	},
 	images: {
-		domains: ["scontent.fmnl30-2.fna.fbcdn.net", "bit.ly"],
+		domains: [
+			"scontent.fmnl30-2.fna.fbcdn.net",
+			"bit.ly",
+			"scontent.fmnl17-4.fna.fbcdn.net",
+		],
 	},
 };
 
