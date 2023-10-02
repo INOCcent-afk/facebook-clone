@@ -61,6 +61,7 @@ export const Profile = () => {
 							<Tab>Friends</Tab>
 							<Tab>Photos</Tab>
 							<Tab>Videos</Tab>
+
 							<Tab>Reels</Tab>
 
 							<Menu>
