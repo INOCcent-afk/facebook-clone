@@ -8,7 +8,7 @@ interface Props {}
 export const CoverPhoto: FC<Props> = () => {
 	return (
 		<Color src="/images/MOCK_COVER_PHOTO.jpg" format="hex">
-			{({ data, loading, error }) => {
+			{({ data }) => {
 				return (
 					<Box
 						width="full"

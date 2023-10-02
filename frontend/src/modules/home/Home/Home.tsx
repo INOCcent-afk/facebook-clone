@@ -4,7 +4,7 @@ import { Feed } from "../Feed";
 import { useState } from "react";
 
 export const Home = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(true);
+	const [isAuthenticated, _] = useState(true);
 
 	return (
 		<>

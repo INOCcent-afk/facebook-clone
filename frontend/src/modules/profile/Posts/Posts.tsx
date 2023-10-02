@@ -7,13 +7,21 @@ export const Posts = () => {
 	return (
 		<Flex gap={4}>
 			<Box as="aside" flexBasis="40%">
-				<Stack gap={2}>
-					<IntroBio />
-					<IntroBio />
-					<ContentContainer position="sticky" top={0} height={1000}>
+				<Stack gap={2} mb={4}>
+					<ContentContainer>
 						<>TITE</>
 					</ContentContainer>
+					<IntroBio />
+					<IntroBio />
 				</Stack>
+				<ContentContainer
+					position="sticky"
+					top={-10}
+					height={1000}
+					mb={4}
+				>
+					<>TITE</>
+				</ContentContainer>
 			</Box>
 
 			<Stack flexBasis="60%">

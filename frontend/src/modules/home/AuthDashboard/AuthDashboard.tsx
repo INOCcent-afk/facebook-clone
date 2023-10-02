@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AuthDashboardFooter, SignInForm, UserCard } from "./ui";
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
@@ -6,6 +6,7 @@ import Image from "next/image";
 import { MOCK_FACEBOOK_LOGO } from "@/utils/facebookLogo.mock";
 
 export const AuthDashboard = () => {
+	useEffect(() => {});
 	return (
 		<>
 			<Box backgroundColor="gray.50" minHeight="800px" height="full">

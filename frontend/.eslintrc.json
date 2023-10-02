@@ -1,3 +1,16 @@
 {
-  "extends": "next/core-web-vitals"
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { 
+    "ecmaFeatures": {
+      "tsx": true 
+    }
+  },
+  "plugins": ["react", "import"],
+  "extends": ["next", "next/core-web-vitals"],
+  "rules": {
+    "no-unused-vars": "warn", 
+    "import/no-unused-modules": "error", 
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
 }

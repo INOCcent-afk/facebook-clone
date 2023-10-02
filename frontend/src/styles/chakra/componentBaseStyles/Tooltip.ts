@@ -5,7 +5,7 @@ const $bg = cssVar("tooltip-bg");
 const $fg = cssVar("tooltip-fg");
 const $arrowBg = cssVar("popper-arrow-bg");
 
-const baseStyle = defineStyle((props) => {
+const baseStyle = defineStyle(() => {
 	const bg = "gray.200";
 	const fg = "white";
 

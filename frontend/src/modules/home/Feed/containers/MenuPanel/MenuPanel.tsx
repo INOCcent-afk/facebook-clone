@@ -1,4 +1,4 @@
-import { LabelledAction } from "@/ui/LabelledAction";
+import { LabelledAction } from "@/ui";
 import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
 import { Avatar, Box, Divider, Text } from "@chakra-ui/react";
 import Link from "next/link";

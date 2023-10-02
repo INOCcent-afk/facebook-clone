@@ -20,7 +20,7 @@ export const CreateFeed = () => {
 					width="full"
 					color="gray.600"
 				>
-					What's on your mind, Michael?
+					What&apos;s on your mind, Michael?
 				</Button>
 			</HStack>
 			<Divider marginY={4} />

@@ -1,5 +1,5 @@
-import { LabelledAction } from "@/ui/LabelledAction";
-import { Avatar, Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { LabelledAction } from "@/ui";
+import { Avatar, Flex, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineSearch } from "react-icons/hi";
