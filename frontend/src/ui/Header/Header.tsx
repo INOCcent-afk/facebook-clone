@@ -1,4 +1,4 @@
-import { HEADER_HEIGHT } from "@/modules/home/Feed/utils";
+import { HEADER_HEIGHT } from "@/utils/headerHeight";
 import { Avatar, Box, Button, HStack, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
@@ -21,6 +21,7 @@ export const Header = () => {
 				borderBottom="2px"
 				borderColor="gray.800"
 				justifyContent="space-between"
+				zIndex="sticky"
 			>
 				<Box flexBasis="20%">
 					<Link href="/">
@@ -49,8 +50,15 @@ export const Header = () => {
 					</Tooltip>
 
 					<Tooltip label="Account">
-						<Button variant="unstyled" position="relative" size="circledMd">
-							<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+						<Button
+							variant="unstyled"
+							position="relative"
+							size="circledMd"
+						>
+							<Avatar
+								name="Dan Abrahmov"
+								src="https://bit.ly/dan-abramov"
+							/>
 							<Box
 								position="absolute"
 								bottom={0}
