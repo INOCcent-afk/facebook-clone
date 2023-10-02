@@ -252,17 +252,23 @@ export const ProfileHeader: FC<Props> = ({ posts, about, friends }) => {
 				<TabPanels>
 					<TabPanel px={0}>
 						<Box minHeight={1000} backgroundColor="gray.900">
-							<Box {...containerStyle}>{posts}</Box>
+							<Box {...containerStyle} py={4}>
+								{posts}
+							</Box>
 						</Box>
 					</TabPanel>
 					<TabPanel px={0}>
 						<Box minHeight={1000} backgroundColor="gray.900">
-							<Box {...containerStyle}>{about}</Box>
+							<Box {...containerStyle} py={4}>
+								{about}
+							</Box>
 						</Box>
 					</TabPanel>
 					<TabPanel px={0}>
 						<Box minHeight={1000} backgroundColor="gray.900">
-							<Box {...containerStyle}>{friends}</Box>
+							<Box {...containerStyle} py={4}>
+								{friends}
+							</Box>
 						</Box>
 					</TabPanel>
 				</TabPanels>

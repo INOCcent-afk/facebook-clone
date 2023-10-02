@@ -26,6 +26,8 @@ export const CoverPhoto: FC<Props> = () => {
 							borderBottomLeftRadius={10}
 							borderBottomRightRadius={10}
 							overflow="hidden"
+							backgroundColor="gray.700"
+							color="brand"
 						>
 							<Image
 								src="https://scontent.fmnl17-4.fna.fbcdn.net/v/t39.30808-6/306750147_5779337345461807_4270497514531994862_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=52f669&_nc_ohc=FI_gjr9LQM8AX-Bw2cm&_nc_ht=scontent.fmnl17-4.fna&oh=00_AfCsiYZHDxJDq0wRaYLByL6dAONCcAW-lJ94R1_kBI27JA&oe=64FC46CD"

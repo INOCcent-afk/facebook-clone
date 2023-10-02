@@ -1,12 +1,13 @@
 import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
-import { Avatar, Box, Button, Divider, HStack, Text } from "@chakra-ui/react";
+import { Avatar, Button, Divider, HStack, Text } from "@chakra-ui/react";
 import React from "react";
 import { MdPhotoLibrary } from "react-icons/md";
 import { FaRegSmileBeam } from "react-icons/fa";
+import { ContentContainer } from "../ContentContainer/ContentContainer";
 
 export const CreateFeed = () => {
 	return (
-		<Box backgroundColor="gray.700" borderRadius="md" padding={4}>
+		<ContentContainer>
 			<HStack>
 				<Avatar size="md" src={MOCK_PROFILE_PICTURE} />
 				<Button
@@ -61,6 +62,6 @@ export const CreateFeed = () => {
 					Feeling/activity
 				</Button>
 			</HStack>
-		</Box>
+		</ContentContainer>
 	);
 };

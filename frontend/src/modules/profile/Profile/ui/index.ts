@@ -1,1 +1,2 @@
-export * from "./CoverPhoto";
+export * from "./CoverPhoto/CoverPhoto";
+export * from "./ProfileHeader/ProfileHeader";
