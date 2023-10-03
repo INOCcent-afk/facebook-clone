@@ -40,6 +40,10 @@ export const Button = defineStyleConfig({
 			backgroundColor: "gray.400",
 		},
 
+		lightGray: {
+			backgroundColor: "gray.800",
+		},
+
 		unstyled: {
 			padding: 0,
 			height: "fit-content",

@@ -58,13 +58,13 @@ export const ProfileHeader: FC<Props> = ({ posts, about, friends }) => {
 						</Text>{" "}
 						Add to story
 					</Button>
-					<Button variant="gray">
+					<Button variant="lightGray">
 						<Text as="span" color="white" mr={2}>
 							<RiPencilFill size={18} />
 						</Text>
 						Edit profile
 					</Button>
-					<Button variant="gray">
+					<Button variant="lightGray">
 						<HiChevronDown size={18} />
 					</Button>
 				</Flex>
@@ -226,7 +226,7 @@ export const ProfileHeader: FC<Props> = ({ posts, about, friends }) => {
 					</Menu>
 
 					<Menu>
-						<MenuButton as={Button} ml="auto" variant="gray">
+						<MenuButton as={Button} ml="auto" variant="lightGray">
 							<HiDotsHorizontal size={18} />
 						</MenuButton>
 						<MenuList backgroundColor="black">
@@ -250,23 +250,23 @@ export const ProfileHeader: FC<Props> = ({ posts, about, friends }) => {
 				</TabList>
 
 				<TabPanels>
-					<TabPanel px={0}>
-						<Box minHeight={1000} backgroundColor="gray.900">
-							<Box {...containerStyle} py={4}>
+					<TabPanel px={0} pb={0}>
+						<Box backgroundColor="gray.900">
+							<Box {...containerStyle} pt={4}>
 								{posts}
 							</Box>
 						</Box>
 					</TabPanel>
 					<TabPanel px={0}>
 						<Box minHeight={1000} backgroundColor="gray.900">
-							<Box {...containerStyle} py={4}>
+							<Box {...containerStyle} pt={4}>
 								{about}
 							</Box>
 						</Box>
 					</TabPanel>
 					<TabPanel px={0}>
 						<Box minHeight={1000} backgroundColor="gray.900">
-							<Box {...containerStyle} py={4}>
+							<Box {...containerStyle} pt={4}>
 								{friends}
 							</Box>
 						</Box>

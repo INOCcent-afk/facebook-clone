@@ -1,1 +1,1 @@
-export * from "./IntroBio/IntroBio";
+export * from "./ExtraLinks/ExtraLinks";
