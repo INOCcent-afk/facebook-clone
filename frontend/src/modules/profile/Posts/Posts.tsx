@@ -8,19 +8,21 @@ export const Posts = () => {
 	return (
 		<Flex gap={4}>
 			<Box as="aside" flexBasis="40%">
-				<Stack gap={4} mb={2}>
-					<Stack gap={2}>
-						<IntroBio />
-					</Stack>
+				<Box position="sticky" top="-600px">
+					<Stack gap={4} mb={2}>
+						<Stack gap={2}>
+							<IntroBio />
+						</Stack>
 
-					<Photos position="sticky" top={-10} />
-					<Friends />
-				</Stack>
-				<ExtraLinks />
+						<Photos />
+						<Friends />
+					</Stack>
+					<ExtraLinks />
+				</Box>
 			</Box>
 
 			<Stack flexBasis="60%">
-				<ContentContainer>
+				<ContentContainer minHeight={10000}>
 					<></>
 				</ContentContainer>
 			</Stack>
