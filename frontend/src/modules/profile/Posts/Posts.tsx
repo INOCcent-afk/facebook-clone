@@ -1,10 +1,12 @@
 import { Box, Flex, Stack } from "@chakra-ui/react";
-import React from "react";
+import React, { FC } from "react";
 import { ContentContainer } from "@/ui";
 import { Friends, IntroBio, Photos } from "./containers";
 import { ExtraLinks } from "./ui";
 
-export const Posts = () => {
+interface Props {}
+
+export const Posts: FC<Props> = () => {
 	return (
 		<Flex gap={4}>
 			<Box as="aside" flexBasis="40%">
