@@ -6,7 +6,8 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"theme": "chakra-cli tokens ./src/styles/chakra/theme.ts"
 	},
 	"dependencies": {
 		"@chakra-ui/react": "^2.5.5",
@@ -26,6 +27,7 @@
 		"typescript": "5.0.3"
 	},
 	"devDependencies": {
+		"@chakra-ui/cli": "^2.4.1",
 		"@typescript-eslint/eslint-plugin": "^6.7.3",
 		"@typescript-eslint/parser": "^6.7.3",
 		"eslint-plugin-react": "^7.33.2"

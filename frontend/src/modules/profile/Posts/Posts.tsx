@@ -1,8 +1,9 @@
 import { Box, Flex, Stack } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { ContentContainer } from "@/ui";
+import { CreateFeed } from "@/ui";
 import { Friends, IntroBio, Photos } from "./containers";
 import { ExtraLinks } from "./ui";
+import { FeedPost } from "@/ui/FeedPost/FeedPost";
 
 interface Props {}
 
@@ -24,9 +25,9 @@ export const Posts: FC<Props> = () => {
 			</Box>
 
 			<Stack flexBasis="60%">
-				<ContentContainer minHeight={10000}>
-					<></>
-				</ContentContainer>
+				<CreateFeed />
+
+				<FeedPost />
 			</Stack>
 		</Flex>
 	);
