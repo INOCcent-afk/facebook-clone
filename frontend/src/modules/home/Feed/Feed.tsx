@@ -12,7 +12,8 @@ export const Feed = () => {
 				backgroundColor="gray.900"
 				height="100vh"
 				width="full"
-				paddingTop={HEADER_HEIGHT}
+				marginTop={HEADER_HEIGHT}
+				paddingTop={8}
 				alignItems="flex-start"
 				justifyContent="space-between"
 				display="flex"
