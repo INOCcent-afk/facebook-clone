@@ -19,6 +19,7 @@ import { RiShareForwardLine } from "react-icons/ri";
 
 interface Props {
 	images?: string[];
+	lol?: string;
 }
 
 export const FeedPost: FC<Props> = ({ images }) => {
