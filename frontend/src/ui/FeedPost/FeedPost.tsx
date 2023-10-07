@@ -95,6 +95,7 @@ export const FeedPost: FC<Props> = ({ images }) => {
 			</Box>
 
 			<Flex gap={4}>
+				{""}
 				<Avatar size="sm" />
 				<FormControl
 					backgroundColor="gray.800"
