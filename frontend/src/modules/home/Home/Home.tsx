@@ -4,15 +4,15 @@ import { Feed } from "../Feed";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { request } from "graphql-request";
-import { gql } from "graphql-request";
+import { graphql } from "@/gql";
 
-const getUsers = gql`
+const getUsers = graphql(/* GraphQL */ `
 	query getUsers {
 		users {
 			firstName
 		}
 	}
-`;
+`);
 
 export const Home = () => {
 	const [isAuthenticated, _] = useState(true);
