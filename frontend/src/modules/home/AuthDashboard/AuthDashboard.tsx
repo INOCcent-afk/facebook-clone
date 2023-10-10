@@ -12,15 +12,8 @@ interface AuthFormState {
 }
 
 export const AuthDashboard = () => {
-	const methods = useForm<AuthFormState>({
-		defaultValues: {
-			email: "",
-			password: "",
-		},
-	});
-
 	return (
-		<FormProvider {...methods}>
+		<>
 			<Box backgroundColor="gray.50" minHeight="800px" height="full">
 				<HStack
 					paddingY={100}
@@ -70,6 +63,6 @@ export const AuthDashboard = () => {
 			</Box>
 
 			<AuthDashboardFooter />
-		</FormProvider>
+		</>
 	);
 };
