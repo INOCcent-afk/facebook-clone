@@ -9,6 +9,8 @@ export const Home = () => {
 
 	const { data } = useGetUsers();
 
+	console.log(data);
+
 	return (
 		<>
 			<Head>

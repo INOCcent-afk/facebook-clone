@@ -9,6 +9,11 @@ export const rootTypeDefs = gql`
 		profiles: [Profile!]!
 		posts: [Post!]!
 		comments: [Comment!]!
+		me: Me
+	}
+
+	type Me {
+		userId: Int
 	}
 
 	${userTypeDef}

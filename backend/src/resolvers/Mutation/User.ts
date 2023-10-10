@@ -1,5 +1,5 @@
 import { User, Prisma } from "@prisma/client";
-import { Context } from "../../models";
+import { Context, Error } from "../../models";
 import { admin } from "../../firebaseConfig/firebase-config";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import { generateErrorMessage } from "../../utils";
@@ -15,7 +15,7 @@ interface UserProps {
 }
 
 interface UserPayloadType {
-	error: { message: string }[];
+	error: Error;
 	user?: null | Prisma.Prisma__UserClient<User, never> | User;
 }
 
@@ -59,7 +59,7 @@ export const userResolvers = {
 			});
 
 			return {
-				error: [],
+				error: null,
 				user: newUser,
 			};
 		} catch (error) {

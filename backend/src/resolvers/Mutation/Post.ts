@@ -9,7 +9,7 @@ interface PostArgs {
 }
 
 interface PostPayloadType {
-	error: { message: string }[];
+	error: string | null;
 	post?: null | Prisma.Prisma__PostClient<Post, never> | Post;
 }
 
@@ -32,7 +32,7 @@ export const postResolvers = {
 		}
 
 		return {
-			error: [],
+			error: null,
 			post: prisma.post.create({
 				data: {
 					userId: 1,
@@ -83,7 +83,7 @@ export const postResolvers = {
 		if (!postContent) delete payloadToUpdate.postContent;
 
 		return {
-			error: [],
+			error: null,
 			post: prisma.post.update({
 				data: {
 					...payloadToUpdate,
@@ -128,7 +128,7 @@ export const postResolvers = {
 		});
 
 		return {
-			error: [],
+			error: null,
 			post,
 		};
 	},
