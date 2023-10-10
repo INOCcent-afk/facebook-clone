@@ -5,10 +5,9 @@ import { useState } from "react";
 import { useGetUsers } from "@/apiHooks/user/useGetUsers";
 
 export const Home = () => {
-	const [isAuthenticated, _] = useState(true);
+	const [isAuthenticated, _] = useState(false);
 
 	const { data } = useGetUsers();
-
 	console.log(data);
 
 	return (

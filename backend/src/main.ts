@@ -17,7 +17,10 @@ const server = new ApolloServer({
 		return { prisma, userInfo };
 	},
 	cors: {
-		origin: [`${process.env.CLIENT_URL || "http://localhost:3000"}`],
+		origin: [
+			`${process.env.CLIENT_URL || "http://localhost:3000"}`,
+			"https://studio.apollographql.com",
+		],
 		credentials: true,
 	},
 });

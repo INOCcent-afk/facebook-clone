@@ -27,7 +27,7 @@ export const meResolvers = {
 		}
 
 		return {
-			error: null,
+			error: [],
 			me: {
 				userId: userInfo?.userId,
 			},

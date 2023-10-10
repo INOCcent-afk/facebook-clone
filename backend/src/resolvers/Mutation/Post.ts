@@ -1,5 +1,5 @@
 import { Post, Prisma } from "@prisma/client";
-import { Context } from "../../models";
+import { Context, Error } from "../../models";
 import { canUserMutatePost, generateErrorMessage } from "../../utils";
 
 interface PostArgs {
@@ -9,7 +9,7 @@ interface PostArgs {
 }
 
 interface PostPayloadType {
-	error: string | null;
+	error: Error;
 	post?: null | Prisma.Prisma__PostClient<Post, never> | Post;
 }
 
@@ -32,7 +32,7 @@ export const postResolvers = {
 		}
 
 		return {
-			error: null,
+			error: [],
 			post: prisma.post.create({
 				data: {
 					userId: 1,
@@ -83,7 +83,7 @@ export const postResolvers = {
 		if (!postContent) delete payloadToUpdate.postContent;
 
 		return {
-			error: null,
+			error: [],
 			post: prisma.post.update({
 				data: {
 					...payloadToUpdate,
@@ -128,7 +128,7 @@ export const postResolvers = {
 		});
 
 		return {
-			error: null,
+			error: [],
 			post,
 		};
 	},

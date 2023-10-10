@@ -4,7 +4,7 @@ export type Me = {
 	userId: number;
 } | null;
 
-export type Error = string | null;
+export type Error = { message?: string }[];
 
 export interface Context {
 	prisma: PrismaClient<

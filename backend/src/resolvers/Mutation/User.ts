@@ -59,7 +59,7 @@ export const userResolvers = {
 			});
 
 			return {
-				error: null,
+				error: [],
 				user: newUser,
 			};
 		} catch (error) {

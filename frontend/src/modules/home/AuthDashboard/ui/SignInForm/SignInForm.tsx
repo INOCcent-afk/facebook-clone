@@ -1,8 +1,21 @@
 import { Button, Divider, FormControl, Input, VStack } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
+import React from "react";
+
+interface AuthFormState {
+	email: string;
+	password: string;
+}
 
 export const SignInForm = () => {
-	useEffect(() => {});
+	const { register, control } = useFormContext<AuthFormState>();
+
+	const formState = useWatch({
+		control,
+	});
+
+	const signin = () => {};
+
 	return (
 		<FormControl
 			maxW={396}
@@ -12,14 +25,21 @@ export const SignInForm = () => {
 			paddingTop={4}
 			paddingBottom={8}
 			paddingX={4}
+			onSubmit={signin}
 		>
 			<VStack gap={4}>
 				<VStack width="full">
-					<Input type="text" placeholder="Email" variant="gray" />
+					<Input
+						type="text"
+						placeholder="Email"
+						variant="gray"
+						{...register("email")}
+					/>
 					<Input
 						type="password"
 						placeholder="Password"
 						variant="gray"
+						{...register("password")}
 					/>
 				</VStack>
 				<Button size="lg" width="full" type="submit">
