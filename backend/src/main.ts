@@ -4,6 +4,7 @@ import { Query, Mutation } from "./resolvers";
 import { PrismaClient } from "@prisma/client";
 import { getUserFromToken } from "./utils";
 import { Context } from "./models/global";
+require("dotenv").config();
 
 export const prisma = new PrismaClient();
 
@@ -16,7 +17,7 @@ const server = new ApolloServer({
 		return { prisma, userInfo };
 	},
 	cors: {
-		origin: ["http://localhost:3000"],
+		origin: [`${process.env.CLIENT_URL || "http://localhost:3000"}`],
 		credentials: true,
 	},
 });
