@@ -2,28 +2,12 @@ import Head from "next/head";
 import { AuthDashboard } from "../AuthDashboard";
 import { Feed } from "../Feed";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { request } from "graphql-request";
-import { graphql } from "@/gql";
-
-const getUsers = graphql(/* GraphQL */ `
-	query getUsers {
-		users {
-			firstName
-		}
-	}
-`);
+import { useGetUsers } from "@/apiHooks/user/useGetUsers";
 
 export const Home = () => {
 	const [isAuthenticated, _] = useState(true);
 
-	const { data } = useQuery(["films"], async () => {
-		const { users } = await request("http://localhost:4000/api/", getUsers);
-
-		return users;
-	});
-
-	console.log(data);
+	const { data } = useGetUsers();
 
 	return (
 		<>
