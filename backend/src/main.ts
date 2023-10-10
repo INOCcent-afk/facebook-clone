@@ -15,6 +15,10 @@ const server = new ApolloServer({
 
 		return { prisma, userInfo };
 	},
+	cors: {
+		origin: ["http://localhost:3000"],
+		credentials: true,
+	},
 });
 
 server.listen().then(({ url }) => {
