@@ -1,19 +1,32 @@
 import React from "react";
 import { AuthDashboardFooter, SignInForm, UserCard } from "./ui";
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, Text, VStack, useDisclosure } from "@chakra-ui/react";
 import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
 import Image from "next/image";
 import { MOCK_FACEBOOK_LOGO } from "@/utils/facebookLogo.mock";
 import { useForm, FormProvider } from "react-hook-form";
-
-interface AuthFormState {
-	email: string;
-	password: string;
-}
+import { AuthFormState } from "./types/state";
+import { SignUpForm } from "./ui/SignUpForm/SignUpForm";
 
 export const AuthDashboard = () => {
+	const methods = useForm<AuthFormState>({
+		defaultValues: {
+			firstName: "",
+			lastName: "",
+			email: "",
+			password: "",
+			confirmPassword: "",
+		},
+	});
+
+	const {
+		isOpen: isSignUpFormOpen,
+		onClose: closeSignUpForm,
+		onOpen: openSignUpForm,
+	} = useDisclosure();
+
 	return (
-		<>
+		<FormProvider {...methods}>
 			<Box backgroundColor="gray.50" minHeight="800px" height="full">
 				<HStack
 					paddingY={100}
@@ -58,11 +71,13 @@ export const AuthDashboard = () => {
 						</HStack>
 					</Box>
 
-					<SignInForm />
+					<SignInForm openSignUpForm={openSignUpForm} />
 				</HStack>
 			</Box>
 
 			<AuthDashboardFooter />
-		</>
+
+			<SignUpForm isOpen={isSignUpFormOpen} onClose={closeSignUpForm} />
+		</FormProvider>
 	);
 };

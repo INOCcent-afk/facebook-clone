@@ -8,7 +8,6 @@ export const Home = () => {
 	const [isAuthenticated, _] = useState(false);
 
 	const { data } = useGetUsers();
-	console.log(data);
 
 	return (
 		<>

@@ -7,24 +7,16 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import { useFormContext, useWatch } from "react-hook-form";
-import React from "react";
+import React, { FC } from "react";
 import { useRegisterUser } from "@/apiHooks/user/useRegisterUser";
-import { useForm, FormProvider } from "react-hook-form";
+import { AuthFormState } from "../../types/state";
 
-interface AuthFormState {
-	email: string;
-	password: string;
+interface Props {
+	openSignUpForm: () => void;
 }
 
-export const SignInForm = () => {
-	const methods = useForm<AuthFormState>({
-		defaultValues: {
-			email: "",
-			password: "",
-		},
-	});
-
-	const { register, control } = methods;
+export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
+	const { control, register } = useFormContext<AuthFormState>();
 
 	const { mutate: registerUser } = useRegisterUser();
 
@@ -59,42 +51,43 @@ export const SignInForm = () => {
 	};
 
 	return (
-		<Box as="form" onSubmit={signin}>
-			<FormProvider {...methods}>
-				<FormControl
-					maxW={396}
-					backgroundColor="white"
-					shadow="0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
-					borderRadius="md"
-					paddingTop={4}
-					paddingBottom={8}
-					paddingX={4}
-				>
-					<VStack gap={4}>
-						<VStack width="full">
-							<Input
-								type="email"
-								placeholder="Email"
-								variant="gray"
-								{...register("email")}
-							/>
-							<Input
-								type="password"
-								placeholder="Password"
-								variant="gray"
-								{...register("password")}
-							/>
-						</VStack>
-						<Button size="lg" width="full" type="submit">
-							Log in
-						</Button>
-						<Divider />
-						<Button size="lg" variant="secondary">
-							Create new account
-						</Button>
+		<Box as="form" onSubmit={signin} maxW={396} width="full">
+			<FormControl
+				backgroundColor="white"
+				shadow="0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+				borderRadius="md"
+				paddingTop={4}
+				paddingBottom={8}
+				paddingX={4}
+			>
+				<VStack gap={4}>
+					<VStack width="full">
+						<Input
+							type="email"
+							placeholder="Email"
+							variant="gray"
+							{...register("email")}
+						/>
+						<Input
+							type="password"
+							placeholder="Password"
+							variant="gray"
+							{...register("password")}
+						/>
 					</VStack>
-				</FormControl>
-			</FormProvider>
+					<Button size="lg" width="full" type="submit">
+						Log in
+					</Button>
+					<Divider />
+					<Button
+						size="lg"
+						variant="secondary"
+						onClick={openSignUpForm}
+					>
+						Create new account
+					</Button>
+				</VStack>
+			</FormControl>
 		</Box>
 	);
 };
