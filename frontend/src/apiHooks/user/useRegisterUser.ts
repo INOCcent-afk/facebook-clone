@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 
 interface Props
 	extends Pick<User, "email" | "firstName" | "lastName" | "username"> {
-	password: string;
+	password?: string;
 }
 
 const registerUser = async (payload: Props) => {

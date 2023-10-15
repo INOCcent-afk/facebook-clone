@@ -66,12 +66,14 @@ export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
 							type="email"
 							placeholder="Email"
 							variant="gray"
+							required
 							{...register("email")}
 						/>
 						<Input
 							type="password"
 							placeholder="Password"
 							variant="gray"
+							required
 							{...register("password")}
 						/>
 					</VStack>
