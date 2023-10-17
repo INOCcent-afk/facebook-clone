@@ -30,13 +30,7 @@ export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
 		if (!signInEmail || !signInPassword) return;
 
 		try {
-			const result = await signInWithEmailAndPassword(
-				auth,
-				signInEmail,
-				signInPassword
-			);
-
-			console.log(result);
+			await signInWithEmailAndPassword(auth, signInEmail, signInPassword);
 		} catch (error) {
 			console.log(JSON.stringify(error));
 		}

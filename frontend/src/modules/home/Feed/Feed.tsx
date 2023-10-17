@@ -3,8 +3,9 @@ import { Box } from "@chakra-ui/react";
 import React from "react";
 import { ConversationPanel, FeedPanel, MenuPanel } from "./containers";
 import { HEADER_HEIGHT } from "@/utils/headerHeight";
+import withNoAuth from "@/hoc/withNoAuth/withNoAuth";
 
-export const Feed = () => {
+const Feed = () => {
 	return (
 		<>
 			<Header />
@@ -25,3 +26,7 @@ export const Feed = () => {
 		</>
 	);
 };
+
+const FeedAuth = withNoAuth(Feed);
+
+export { FeedAuth };

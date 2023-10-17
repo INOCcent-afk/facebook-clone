@@ -5,15 +5,21 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import "firebase/compat/auth";
 import "../firebase/firebase-config";
+import { AuthProvider } from "@/contexts/";
+import { AppTemplate } from "@/containers/AppTemplate/AppTemplate";
 
 const queryClient = new QueryClient({});
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<QueryClientProvider client={queryClient}>
-			<ChakraProvider theme={theme}>
-				<Component {...pageProps} />
-			</ChakraProvider>
-		</QueryClientProvider>
+		<AuthProvider>
+			<QueryClientProvider client={queryClient}>
+				<ChakraProvider theme={theme}>
+					<AppTemplate>
+						<Component {...pageProps} />
+					</AppTemplate>
+				</ChakraProvider>
+			</QueryClientProvider>
+		</AuthProvider>
 	);
 }

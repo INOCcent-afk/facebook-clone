@@ -1,26 +1,26 @@
 import { useRouter } from "next/router";
 import { FC } from "react";
-import { MeQuery, useMeQuery } from "../generated/graphql";
-import graphqlRequestClient from "../lib/clients/graphqlRequestClient";
 import { isServer } from "@tanstack/react-query";
+import { useAuth } from "@/contexts";
+import { useEffect } from "react";
 
-type withNoAuthenticationFn = (Component: FC) => FC;
+type withAuthenticationFn = (Component: FC) => FC;
 
-const withNoAuth: withNoAuthenticationFn = (Component) => {
+const withAuth: withAuthenticationFn = (Component) => {
 	const NotAuthenticated: FC = (): JSX.Element | null => {
-		const { data } = useMeQuery<MeQuery | null | undefined>(
-			graphqlRequestClient
-		);
+		const { user } = useAuth();
 		const router = useRouter();
 
-		if (!isServer && data?.me !== null) {
-			router.push("/");
-		}
+		useEffect(() => {
+			if (!isServer && user === null) {
+				router.push("/");
+			}
+		}, [user]);
 
-		return data?.me === null ? <Component /> : null;
+		return user !== null ? <Component /> : null;
 	};
 
 	return NotAuthenticated;
 };
 
-export default withNoAuth;
+export default withAuth;

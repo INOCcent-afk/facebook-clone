@@ -1,10 +1,12 @@
 import Head from "next/head";
-import { AuthDashboard } from "../AuthDashboard";
-import { Feed } from "../Feed";
-import { useState } from "react";
+import { AuthDashboardAuth } from "../AuthDashboard";
+import { FeedAuth } from "../Feed";
+import { useGetUsers } from "@/apiHooks/user/useGetUsers";
 
 export const Home = () => {
-	const [isAuthenticated, _] = useState(false);
+	const { data } = useGetUsers();
+
+	console.log(data);
 
 	return (
 		<>
@@ -21,7 +23,9 @@ export const Home = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			{isAuthenticated ? <Feed /> : <AuthDashboard />}
+			{<FeedAuth />}
+
+			<AuthDashboardAuth />
 		</>
 	);
 };
