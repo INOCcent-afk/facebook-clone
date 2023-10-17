@@ -2,7 +2,7 @@ import { User, Prisma } from "@prisma/client";
 import { Context, Error } from "../../models";
 import { admin } from "../../firebaseConfig/firebase-config";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
-import { generateErrorMessage } from "../../utils";
+import { GraphQLError } from "graphql";
 
 interface UserProps {
 	user: {
@@ -27,14 +27,10 @@ export const userResolvers = {
 	): Promise<UserPayloadType> => {
 		const { email, firstName, lastName, username, password } = user;
 
-		// Check for missing fields using early returns
-		if (!firstName)
-			return generateErrorMessage("you must provide a firstName");
-		if (!lastName)
-			return generateErrorMessage("you must provide a lastName");
-		if (!email) return generateErrorMessage("you must provide an email");
-		if (!username)
-			return generateErrorMessage("you must provide a username");
+		if (!firstName) throw new GraphQLError("you must provide a firstName");
+		if (!lastName) throw new GraphQLError("you must provide a lastName");
+		if (!email) throw new GraphQLError("you must provide an email");
+		if (!username) throw new GraphQLError("you must provide a username");
 
 		let result = {} as UserRecord;
 
@@ -43,8 +39,12 @@ export const userResolvers = {
 				email,
 				password,
 			});
-		} catch (error) {
-			return generateErrorMessage(JSON.stringify(error));
+		} catch (error: any) {
+			throw new GraphQLError(error.message, {
+				extensions: {
+					code: error.code,
+				},
+			});
 		}
 
 		try {
@@ -69,10 +69,10 @@ export const userResolvers = {
 				error instanceof Prisma.PrismaClientKnownRequestError &&
 				error.code === "P2002"
 			) {
-				return generateErrorMessage("Username already exists");
+				throw new GraphQLError("Username already exists");
 			}
 
-			return generateErrorMessage(JSON.stringify(error));
+			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
 };

@@ -24,7 +24,8 @@ interface Props extends Omit<ModalProps, "children"> {}
 export const SignUpForm: FC<Props> = ({ ...restProps }) => {
 	const { control, register } = useFormContext<AuthFormState>();
 
-	const { mutate: registerUser } = useRegisterUser();
+	const { mutate: registerUser, isLoading: isRegisteringUser } =
+		useRegisterUser();
 
 	const { email, password, firstName, lastName } = useWatch({
 		control,
@@ -116,6 +117,8 @@ export const SignUpForm: FC<Props> = ({ ...restProps }) => {
 							variant="secondary"
 							marginX="auto"
 							display="block"
+							type="submit"
+							isLoading={isRegisteringUser}
 						>
 							Sign Up
 						</Button>

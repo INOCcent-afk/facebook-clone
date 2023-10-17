@@ -1,6 +1,7 @@
 import { Post, Prisma } from "@prisma/client";
 import { Context, Error } from "../../models";
-import { canUserMutatePost, generateErrorMessage } from "../../utils";
+import { canUserMutatePost } from "../../utils";
+import { GraphQLError } from "graphql";
 
 interface PostArgs {
 	post: {
@@ -20,13 +21,13 @@ export const postResolvers = {
 		{ prisma, userInfo }: Context
 	): Promise<PostPayloadType> => {
 		if (!userInfo) {
-			return generateErrorMessage("Forbidden access (unauthenticated)");
+			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
 		const { postContent } = post;
 
 		if (!postContent) {
-			return generateErrorMessage(
+			throw new GraphQLError(
 				"you must provide a title and content to create a post"
 			);
 		}
@@ -47,7 +48,7 @@ export const postResolvers = {
 		{ prisma, userInfo }: Context
 	): Promise<PostPayloadType> => {
 		if (!userInfo) {
-			return generateErrorMessage("Forbidden access (unauthenticated)");
+			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
 		const error = await canUserMutatePost({
@@ -61,9 +62,7 @@ export const postResolvers = {
 		const { postContent } = post;
 
 		if (!postContent) {
-			return generateErrorMessage(
-				"Need to have at least one field to update"
-			);
+			throw new GraphQLError("Need to have at least one field to update");
 		}
 
 		const existingPost = await prisma.post.findUnique({
@@ -73,7 +72,7 @@ export const postResolvers = {
 		});
 
 		if (!existingPost) {
-			return generateErrorMessage("Post does not exist");
+			throw new GraphQLError("Post does not exist");
 		}
 
 		let payloadToUpdate: PostArgs["post"] = {
@@ -100,7 +99,7 @@ export const postResolvers = {
 		{ prisma, userInfo }: Context
 	): Promise<PostPayloadType> => {
 		if (!userInfo) {
-			return generateErrorMessage("Forbidden access (unauthenticated)");
+			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
 		const error = await canUserMutatePost({
@@ -118,7 +117,7 @@ export const postResolvers = {
 		});
 
 		if (!post) {
-			return generateErrorMessage("Post does not exist");
+			throw new GraphQLError("Post does not exist");
 		}
 
 		await prisma.post.delete({
