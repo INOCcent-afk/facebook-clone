@@ -27,7 +27,7 @@ export const SignUpForm: FC<Props> = ({ ...restProps }) => {
 	const { mutate: registerUser, isLoading: isRegisteringUser } =
 		useRegisterUser();
 
-	const { email, password, firstName, lastName } = useWatch({
+	const { signUpEmail, signUpPassword, firstName, lastName } = useWatch({
 		control,
 	});
 
@@ -39,12 +39,13 @@ export const SignUpForm: FC<Props> = ({ ...restProps }) => {
 				firstName,
 				lastName,
 				username: `${firstName}${lastName}`,
-				password,
-				email,
+				password: signUpPassword,
+				email: signUpEmail,
 			},
 			{
 				onSuccess: () => {
 					console.log("success");
+					restProps.onClose();
 				},
 				onError: () => {
 					console.log("error");
@@ -94,14 +95,14 @@ export const SignUpForm: FC<Props> = ({ ...restProps }) => {
 									placeholder="Email"
 									variant="gray"
 									required
-									{...register("email")}
+									{...register("signUpEmail")}
 								/>
 								<Input
 									type="password"
 									placeholder="Password"
 									variant="gray"
 									required
-									{...register("password")}
+									{...register("signUpPassword")}
 								/>
 								<Input
 									type="password"

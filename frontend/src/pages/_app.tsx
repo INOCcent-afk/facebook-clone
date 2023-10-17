@@ -3,6 +3,8 @@ import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
+import "firebase/compat/auth";
+import "../firebase/firebase-config";
 
 const queryClient = new QueryClient({});
 

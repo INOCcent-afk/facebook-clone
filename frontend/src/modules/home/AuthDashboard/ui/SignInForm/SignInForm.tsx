@@ -8,45 +8,37 @@ import {
 } from "@chakra-ui/react";
 import { useFormContext, useWatch } from "react-hook-form";
 import React, { FC } from "react";
-import { useRegisterUser } from "@/apiHooks/user/useRegisterUser";
 import { AuthFormState } from "../../types/state";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 interface Props {
 	openSignUpForm: () => void;
 }
 
 export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
+	const auth = getAuth();
+
 	const { control, register } = useFormContext<AuthFormState>();
 
-	const { mutate: registerUser } = useRegisterUser();
-
-	const { email, password } = useWatch({
+	const { signInEmail, signInPassword } = useWatch({
 		control,
 	});
 
-	const signin = (e: React.FormEvent<HTMLDivElement>) => {
+	const signin = async (e: React.FormEvent<HTMLDivElement>) => {
 		e.preventDefault();
 
-		if (email && password) {
-			registerUser(
-				{
-					firstName: "Mikee",
-					lastName: "Inoc",
-					username: "MikeeJoan",
-					password,
-					email,
-				},
-				{
-					onSuccess: () => {
-						console.log("suc");
-					},
-					onError: () => {
-						console.log("errir");
-					},
-				}
+		if (!signInEmail || !signInPassword) return;
+
+		try {
+			const result = await signInWithEmailAndPassword(
+				auth,
+				signInEmail,
+				signInPassword
 			);
-		} else {
-			console.log("FILL UP BITCH");
+
+			console.log(result);
+		} catch (error) {
+			console.log(JSON.stringify(error));
 		}
 	};
 
@@ -67,14 +59,14 @@ export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
 							placeholder="Email"
 							variant="gray"
 							required
-							{...register("email")}
+							{...register("signInEmail")}
 						/>
 						<Input
 							type="password"
 							placeholder="Password"
 							variant="gray"
 							required
-							{...register("password")}
+							{...register("signInPassword")}
 						/>
 					</VStack>
 					<Button size="lg" width="full" type="submit">

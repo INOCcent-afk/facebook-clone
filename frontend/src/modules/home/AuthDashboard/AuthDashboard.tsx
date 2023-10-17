@@ -11,10 +11,13 @@ import { SignUpForm } from "./ui/SignUpForm/SignUpForm";
 export const AuthDashboard = () => {
 	const methods = useForm<AuthFormState>({
 		defaultValues: {
+			signInEmail: "",
+			signInPassword: "",
+
 			firstName: "",
 			lastName: "",
-			email: "",
-			password: "",
+			signUpEmail: "",
+			signUpPassword: "",
 			confirmPassword: "",
 		},
 	});
