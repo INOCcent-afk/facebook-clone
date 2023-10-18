@@ -6,8 +6,6 @@ import { useGetUsers } from "@/apiHooks/user/useGetUsers";
 export const Home = () => {
 	const { data } = useGetUsers();
 
-	console.log(data);
-
 	return (
 		<>
 			<Head>
