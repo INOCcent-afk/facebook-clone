@@ -7,9 +7,8 @@ import { MOCK_FACEBOOK_LOGO } from "@/utils/facebookLogo.mock";
 import { useForm, FormProvider } from "react-hook-form";
 import { AuthFormState } from "./types/state";
 import { SignUpForm } from "./ui/SignUpForm/SignUpForm";
-import withAuth from "@/hoc/withAuth/withAuth";
 
-const AuthDashboard = () => {
+export const AuthDashboard = () => {
 	const methods = useForm<AuthFormState>({
 		defaultValues: {
 			signInEmail: "",
@@ -85,7 +84,3 @@ const AuthDashboard = () => {
 		</FormProvider>
 	);
 };
-
-const AuthDashboardAuth = withAuth(AuthDashboard);
-
-export { AuthDashboardAuth };
