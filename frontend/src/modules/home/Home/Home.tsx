@@ -1,14 +1,12 @@
 import Head from "next/head";
 import { AuthDashboard } from "../AuthDashboard";
 import { Feed } from "../Feed";
-import { useGetUsers } from "@/apiHooks/user/useGetUsers";
 import { useAuth } from "@/contexts";
 
 export const Home = () => {
-	const { user, token } = useAuth();
-	const { data } = useGetUsers();
+	const { user } = useAuth();
 
-	console.log(user, token);
+	console.log(user);
 
 	return (
 		<>

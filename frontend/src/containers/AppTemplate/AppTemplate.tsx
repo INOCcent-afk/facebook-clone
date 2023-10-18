@@ -1,3 +1,4 @@
+import { useMe } from "@/apiHooks";
 import { useAuth } from "@/contexts";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { FC, ReactNode, useEffect } from "react";
@@ -9,15 +10,16 @@ interface Props {
 export const AppTemplate: FC<Props> = ({ children }) => {
 	const auth = getAuth();
 
-	const { setToken, setUser } = useAuth();
+	const { setToken, setUser, token } = useAuth();
+
+	const { data } = useMe({
+		token: token ?? "",
+		enabled: Boolean(token),
+	});
 
 	useEffect(() => {
 		onAuthStateChanged(auth, async (user) => {
 			if (user) {
-				// FETCH ME and assign the user object below
-
-				// setUser({ })
-
 				window.localStorage.setItem("auth", "true");
 				const token = await user.getIdToken();
 
@@ -25,6 +27,12 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 			}
 		});
 	}, []);
+
+	useEffect(() => {
+		if (data) {
+			setUser({ firstName: data?.firstName, uid: data?.uid });
+		}
+	}, [data]);
 
 	return <div>{children}</div>;
 };

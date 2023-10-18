@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetUsers = () => {
 	const query = useQuery(["users"], async () => {
-		const { users } = await graphQLClient.request(getUsers);
+		const { users } = await graphQLClient().request(getUsers);
 		return users;
 	});
 

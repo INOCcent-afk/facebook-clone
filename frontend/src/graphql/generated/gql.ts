@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n\tmutation registerUser($user: UserInput!) {\n\t\tregisterUser(user: $user) {\n\t\t\terror {\n\t\t\t\tmessage\n\t\t\t}\n\t\t\tuser {\n\t\t\t\temail\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n": types.RegisterUserDocument,
-    "\n\tquery getMe {\n\t\tme {\n\t\t\tuserId\n\t\t}\n\t}\n": types.GetMeDocument,
+    "\n\tquery getMe {\n\t\tme {\n\t\t\tuid\n\t\t\tfirstName\n\t\t}\n\t}\n": types.GetMeDocument,
     "\n\tquery getUsers {\n\t\tusers {\n\t\t\tfirstName\n\t\t\tlastName\n\t\t}\n\t}\n": types.GetUsersDocument,
 };
 
@@ -39,7 +39,7 @@ export function graphql(source: "\n\tmutation registerUser($user: UserInput!) {\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n\tquery getMe {\n\t\tme {\n\t\t\tuserId\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getMe {\n\t\tme {\n\t\t\tuserId\n\t\t}\n\t}\n"];
+export function graphql(source: "\n\tquery getMe {\n\t\tme {\n\t\t\tuid\n\t\t\tfirstName\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getMe {\n\t\tme {\n\t\t\tuid\n\t\t\tfirstName\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

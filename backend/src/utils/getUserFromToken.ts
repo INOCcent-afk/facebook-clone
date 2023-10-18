@@ -1,13 +1,20 @@
-import JWT from "jsonwebtoken";
-import { JWT_SIGNATURE } from "./config";
-import { Me } from "../models";
+// import JWT from "jsonwebtoken";
+// import { JWT_SIGNATURE } from "./config";
+// import { Me } from "../models";
+// import { GraphQLError } from "graphql";
+import { admin } from "../firebaseConfig/firebase-config";
 
-export const getUserFromToken = (token: string) => {
+export const getUserFromToken = async (token: string) => {
 	try {
-		if (!JWT_SIGNATURE) return null;
+		if (!token) return null;
 
-		return JWT.verify(token, JWT_SIGNATURE) as Me;
+		const sanitizedToken = token.split(" ")[1];
+
+		const sheesh = await admin.auth().verifyIdToken(sanitizedToken);
+
+		return sheesh;
 	} catch (error) {
+		console.log(error);
 		return null;
 	}
 };

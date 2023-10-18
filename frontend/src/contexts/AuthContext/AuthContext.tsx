@@ -2,8 +2,8 @@ import { User } from "@/graphql/generated/graphql";
 import { createContext, useState, ReactNode, useContext, FC } from "react";
 
 interface Context {
-	user: User | null;
-	setUser: (user: User) => void;
+	user: Partial<User> | null;
+	setUser: (user: Partial<User>) => void;
 
 	token: string | null;
 	setToken: (token: string) => void;
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export const AuthProvider: FC<Props> = ({ children }) => {
-	const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<Partial<User> | null>(null);
 	const [token, setToken] = useState<string | null>(null);
 
 	return (

@@ -1,12 +1,23 @@
 import { graphQLClient } from "@/graphql/graphQLClient";
-import { getUsers } from "@/graphql/queries/user/users";
+import { getMe } from "@/graphql/queries/me/me";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetUsers = () => {
-	const query = useQuery(["me"], async () => {
-		const { users } = await graphQLClient.request(getUsers);
-		return users;
-	});
+interface Props {
+	token: string;
+	enabled: boolean;
+}
+
+export const useMe = ({ token, enabled = false }: Props) => {
+	const query = useQuery(
+		["me"],
+		async () => {
+			const { me } = await graphQLClient(token).request(getMe);
+			return me;
+		},
+		{
+			enabled,
+		}
+	);
 
 	return { ...query };
 };

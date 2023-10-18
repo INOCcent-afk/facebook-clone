@@ -9,11 +9,21 @@ export const rootTypeDefs = gql`
 		profiles: [Profile!]!
 		posts: [Post!]!
 		comments: [Comment!]!
-		me: Me
+		me: User
 	}
 
-	type Me {
-		userId: Int
+	type UsersPayload {
+		users: [User!]!
+		error: [Error!]!
+	}
+
+	type MePayload {
+		user: User
+		error: [Error!]!
+	}
+
+	type Error {
+		message: String!
 	}
 
 	${userTypeDef}

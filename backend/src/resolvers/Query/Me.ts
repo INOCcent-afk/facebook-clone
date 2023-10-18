@@ -1,24 +1,20 @@
 import { GraphQLError } from "graphql";
 import { Context, Error, Me } from "../../models";
-
-interface MePayloadType {
-	error: Error;
-	me?: Me;
-}
+import { User } from "@prisma/client";
 
 export const meResolvers = {
 	me: async (
 		_: any,
 		__: any,
 		{ prisma, userInfo }: Context
-	): Promise<MePayloadType> => {
-		if (!userInfo?.userId) {
+	): Promise<User> => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
 			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
 		const user = await prisma.user.findUnique({
 			where: {
-				id: userInfo?.userId,
+				uid: userInfo?.userUid,
 			},
 		});
 
@@ -26,11 +22,8 @@ export const meResolvers = {
 			throw new GraphQLError("User not found");
 		}
 
-		return {
-			error: [],
-			me: {
-				userId: userInfo?.userId,
-			},
-		};
+		console.log(user);
+
+		return user;
 	},
 };

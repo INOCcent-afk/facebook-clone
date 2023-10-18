@@ -52,7 +52,7 @@ export const postResolvers = {
 		}
 
 		const error = await canUserMutatePost({
-			userId: userInfo.userId,
+			userUid: userInfo?.userUid,
 			postId: Number(postId),
 			prisma,
 		});
@@ -98,12 +98,12 @@ export const postResolvers = {
 		{ postId }: { postId: string },
 		{ prisma, userInfo }: Context
 	): Promise<PostPayloadType> => {
-		if (!userInfo) {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
 			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
 		const error = await canUserMutatePost({
-			userId: userInfo.userId,
+			userUid: userInfo.userUid,
 			postId: Number(postId),
 			prisma,
 		});

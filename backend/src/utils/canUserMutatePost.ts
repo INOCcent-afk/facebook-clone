@@ -1,24 +1,24 @@
 import { Context } from "../models";
 
 interface Props {
-	userId: number;
+	userUid: string;
 	postId: number;
 	prisma: Context["prisma"];
 }
 export const canUserMutatePost = async ({
-	userId,
+	userUid,
 	postId,
 	prisma,
 }: Props): Promise<any> => {
 	const user = await prisma.user.findUnique({
 		where: {
-			id: userId,
+			uid: userUid,
 		},
 	});
 
 	if (!user) {
 		return {
-			userErrors: [
+			errors: [
 				{
 					message: "User not found",
 				},
@@ -35,7 +35,7 @@ export const canUserMutatePost = async ({
 
 	if (post?.userId !== user.id) {
 		return {
-			userErrors: [
+			errors: [
 				{
 					message: "Post not owned by user",
 				},

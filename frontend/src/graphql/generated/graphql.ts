@@ -30,9 +30,10 @@ export type Error = {
   message: Scalars['String']['output'];
 };
 
-export type Me = {
-  __typename?: 'Me';
-  userId?: Maybe<Scalars['Int']['output']>;
+export type MePayload = {
+  __typename?: 'MePayload';
+  error: Array<Error>;
+  user?: Maybe<User>;
 };
 
 export type Mutation = {
@@ -97,7 +98,7 @@ export type Profile = {
 export type Query = {
   __typename?: 'Query';
   comments: Array<Comment>;
-  me?: Maybe<Me>;
+  me?: Maybe<User>;
   posts: Array<Post>;
   profiles: Array<Profile>;
   users: Array<User>;
@@ -129,6 +130,12 @@ export type UserPayload = {
   user?: Maybe<User>;
 };
 
+export type UsersPayload = {
+  __typename?: 'UsersPayload';
+  error: Array<Error>;
+  users: Array<User>;
+};
+
 export type RegisterUserMutationVariables = Exact<{
   user: UserInput;
 }>;
@@ -139,7 +146,7 @@ export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'Me', userId?: number | null } | null };
+export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', uid?: string | null, firstName?: string | null } | null };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -148,5 +155,5 @@ export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 
 
 
 export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"registerUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"user"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}}]}}]}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
-export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
+export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
 export const GetUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]} as unknown as DocumentNode<GetUsersQuery, GetUsersQueryVariables>;

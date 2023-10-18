@@ -9,7 +9,7 @@ interface Props
 }
 
 const registerUser = async (payload: Props) => {
-	const data = await graphQLClient.request(registerUserQL, {
+	const data = await graphQLClient().request(registerUserQL, {
 		user: payload,
 	});
 	return { registerUser: data };

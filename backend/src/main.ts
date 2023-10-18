@@ -14,7 +14,10 @@ const server = new ApolloServer({
 	context: async ({ req }: any): Promise<Context> => {
 		const userInfo = await getUserFromToken(req.headers.authorization);
 
-		return { prisma, userInfo };
+		return {
+			prisma,
+			userInfo: userInfo?.uid ? { userUid: userInfo?.uid } : null,
+		};
 	},
 	cors: {
 		origin: [

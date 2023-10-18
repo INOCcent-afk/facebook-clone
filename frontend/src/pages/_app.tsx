@@ -8,7 +8,13 @@ import "../firebase/firebase-config";
 import { AuthProvider } from "@/contexts/";
 import { AppTemplate } from "@/containers/AppTemplate/AppTemplate";
 
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+});
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (

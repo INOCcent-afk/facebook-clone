@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 
 export type Me = {
-	userId: number;
+	userUid: string;
 } | null;
 
 export type Error = { message?: string }[];
