@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { Context, Error, Me } from "../../models";
+import { Context } from "../../models";
 import { User } from "@prisma/client";
 
 export const meResolvers = {
@@ -21,8 +21,6 @@ export const meResolvers = {
 		if (!user) {
 			throw new GraphQLError("User not found");
 		}
-
-		console.log(user);
 
 		return user;
 	},

@@ -6,12 +6,10 @@ import { useAuth } from "@/contexts";
 export const Home = () => {
 	const { user } = useAuth();
 
-	console.log(user);
-
 	return (
 		<>
 			<Head>
-				<title>Facebook - log in or sign up</title>
+				<title>Facebook - log in or sign up </title>
 				<meta
 					name="description"
 					content="Facebook - log in or sign up"
