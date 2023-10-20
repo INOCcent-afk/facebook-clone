@@ -1,4 +1,4 @@
-import { HEADER_HEIGHT } from "@/utils/headerHeight";
+import { HEADER_HEIGHT } from "@/utils";
 import { Avatar, Box, Button, HStack, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";

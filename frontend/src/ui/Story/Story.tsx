@@ -1,5 +1,5 @@
 import { colors } from "@/styles/chakra/theme";
-import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
+import { MOCK_PROFILE_PICTURE } from "@/utils";
 import { Avatar, AvatarBadge, Box, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { IoAdd } from "react-icons/io5";

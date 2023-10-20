@@ -2,7 +2,7 @@ import { Header } from "@/ui";
 import { Box } from "@chakra-ui/react";
 import React from "react";
 import { ConversationPanel, FeedPanel, MenuPanel } from "./containers";
-import { HEADER_HEIGHT } from "@/utils/headerHeight";
+import { HEADER_HEIGHT } from "@/utils";
 
 export const Feed = () => {
 	return (

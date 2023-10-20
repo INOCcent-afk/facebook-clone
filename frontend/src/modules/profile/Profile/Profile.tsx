@@ -2,7 +2,7 @@ import { Header } from "@/ui";
 import { Box } from "@chakra-ui/react";
 import React from "react";
 import { CoverPhoto, ProfileHeader } from "./ui";
-import { HEADER_HEIGHT } from "@/utils/headerHeight";
+import { HEADER_HEIGHT } from "@/utils";
 import { Posts } from "../Posts/Posts";
 
 export const Profile = () => {

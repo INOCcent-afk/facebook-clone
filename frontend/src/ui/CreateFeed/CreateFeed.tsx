@@ -1,4 +1,4 @@
-import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
+import { MOCK_PROFILE_PICTURE } from "@/utils";
 import { Avatar, Button, Divider, HStack, Text } from "@chakra-ui/react";
 import React from "react";
 import { MdPhotoLibrary } from "react-icons/md";

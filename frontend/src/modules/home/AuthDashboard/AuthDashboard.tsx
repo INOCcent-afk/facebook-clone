@@ -1,9 +1,8 @@
 import React from "react";
 import { AuthDashboardFooter, SignInForm, UserCard } from "./ui";
 import { Box, HStack, Text, VStack, useDisclosure } from "@chakra-ui/react";
-import { MOCK_PROFILE_PICTURE } from "@/utils/profilePicture.mock";
 import Image from "next/image";
-import { MOCK_FACEBOOK_LOGO } from "@/utils/facebookLogo.mock";
+import { MOCK_FACEBOOK_LOGO, MOCK_PROFILE_PICTURE } from "@/utils";
 import { useForm, FormProvider } from "react-hook-form";
 import { AuthFormState } from "./types/state";
 import { SignUpForm } from "./ui/SignUpForm/SignUpForm";
