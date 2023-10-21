@@ -1,13 +1,14 @@
 import { HEADER_HEIGHT } from "@/utils";
-import { Avatar, Box, Button, HStack, Tooltip } from "@chakra-ui/react";
+import { Box, Button, HStack, Tooltip, useDisclosure } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import { SearchFacebook } from "../";
+import { ProfileMenu, SearchFacebook } from "../";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { IoNotificationsSharp } from "react-icons/io5";
-import { BiChevronDown } from "react-icons/bi";
 
 export const Header = () => {
+	const {} = useDisclosure();
+
 	return (
 		<>
 			<HStack
@@ -49,28 +50,7 @@ export const Header = () => {
 						</Button>
 					</Tooltip>
 
-					<Tooltip label="Account">
-						<Button
-							variant="unstyled"
-							position="relative"
-							size="circledMd"
-						>
-							<Avatar
-								name="Dan Abrahmov"
-								src="https://bit.ly/dan-abramov"
-							/>
-							<Box
-								position="absolute"
-								bottom={0}
-								right={-1}
-								backgroundColor="gray.800"
-								borderRadius="full"
-								padding="1px"
-							>
-								<BiChevronDown size={16} color="white" />
-							</Box>
-						</Button>
-					</Tooltip>
+					<ProfileMenu />
 				</HStack>
 			</HStack>
 		</>

@@ -1,8 +1,7 @@
 import { Box, Flex, Stack } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { CreateFeed } from "@/ui";
+import { CreateFeed, ExtraLinks } from "@/ui";
 import { Friends, IntroBio, Photos } from "./containers";
-import { ExtraLinks } from "./ui";
 import { FeedPost } from "@/ui/FeedPost/FeedPost";
 
 interface Props {}
@@ -20,7 +19,17 @@ export const Posts: FC<Props> = () => {
 						<Photos />
 						<Friends />
 					</Stack>
-					<ExtraLinks />
+					<ExtraLinks
+						links={[
+							"Privacy .",
+							"Terms .",
+							"Advertising .",
+							"Ad Choices .",
+							"Cookies .",
+							"More .",
+							"Meta © 2023 .",
+						]}
+					/>
 				</Box>
 			</Box>
 

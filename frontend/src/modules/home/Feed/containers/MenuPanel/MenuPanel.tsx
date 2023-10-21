@@ -21,6 +21,7 @@ export const MenuPanel = () => {
 				></Box>
 				<Link href="/">
 					<LabelledAction
+						marginLeft={3}
 						icon={
 							<Text color="brand" marginTop={-1}>
 								<AiFillHome size={24} />
@@ -33,6 +34,7 @@ export const MenuPanel = () => {
 			<Box position="relative">
 				<Link href="/">
 					<LabelledAction
+						marginLeft={3}
 						icon={<Avatar size="xs" src={MOCK_PROFILE_PICTURE} />}
 						label="Michael Dave"
 					/>

@@ -3,10 +3,10 @@ import { createContext, useState, ReactNode, useContext, FC } from "react";
 
 interface Context {
 	user: Partial<User> | null;
-	setUser: (user: Partial<User>) => void;
+	setUser: (user: Partial<User> | null) => void;
 
 	token: string | null;
-	setToken: (token: string) => void;
+	setToken: (token: string | null) => void;
 }
 
 export const AuthContext = createContext<Context>({

@@ -22,7 +22,6 @@ export const LabelledAction: FC<Props> = ({
 			_hover={{
 				backgroundColor: "gray.800",
 			}}
-			marginLeft={3}
 			gap={1}
 			{...restProps}
 		>
