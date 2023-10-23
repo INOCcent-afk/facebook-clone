@@ -28,8 +28,6 @@ export const ProfileMenu = () => {
 
 			setUser(null);
 			setToken(null);
-
-			
 		} catch (error) {
 			console.log(error);
 		}
