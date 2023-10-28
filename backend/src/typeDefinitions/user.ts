@@ -8,8 +8,11 @@ export const userTypeDef = gql`
 		lastName: String
 		username: String
 		email: String
-		followedBy: [User!]!
-		following: [User!]!
+		followedBy: [User]
+		following: [User]
+		profile: Profile
+		posts: [Post]
+		comments: [Comment]
 	}
 
 	type Mutation {

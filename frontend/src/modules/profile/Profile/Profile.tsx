@@ -4,8 +4,21 @@ import React from "react";
 import { CoverPhoto, ProfileHeader } from "./ui";
 import { HEADER_HEIGHT } from "@/utils";
 import { Posts } from "../Posts/Posts";
+import { useGetUser } from "@/apiHooks/user/useGetUser";
+import { useRouter } from "next/router";
 
 export const Profile = () => {
+	const { query } = useRouter();
+
+	const userId = query.user_id as string;
+
+	const { data, error } = useGetUser({
+		uid: userId,
+		enabled: Boolean(userId),
+	});
+
+	console.log(error);
+
 	return (
 		<>
 			<Header />

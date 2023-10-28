@@ -17,9 +17,10 @@ import { ExtraLinks } from "../ExtraLinks/ExtraLinks";
 import { LabelledAction } from "../LabelledAction/LabelledAction";
 import { getAuth, signOut } from "firebase/auth";
 import { useAuth } from "@/contexts";
+import Link from "next/link";
 
 export const ProfileMenu = () => {
-	const { setToken, setUser } = useAuth();
+	const { user, setToken, setUser } = useAuth();
 	const auth = getAuth();
 
 	const logout = async () => {
@@ -67,21 +68,23 @@ export const ProfileMenu = () => {
 				pb={2}
 				px={4}
 			>
-				<Flex
-					color="white"
-					my={4}
-					boxShadow="0 2px 12px rgba(0, 0, 0, 0.2)"
-					p={4}
-					alignItems="center"
-					gap={4}
-					mb={6}
-				>
-					<Avatar
-						name="Dan Abrahmov"
-						src="https://bit.ly/dan-abramov"
-					/>
-					<Text fontSize="lg">Michael Dave Inoc</Text>
-				</Flex>
+				<Link href={`/profile/${user?.uid}`}>
+					<Flex
+						color="white"
+						my={4}
+						boxShadow="0 2px 12px rgba(0, 0, 0, 0.2)"
+						p={4}
+						alignItems="center"
+						gap={4}
+						mb={6}
+					>
+						<Avatar
+							name="Dan Abrahmov"
+							src="https://bit.ly/dan-abramov"
+						/>
+						<Text fontSize="lg">Michael Dave Inoc</Text>
+					</Flex>
+				</Link>
 
 				<MenuItem
 					backgroundColor="gray.700"
