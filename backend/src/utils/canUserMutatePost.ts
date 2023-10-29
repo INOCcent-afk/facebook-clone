@@ -5,6 +5,7 @@ interface Props {
 	postId: number;
 	prisma: Context["prisma"];
 }
+
 export const canUserMutatePost = async ({
 	userUid,
 	postId,
