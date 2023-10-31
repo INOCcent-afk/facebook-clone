@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 
 export const Profile = () => {
 	const { query } = useRouter();
-
 	const userId = query.user_id as string;
 
 	const { data, error } = useGetUser({
