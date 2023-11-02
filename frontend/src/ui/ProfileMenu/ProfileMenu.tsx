@@ -21,6 +21,7 @@ import Link from "next/link";
 
 export const ProfileMenu = () => {
 	const { user, setToken, setUser } = useAuth();
+
 	const auth = getAuth();
 
 	const logout = async () => {
