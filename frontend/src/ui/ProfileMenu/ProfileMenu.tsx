@@ -17,6 +17,7 @@ import { ExtraLinks } from "../ExtraLinks/ExtraLinks";
 import { LabelledAction } from "../LabelledAction/LabelledAction";
 import { getAuth, signOut } from "firebase/auth";
 import { useAuth } from "@/contexts";
+
 import Link from "next/link";
 
 export const ProfileMenu = () => {
