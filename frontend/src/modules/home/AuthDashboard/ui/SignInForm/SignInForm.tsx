@@ -10,6 +10,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import React, { FC } from "react";
 import { AuthFormState } from "../../types/state";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
 	openSignUpForm: () => void;
@@ -17,6 +18,8 @@ interface Props {
 
 export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
 	const auth = getAuth();
+
+	const { invalidateQueries } = useQueryClient();
 
 	const { control, register } = useFormContext<AuthFormState>();
 
@@ -31,6 +34,7 @@ export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
 
 		try {
 			await signInWithEmailAndPassword(auth, signInEmail, signInPassword);
+			invalidateQueries(["me"]);
 		} catch (error) {
 			console.log(JSON.stringify(error));
 		}

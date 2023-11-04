@@ -7,3 +7,4 @@ export * from "./ContentContainer/ContentContainer";
 export * from "./LabelledAction/LabelledAction";
 export * from "./ProfileMenu/ProfileMenu";
 export * from "./ExtraLinks/ExtraLinks";
+export * from "./CreatePost/CreatePost";
