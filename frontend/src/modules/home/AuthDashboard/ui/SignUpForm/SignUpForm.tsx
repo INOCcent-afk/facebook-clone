@@ -14,7 +14,7 @@ import {
 	Text,
 	VStack,
 } from "@chakra-ui/react";
-import React, { FC } from "react";
+import React, { FC, FormEvent } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { AuthFormState } from "../../types/state";
 import { useRegisterUser } from "@/apiHooks/user/useRegisterUser";
@@ -31,7 +31,7 @@ export const SignUpForm: FC<Props> = ({ ...restProps }) => {
 		control,
 	});
 
-	const signup = (e: React.FormEvent<HTMLDivElement>) => {
+	const signup = (e: FormEvent<HTMLDivElement>) => {
 		e.preventDefault();
 
 		registerUser(

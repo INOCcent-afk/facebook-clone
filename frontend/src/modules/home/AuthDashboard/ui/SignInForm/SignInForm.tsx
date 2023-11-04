@@ -7,7 +7,7 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import { useFormContext, useWatch } from "react-hook-form";
-import React, { FC } from "react";
+import React, { FC, FormEvent } from "react";
 import { AuthFormState } from "../../types/state";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,7 +27,7 @@ export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
 		control,
 	});
 
-	const signin = async (e: React.FormEvent<HTMLDivElement>) => {
+	const signin = async (e: FormEvent<HTMLDivElement>) => {
 		e.preventDefault();
 
 		if (!signInEmail || !signInPassword) return;
