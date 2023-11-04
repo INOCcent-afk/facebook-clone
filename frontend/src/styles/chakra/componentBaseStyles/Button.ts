@@ -20,10 +20,22 @@ export const Button = defineStyleConfig({
 	variants: {
 		primary: {
 			backgroundColor: "brand",
+
+			_hover: {
+				_disabled: {
+					backgroundColor: "brand",
+				},
+			},
 		},
 
 		secondary: {
 			backgroundColor: "green.900",
+
+			_hover: {
+				_disabled: {
+					backgroundColor: "green.900",
+				},
+			},
 		},
 
 		circledButton: {
@@ -33,15 +45,31 @@ export const Button = defineStyleConfig({
 
 			_hover: {
 				backgroundColor: "gray",
+
+				_disabled: {
+					backgroundColor: "gray",
+				},
 			},
 		},
 
 		gray: {
 			backgroundColor: "gray.400",
+
+			_hover: {
+				_disabled: {
+					backgroundColor: "gray.400",
+				},
+			},
 		},
 
 		lightGray: {
 			backgroundColor: "gray.800",
+
+			_hover: {
+				_disabled: {
+					backgroundColor: "gray.800",
+				},
+			},
 		},
 
 		unstyled: {

@@ -36,13 +36,11 @@ export const CreatePost: FC<Props> = ({ ...restProps }) => {
 		}
 	};
 
-	console.log(Boolean(content));
-
 	return (
 		<Modal isCentered {...restProps}>
 			<ModalOverlay />
 			<ModalContent
-				paddingBottom={8}
+				paddingBottom={4}
 				backgroundColor="gray.700"
 				color="white"
 			>
@@ -57,7 +55,7 @@ export const CreatePost: FC<Props> = ({ ...restProps }) => {
 								<Text>Michael Dave</Text>
 							</Box>
 						</Flex>
-						<Box position="relative" height="100%">
+						<Box position="relative" height="100%" marginBottom={4}>
 							<Textarea
 								ref={textareaRef}
 								value={content}
