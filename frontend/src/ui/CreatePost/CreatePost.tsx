@@ -48,7 +48,7 @@ export const CreatePost: FC<Props> = ({ ...restProps }) => {
 				<ModalHeader textAlign="center">Create Post</ModalHeader>
 				<Divider />
 				<ModalBody paddingX={4} paddingY={4}>
-					<Box>
+					<Box as="form">
 						<Flex gap={3}>
 							<Avatar />
 							<Box>

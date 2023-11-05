@@ -12,7 +12,7 @@ interface PostArgs {
 type PostPayloadType = null | Prisma.Prisma__PostClient<Post, never> | Post;
 
 export const postResolvers = {
-	postCreate: async (
+	createPost: async (
 		_: any,
 		{ post }: PostArgs,
 		{ prisma, userInfo }: Context
@@ -40,7 +40,7 @@ export const postResolvers = {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
-	postUpdate: async (
+	updatePost: async (
 		_: any,
 		{ post, postId }: { postId: string; post: PostArgs["post"] },
 		{ prisma, userInfo }: Context
@@ -92,7 +92,7 @@ export const postResolvers = {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
-	postDelete: async (
+	deletePost: async (
 		_: any,
 		{ postId }: { postId: string },
 		{ prisma, userInfo }: Context

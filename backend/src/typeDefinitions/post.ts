@@ -5,7 +5,7 @@ export const postTypeDef = gql`
 	type Post {
 		id: ID!
 		userId: ID!
-		postParentId: ID!
+		postParentId: ID
 		images: [String]
 		videos: [String]
 		comments: [Comment]
@@ -13,9 +13,9 @@ export const postTypeDef = gql`
 	}
 
 	type Mutation {
-		postCreate(post: PostInput!): Post!
-		postUpdate(postId: ID!, post: PostInput!): Post!
-		postDelete(postId: ID!): Post
+		createPost(post: PostInput!): Post!
+		updatePost(postId: ID!, post: PostInput!): Post!
+		deletePost(postId: ID!): Post
 	}
 
 	input PostInput {

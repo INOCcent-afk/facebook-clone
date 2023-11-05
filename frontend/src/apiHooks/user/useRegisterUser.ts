@@ -12,7 +12,7 @@ const registerUser = async (payload: Props) => {
 	const data = await graphQLClient().request(registerUserQL, {
 		user: payload,
 	});
-	return { registerUser: data };
+	return data;
 };
 
 export const useRegisterUser = () => {
