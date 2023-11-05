@@ -8,27 +8,18 @@ export const postTypeDef = gql`
 		postParentId: ID!
 		images: [String]
 		videos: [String]
-		comments: [Comment!]!
+		comments: [Comment]
 		postContent: String
 	}
 
 	type Mutation {
-		postCreate(post: PostInput!): PostPayload!
-		postUpdate(postId: ID!, post: PostInput!): PostPayload!
-		postDelete(postId: ID!): PostPayload
+		postCreate(post: PostInput!): Post!
+		postUpdate(postId: ID!, post: PostInput!): Post!
+		postDelete(postId: ID!): Post
 	}
 
 	input PostInput {
 		postContent: String
-	}
-
-	type PostPayload {
-		error: [Error!]!
-		post: Post
-	}
-
-	type Error {
-		message: String!
 	}
 
 	${commentTypeDef}

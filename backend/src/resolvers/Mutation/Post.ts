@@ -1,5 +1,5 @@
 import { Post, Prisma } from "@prisma/client";
-import { Context, Error } from "../../models";
+import { Context } from "../../models";
 import { canUserMutatePost } from "../../utils";
 import { GraphQLError } from "graphql";
 
@@ -9,10 +9,7 @@ interface PostArgs {
 	};
 }
 
-interface PostPayloadType {
-	error: Error;
-	post?: null | Prisma.Prisma__PostClient<Post, never> | Post;
-}
+type PostPayloadType = null | Prisma.Prisma__PostClient<Post, never> | Post;
 
 export const postResolvers = {
 	postCreate: async (
@@ -32,15 +29,16 @@ export const postResolvers = {
 			);
 		}
 
-		return {
-			error: [],
-			post: prisma.post.create({
+		try {
+			return prisma.post.create({
 				data: {
-					userId: 1,
+					userId: 4,
 					postContent,
 				},
-			}),
-		};
+			});
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
 	},
 	postUpdate: async (
 		_: any,
@@ -81,17 +79,18 @@ export const postResolvers = {
 
 		if (!postContent) delete payloadToUpdate.postContent;
 
-		return {
-			error: [],
-			post: prisma.post.update({
+		try {
+			return prisma.post.update({
 				data: {
 					...payloadToUpdate,
 				},
 				where: {
 					id: Number(postId),
 				},
-			}),
-		};
+			});
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
 	},
 	postDelete: async (
 		_: any,
@@ -120,15 +119,14 @@ export const postResolvers = {
 			throw new GraphQLError("Post does not exist");
 		}
 
-		await prisma.post.delete({
-			where: {
-				id: Number(postId),
-			},
-		});
-
-		return {
-			error: [],
-			post,
-		};
+		try {
+			return await prisma.post.delete({
+				where: {
+					id: Number(postId),
+				},
+			});
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
 	},
 };

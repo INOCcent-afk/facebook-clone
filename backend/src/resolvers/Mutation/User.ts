@@ -14,10 +14,7 @@ interface UserProps {
 	};
 }
 
-interface UserPayloadType {
-	error: Error;
-	user?: null | Prisma.Prisma__UserClient<User, never> | User;
-}
+type UserPayloadType = null | Prisma.Prisma__UserClient<User, never> | User;
 
 export const userResolvers = {
 	registerUser: async (
@@ -58,10 +55,7 @@ export const userResolvers = {
 				},
 			});
 
-			return {
-				error: [],
-				user: newUser,
-			};
+			return newUser;
 		} catch (error) {
 			await admin.auth().deleteUser(result.uid);
 

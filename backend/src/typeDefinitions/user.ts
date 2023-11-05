@@ -16,7 +16,7 @@ export const userTypeDef = gql`
 	}
 
 	type Mutation {
-		registerUser(user: UserInput!): UserPayload!
+		registerUser(user: UserInput!): User!
 	}
 
 	input UserInput {
@@ -25,14 +25,5 @@ export const userTypeDef = gql`
 		username: String
 		email: String
 		password: String
-	}
-
-	type UserPayload {
-		error: [Error!]!
-		user: User
-	}
-
-	type Error {
-		message: String!
 	}
 `;

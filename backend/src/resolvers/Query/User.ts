@@ -6,10 +6,7 @@ interface UserArgs {
 	uid: string;
 }
 
-interface UserPayloadType {
-	error: Error;
-	user?: null | Prisma.Prisma__PostClient<User, never> | User;
-}
+type UserPayloadType = null | Prisma.Prisma__PostClient<User, never> | User;
 
 export const userResolvers = {
 	user: async (
@@ -22,20 +19,17 @@ export const userResolvers = {
 		}
 
 		try {
-			const data = await prisma.user.findUnique({
+			const user = await prisma.user.findUnique({
 				where: {
 					uid: uid,
 				},
 			});
 
-			if (!data) {
+			if (!user) {
 				throw new GraphQLError("User not found");
 			}
 
-			return {
-				error: [],
-				user: data,
-			};
+			return user;
 		} catch (error) {
 			throw new GraphQLError(JSON.stringify(error));
 		}

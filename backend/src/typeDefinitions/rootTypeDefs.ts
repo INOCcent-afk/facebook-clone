@@ -5,32 +5,12 @@ import { postTypeDef } from "./post";
 
 export const rootTypeDefs = gql`
 	type Query {
-		users: [User!]!
-		user(uid: String!): UserPayload!
-
-		profiles: [Profile!]!
-		posts: [Post!]!
-		comments: [Comment!]!
+		users: [User]
+		user(uid: String!): User
+		profiles: [Profile]
+		posts: [Post]
+		comments: [Comment]
 		me: User
-	}
-
-	type UserPayload {
-		user: User
-		error: [Error!]!
-	}
-
-	type UsersPayload {
-		users: [User!]!
-		error: [Error!]!
-	}
-
-	type MePayload {
-		user: User
-		error: [Error!]!
-	}
-
-	type Error {
-		message: String!
 	}
 
 	${userTypeDef}
