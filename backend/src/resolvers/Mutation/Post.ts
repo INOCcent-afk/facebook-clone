@@ -17,7 +17,8 @@ export const postResolvers = {
 		{ post }: PostArgs,
 		{ prisma, userInfo }: Context
 	): Promise<PostPayloadType> => {
-		if (!userInfo) {
+		console.log(userInfo);
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
 			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
