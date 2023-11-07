@@ -4,7 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 
 interface Props {
 	postContent: string;
-
 	token: string;
 }
 
