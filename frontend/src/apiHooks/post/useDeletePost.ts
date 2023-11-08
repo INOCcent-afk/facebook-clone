@@ -1,5 +1,5 @@
 import { graphQLClient } from "@/graphql/graphQLClient";
-import { deletePost as deletePostQL } from "@/graphql/mutations/posts/deletePost";
+import { deletePost as deletePostQL } from "@/graphql/mutations/post/deletePost";
 import { useMutation } from "@tanstack/react-query";
 
 interface Props {

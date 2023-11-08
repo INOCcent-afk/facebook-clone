@@ -1,6 +1,6 @@
 import { Post } from "@/graphql/generated/graphql";
 import { graphQLClient } from "@/graphql/graphQLClient";
-import { updatePost as updatePostQL } from "@/graphql/mutations/posts/updatePost";
+import { updatePost as updatePostQL } from "@/graphql/mutations/post/updatePost";
 import { useMutation } from "@tanstack/react-query";
 
 interface Props {
