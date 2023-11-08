@@ -5,6 +5,7 @@ export const postTypeDef = gql`
 	type Post {
 		id: ID!
 		userId: ID!
+		user: User
 		postParentId: ID
 		images: [String]
 		videos: [String]
