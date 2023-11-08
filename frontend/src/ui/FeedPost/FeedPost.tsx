@@ -19,10 +19,11 @@ import { RiShareForwardLine } from "react-icons/ri";
 
 interface Props {
 	images?: string[];
-	lol?: string;
+	content: string;
+	id: string;
 }
 
-export const FeedPost: FC<Props> = ({ images }) => {
+export const FeedPost: FC<Props> = ({ images, content, id }) => {
 	return (
 		<ContentContainer>
 			<Flex justifyContent="space-between">
@@ -43,9 +44,7 @@ export const FeedPost: FC<Props> = ({ images }) => {
 			</Flex>
 
 			<Box color="white" marginY={4}>
-				<Text fontSize={images?.length ? 15 : 24}>
-					Hello Everybody!
-				</Text>
+				<Text fontSize={images?.length ? 15 : 24}>{content}</Text>
 			</Box>
 
 			<Box mb={4}>

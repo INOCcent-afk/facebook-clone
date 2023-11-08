@@ -3,8 +3,20 @@ import React from "react";
 import { StoriesBlock } from "./containers";
 import { FEED_MID_COLUMN_MAX_WIDTH } from "../../utils";
 import { CreateFeed } from "@/ui";
+import { usePosts } from "@/apiHooks/post/usePosts";
+import { useAuth } from "@/contexts";
+import { FeedPost } from "@/ui/FeedPost/FeedPost";
 
 export const FeedPanel = () => {
+	const { token } = useAuth();
+
+	const { data: posts } = usePosts({
+		token: token ?? "",
+		enabled: Boolean(token),
+	});
+
+	console.log(posts);
+
 	return (
 		<Box
 			display="flex"
@@ -16,6 +28,18 @@ export const FeedPanel = () => {
 			<StoriesBlock />
 
 			<CreateFeed />
+
+			{posts &&
+				posts.map((data) => {
+					if (!data) return;
+					return (
+						<FeedPost
+							key={data.id}
+							content={data.postContent ?? ""}
+							id={data.id}
+						/>
+					);
+				})}
 		</Box>
 	);
 };
