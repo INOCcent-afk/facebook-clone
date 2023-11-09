@@ -8,6 +8,10 @@ import {
 	FormLabel,
 	HStack,
 	Input,
+	Menu,
+	MenuButton,
+	MenuItem,
+	MenuList,
 	Text,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
@@ -37,9 +41,19 @@ export const FeedPost: FC<Props> = ({ images, content, id }) => {
 					</Box>
 				</Flex>
 				<Box>
-					<Button variant="circledButton" backgroundColor="gray.700">
-						<HiDotsHorizontal size={18} />
-					</Button>
+					<Menu>
+						<MenuButton
+							variant="circledButton"
+							backgroundColor="gray.700"
+							as={Button}
+						>
+							<HiDotsHorizontal size={18} />
+						</MenuButton>
+						<MenuList>
+							<MenuItem>EDIT</MenuItem>
+							<MenuItem>DELETE</MenuItem>
+						</MenuList>
+					</Menu>
 				</Box>
 			</Flex>
 
