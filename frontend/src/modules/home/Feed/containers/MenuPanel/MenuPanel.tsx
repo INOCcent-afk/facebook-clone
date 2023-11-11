@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts";
 import { LabelledAction } from "@/ui";
 import { MOCK_PROFILE_PICTURE } from "@/utils";
 import { Avatar, Box, Divider, Text } from "@chakra-ui/react";
@@ -6,6 +7,7 @@ import React from "react";
 import { AiFillHome } from "react-icons/ai";
 
 export const MenuPanel = () => {
+	const { user } = useAuth();
 	return (
 		<Box flexBasis="20%">
 			<Box position="relative">
@@ -36,7 +38,7 @@ export const MenuPanel = () => {
 					<LabelledAction
 						marginLeft={3}
 						icon={<Avatar size="xs" src={MOCK_PROFILE_PICTURE} />}
-						label="Michael Dave"
+						label={`${user?.firstName} ${user?.lastName}`}
 					/>
 				</Link>
 			</Box>

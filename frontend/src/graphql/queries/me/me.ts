@@ -5,6 +5,7 @@ export const getMe = graphql(/* GraphQL */ `
 		me {
 			uid
 			firstName
+			lastName
 		}
 	}
 `);

@@ -53,13 +53,11 @@ export const postResolvers = {
 			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
-		const error = await canUserMutatePost({
+		await canUserMutatePost({
 			userUid: userInfo?.userUid,
 			postId: Number(postId),
 			prisma,
 		});
-
-		if (error) return error;
 
 		const { postContent } = post;
 
@@ -105,13 +103,11 @@ export const postResolvers = {
 			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
-		const error = await canUserMutatePost({
+		await canUserMutatePost({
 			userUid: userInfo.userUid,
 			postId: Number(postId),
 			prisma,
 		});
-
-		if (error) return error;
 
 		const post = await prisma.post.findUnique({
 			where: {

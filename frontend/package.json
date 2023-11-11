@@ -16,6 +16,7 @@
 		"@emotion/styled": "^11.10.6",
 		"@graphql-codegen/client-preset": "^4.1.0",
 		"@tanstack/react-query": "^4.36.1",
+		"@tanstack/react-query-devtools": "^5.8.1",
 		"@types/node": "18.15.11",
 		"@types/react": "18.0.31",
 		"@types/react-dom": "18.0.11",

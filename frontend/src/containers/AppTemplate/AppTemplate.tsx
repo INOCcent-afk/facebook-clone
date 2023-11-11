@@ -32,7 +32,11 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 
 	useEffect(() => {
 		if (data) {
-			setUser({ firstName: data?.firstName, uid: data?.uid });
+			setUser({
+				firstName: data?.firstName,
+				lastName: data?.lastName,
+				uid: data?.uid,
+			});
 		}
 	}, [data]);
 

@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { Context } from "../models";
 
 interface Props {
@@ -17,14 +18,7 @@ export const canUserMutatePost = async ({
 	});
 
 	if (!user) {
-		return {
-			errors: [
-				{
-					message: "User not found",
-				},
-			],
-			post: null,
-		};
+		throw new GraphQLError("User not found");
 	}
 
 	const post = await prisma.post.findUnique({
@@ -34,13 +28,6 @@ export const canUserMutatePost = async ({
 	});
 
 	if (post?.userId !== user.id) {
-		return {
-			errors: [
-				{
-					message: "Post not owned by user",
-				},
-			],
-			post: null,
-		};
+		throw new GraphQLError("Post not owned by user");
 	}
 };

@@ -19,7 +19,7 @@ interface Props {
 export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
 	const auth = getAuth();
 
-	const { invalidateQueries } = useQueryClient();
+	const queryClient = useQueryClient();
 
 	const { control, register } = useFormContext<AuthFormState>();
 
@@ -34,7 +34,7 @@ export const SignInForm: FC<Props> = ({ openSignUpForm }) => {
 
 		try {
 			await signInWithEmailAndPassword(auth, signInEmail, signInPassword);
-			invalidateQueries(["me"]);
+			await queryClient.invalidateQueries(["me"]);
 		} catch (error) {
 			console.log(JSON.stringify(error));
 		}

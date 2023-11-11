@@ -21,6 +21,8 @@ export const postTypeDef = gql`
 
 	input PostInput {
 		postContent: String
+		images: [String]
+		videos: [String]
 	}
 
 	${commentTypeDef}
