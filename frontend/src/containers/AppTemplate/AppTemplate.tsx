@@ -17,6 +17,8 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 		enabled: Boolean(token),
 	});
 
+	console.log(data);
+
 	useEffect(() => {
 		onAuthStateChanged(auth, async (user) => {
 			if (user) {

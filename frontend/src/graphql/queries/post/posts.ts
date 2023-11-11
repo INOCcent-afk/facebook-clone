@@ -7,8 +7,13 @@ export const getPosts = graphql(/* GraphQL */ `
 			images
 			postContent
 			postParentId
-			userId
 			videos
+			user {
+				id
+				uid
+				firstName
+				lastName
+			}
 		}
 	}
 `);

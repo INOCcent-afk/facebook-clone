@@ -11,7 +11,11 @@ interface Props {
 const updatePost = async ({ token, post }: Props) => {
 	const data = await graphQLClient(token).request(updatePostQL, {
 		postId: post.id,
-		post,
+		post: {
+			postContent: post.postContent,
+			images: post.images,
+			videos: post.videos,
+		},
 	});
 	return data;
 };

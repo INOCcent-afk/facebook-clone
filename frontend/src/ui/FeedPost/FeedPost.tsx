@@ -20,14 +20,69 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { RiShareForwardLine } from "react-icons/ri";
+import { useUpdatePost } from "@/apiHooks/post/useUpdatePost";
+import { useDeletePost } from "@/apiHooks/post/useDeletePost";
+import { useAuth } from "@/contexts";
+import { Post } from "@/graphql/generated/graphql";
+import { MeOnly } from "@/containers/MeOnly/MeOnly";
 
-interface Props {
-	images?: string[];
-	content: string;
-	id: string;
-}
+interface Props
+	extends Pick<Post, "images" | "id" | "videos" | "postContent" | "user"> {}
 
-export const FeedPost: FC<Props> = ({ images, content, id }) => {
+export const FeedPost: FC<Props> = ({
+	images,
+	postContent,
+	id,
+	videos,
+	user,
+}) => {
+	const { token } = useAuth();
+
+	console.log(user);
+
+	const { mutate: updatePost } = useUpdatePost();
+
+	const { mutate: deletePost } = useDeletePost();
+
+	const handleUpdatePost = () => {
+		updatePost(
+			{
+				token: token ?? "",
+				post: {
+					id,
+					images,
+					videos,
+					postContent,
+				},
+			},
+			{
+				onSuccess: () => {
+					console.log("sucess");
+				},
+				onError: () => {
+					console.log("error");
+				},
+			}
+		);
+	};
+
+	const handleDeletePost = () => {
+		deletePost(
+			{
+				token: token ?? "",
+				id,
+			},
+			{
+				onSuccess: () => {
+					console.log("sucess");
+				},
+				onError: () => {
+					console.log("error");
+				},
+			}
+		);
+	};
+
 	return (
 		<ContentContainer>
 			<Flex justifyContent="space-between">
@@ -41,24 +96,56 @@ export const FeedPost: FC<Props> = ({ images, content, id }) => {
 					</Box>
 				</Flex>
 				<Box>
-					<Menu>
-						<MenuButton
-							variant="circledButton"
-							backgroundColor="gray.700"
-							as={Button}
-						>
-							<HiDotsHorizontal size={18} />
-						</MenuButton>
-						<MenuList>
-							<MenuItem>EDIT</MenuItem>
-							<MenuItem>DELETE</MenuItem>
-						</MenuList>
-					</Menu>
+					<MeOnly uid={user?.uid}>
+						<Menu>
+							<MenuButton
+								variant="circledButton"
+								backgroundColor="gray.700"
+								as={Button}
+							>
+								<HiDotsHorizontal
+									size={18}
+									style={{
+										width: "100%",
+									}}
+								/>
+							</MenuButton>
+							<MenuList
+								backgroundColor="gray.700"
+								border="none"
+								boxShadow="0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1)"
+								px={2}
+							>
+								<MenuItem
+									backgroundColor="gray.700"
+									color="white"
+									borderRadius="md"
+									_hover={{
+										backgroundColor: "gray.800",
+									}}
+									onClick={handleUpdatePost}
+								>
+									Edit
+								</MenuItem>
+								<MenuItem
+									backgroundColor="gray.700"
+									color="white"
+									borderRadius="md"
+									_hover={{
+										backgroundColor: "gray.800",
+									}}
+									onClick={handleDeletePost}
+								>
+									Delete
+								</MenuItem>
+							</MenuList>
+						</Menu>
+					</MeOnly>
 				</Box>
 			</Flex>
 
 			<Box color="white" marginY={4}>
-				<Text fontSize={images?.length ? 15 : 24}>{content}</Text>
+				<Text fontSize={images?.length ? 15 : 24}>{postContent}</Text>
 			</Box>
 
 			<Box mb={4}>
