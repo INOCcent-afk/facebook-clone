@@ -8,6 +8,7 @@ import { AuthFormState } from "./types/state";
 import { SignUpForm } from "./ui/SignUpForm/SignUpForm";
 
 export const AuthDashboard = () => {
+	//
 	const methods = useForm<AuthFormState>({
 		defaultValues: {
 			signInEmail: "",
@@ -39,11 +40,7 @@ export const AuthDashboard = () => {
 					height="full"
 				>
 					<Box>
-						<VStack
-							gap={2}
-							alignItems="flex-start"
-							marginBottom={4}
-						>
+						<VStack gap={2} alignItems="flex-start" marginBottom={4}>
 							<Box margin="-20px">
 								<Image
 									src={MOCK_FACEBOOK_LOGO}
@@ -57,9 +54,7 @@ export const AuthDashboard = () => {
 								<Text as="h4" fontSize="2xl">
 									Recent Logins
 								</Text>
-								<Text color="gray">
-									Click your picture or add an account
-								</Text>
+								<Text color="gray">Click your picture or add an account</Text>
 							</Box>
 						</VStack>
 
