@@ -40,13 +40,19 @@ export const AuthDashboard = () => {
 					height="full"
 				>
 					<Box>
-						<VStack gap={2} alignItems="flex-start" marginBottom={4}>
+						<VStack
+							gap={2}
+							alignItems="flex-start"
+							marginBottom={4}
+						>
 							<Box margin="-20px">
 								<Image
 									src={MOCK_FACEBOOK_LOGO}
 									alt="facebook logo"
 									width={200}
 									height={70}
+									blurDataURL={MOCK_FACEBOOK_LOGO}
+									placeholder="blur"
 								/>
 							</Box>
 
@@ -54,7 +60,9 @@ export const AuthDashboard = () => {
 								<Text as="h4" fontSize="2xl">
 									Recent Logins
 								</Text>
-								<Text color="gray">Click your picture or add an account</Text>
+								<Text color="gray">
+									Click your picture or add an account
+								</Text>
 							</Box>
 						</VStack>
 

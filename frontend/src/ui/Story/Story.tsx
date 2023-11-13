@@ -1,6 +1,7 @@
 import { colors } from "@/styles/chakra/theme";
 import { MOCK_PROFILE_PICTURE } from "@/utils";
 import { Avatar, AvatarBadge, Box, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import React, { FC } from "react";
 import { IoAdd } from "react-icons/io5";
 
@@ -17,12 +18,18 @@ export const Story: FC<Props> = ({ createStory = false }) => {
 			backgroundColor="gray"
 			position="relative"
 			overflow="hidden"
-			backgroundSize="cover"
-			backgroundRepeat="no-repeat"
-			backgroundImage={MOCK_PROFILE_PICTURE}
 			display="flex"
 			boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
 		>
+			<Image
+				src={MOCK_PROFILE_PICTURE}
+				blurDataURL={MOCK_PROFILE_PICTURE}
+				fill
+				priority
+				alt={`Story`}
+				placeholder="blur"
+				style={{ objectFit: "cover", backgroundRepeat: "no-repeat" }}
+			/>
 			{!createStory && (
 				<>
 					<Box position="absolute" top={2} left={2}>

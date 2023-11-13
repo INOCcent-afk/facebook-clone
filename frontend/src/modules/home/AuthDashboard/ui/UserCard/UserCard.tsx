@@ -56,6 +56,8 @@ export const UserCard: FC<Props> = (props): JSX.Element => {
 								priority
 								src={props.imageUrl}
 								alt={`Profile image of ${props.name}`}
+								blurDataURL={props.imageUrl}
+								placeholder="blur"
 							/>
 						) : (
 							<Box color="brand">
