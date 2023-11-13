@@ -11,6 +11,8 @@ export const postTypeDef = gql`
 		videos: [String]
 		comments: [Comment]
 		postContent: String
+		createdAt: Date
+		updatedAt: Date
 	}
 
 	type Mutation {

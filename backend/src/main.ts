@@ -4,13 +4,20 @@ import { Query, Mutation } from "./resolvers";
 import { PrismaClient } from "@prisma/client";
 import { getUserFromToken } from "./utils";
 import { Context } from "./models/global";
+import { dateScalar } from "./scalars/date";
 require("dotenv").config();
 
 export const prisma = new PrismaClient();
 
 const server = new ApolloServer({
 	typeDefs: rootTypeDefs,
-	resolvers: { Query, Mutation },
+	resolvers: {
+		Query,
+		Mutation,
+
+		// **** Scalars ****
+		Date: dateScalar,
+	},
 	context: async ({ req }: any): Promise<Context> => {
 		const userInfo = await getUserFromToken(req.headers.authorization);
 

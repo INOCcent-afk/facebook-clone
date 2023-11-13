@@ -4,6 +4,8 @@ import { profileTypeDef } from "./profile";
 import { postTypeDef } from "./post";
 
 export const rootTypeDefs = gql`
+	scalar Date
+
 	type Query {
 		users: [User]
 		user(uid: String!): User
