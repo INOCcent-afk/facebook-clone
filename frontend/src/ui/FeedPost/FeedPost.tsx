@@ -97,7 +97,7 @@ export const FeedPost: FC<Props> = ({
 					<Flex gap={4}>
 						<Avatar />
 						<Box color="white">
-							<Text fontWeight="bold">{`${user?.firstName} ${user?.lastName}`}</Text>
+							<Text fontWeight="bold">{`${user?.firstName}  ${user?.lastName}`}</Text>
 							<Text fontSize="sm" color="gray.600">
 								September 21 at 12:52 PM .
 							</Text>
