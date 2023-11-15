@@ -14,6 +14,8 @@ export const getPosts = graphql(/* GraphQL */ `
 				firstName
 				lastName
 			}
+			updatedAt
+			createdAt
 		}
 	}
 `);

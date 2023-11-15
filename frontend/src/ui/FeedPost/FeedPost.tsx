@@ -29,7 +29,10 @@ import { ConfirmationModal } from "../Modals/ConfirmationModal/ConfirmationModal
 import { UpdatePost } from "../UpdatePost/UpdatePost";
 
 interface Props
-	extends Pick<Post, "images" | "id" | "videos" | "postContent" | "user"> {}
+	extends Pick<
+		Post,
+		"images" | "id" | "videos" | "postContent" | "user" | "createdAt"
+	> {}
 
 export const FeedPost: FC<Props> = ({
 	images,
@@ -37,6 +40,7 @@ export const FeedPost: FC<Props> = ({
 	id,
 	videos,
 	user,
+	createdAt,
 }) => {
 	const { token } = useAuth();
 
@@ -74,6 +78,33 @@ export const FeedPost: FC<Props> = ({
 		);
 	};
 
+	const date = new Date(createdAt);
+
+	// Define months array for formatting
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+
+	// Extract date components
+	const month = months[date.getMonth()];
+	const day = date.getDate();
+	const hours = date.getHours() % 12 || 12; // Convert to 12-hour format
+	const minutes = ("0" + date.getMinutes()).slice(-2);
+	const ampm = date.getHours() < 12 ? "AM" : "PM";
+
+	const formattedDate = `${month} ${day} at ${hours}:${minutes} ${ampm}`;
+
 	return isDeleted ? null : (
 		<>
 			<UpdatePost
@@ -99,7 +130,7 @@ export const FeedPost: FC<Props> = ({
 						<Box color="white">
 							<Text fontWeight="bold">{`${user?.firstName}  ${user?.lastName}`}</Text>
 							<Text fontSize="sm" color="gray.600">
-								September 21 at 12:52 PM .
+								{formattedDate}
 							</Text>
 						</Box>
 					</Flex>

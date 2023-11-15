@@ -40,6 +40,7 @@ export const FeedPanel = () => {
 							user={data.user}
 							videos={data.videos}
 							images={data.images}
+							createdAt={data.createdAt}
 						/>
 					);
 				})}
