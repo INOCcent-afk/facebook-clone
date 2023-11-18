@@ -22,7 +22,7 @@ import { useRegisterUser } from "@/apiHooks/user/useRegisterUser";
 interface Props extends Omit<ModalProps, "children"> {}
 
 export const SignUpForm: FC<Props> = ({ ...restProps }) => {
-	const { control, register } = useFormContext<AuthFormState>();
+	const { control, register, reset } = useFormContext<AuthFormState>();
 
 	const { mutate: registerUser, isLoading: isRegisteringUser } =
 		useRegisterUser();
@@ -46,6 +46,7 @@ export const SignUpForm: FC<Props> = ({ ...restProps }) => {
 				onSuccess: () => {
 					console.log("success");
 					restProps.onClose();
+					reset();
 				},
 				onError: () => {
 					console.log("error");

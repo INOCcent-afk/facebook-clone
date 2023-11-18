@@ -16,6 +16,7 @@ model User {
   email            String            @unique
   followedBy       User[]            @relation("UserFollows")
   following        User[]            @relation("UserFollows")
+  friendsCount     Int               @default(0)
   profile          Profile?
   posts            Post[]
   comments         Comment[]

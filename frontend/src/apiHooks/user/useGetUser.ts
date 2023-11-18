@@ -9,7 +9,7 @@ interface Props {
 
 export const useGetUser = ({ uid, enabled = false }: Props) => {
 	const query = useQuery(
-		["user"],
+		["user", uid],
 		async () => {
 			const { user } = await graphQLClient().request(getUser, {
 				uid,

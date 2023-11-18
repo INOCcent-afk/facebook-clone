@@ -19,11 +19,13 @@ import { getAuth, signOut } from "firebase/auth";
 import { useAuth } from "@/contexts";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const ProfileMenu = () => {
 	const { user, setToken, setUser } = useAuth();
 
 	const auth = getAuth();
+	const router = useRouter();
 
 	const logout = async () => {
 		try {
@@ -31,6 +33,7 @@ export const ProfileMenu = () => {
 
 			setUser(null);
 			setToken(null);
+			router.push("/");
 		} catch (error) {
 			console.log(error);
 		}

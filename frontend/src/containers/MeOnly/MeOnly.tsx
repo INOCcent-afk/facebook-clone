@@ -10,8 +10,6 @@ interface Props {
 export const MeOnly: FC<Props> = ({ uid, children }) => {
 	const { user } = useAuth();
 
-	console.log(user);
-
 	if (user?.uid !== uid) {
 		return null;
 	}
