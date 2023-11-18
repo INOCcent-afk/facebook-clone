@@ -27,12 +27,22 @@ import {
 import { RiPencilFill } from "react-icons/ri";
 
 interface Props {
+	friendsCount: number;
+	fullName: string;
+
+	// Panels
 	posts: ReactNode;
 	about: ReactNode;
 	friends: ReactNode;
 }
 
-export const ProfileHeader: FC<Props> = ({ posts, about, friends }) => {
+export const ProfileHeader: FC<Props> = ({
+	friendsCount,
+	fullName,
+	posts,
+	about,
+	friends,
+}) => {
 	const containerStyle: BoxProps = {
 		maxWidth: 1250,
 		mx: "auto",
@@ -45,9 +55,9 @@ export const ProfileHeader: FC<Props> = ({ posts, about, friends }) => {
 				<Box display="flex" textColor="white" gap={4}>
 					<Avatar size="2xl" mt={-10} />
 					<Box pb={4} pt={6}>
-						<Heading fontSize={32}>Michael Dave</Heading>
+						<Heading fontSize={32}>{fullName}</Heading>
 						<Text textColor="gray.600" fontWeight={600}>
-							528 friends
+							{friendsCount} friends
 						</Text>
 					</Box>
 				</Box>

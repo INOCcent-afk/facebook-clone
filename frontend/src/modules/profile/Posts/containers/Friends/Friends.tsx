@@ -3,9 +3,11 @@ import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC } from "react";
 
-interface Props {}
+interface Props {
+	friendsCount: number;
+}
 
-export const Friends: FC<Props> = ({ ...restProps }) => {
+export const Friends: FC<Props> = ({ friendsCount, ...restProps }) => {
 	return (
 		<ContentContainer {...restProps}>
 			<Flex alignItems="flex-start" justifyContent="space-between" mb={4}>
@@ -13,7 +15,7 @@ export const Friends: FC<Props> = ({ ...restProps }) => {
 					<Heading fontSize="xl" color="white">
 						Friends
 					</Heading>
-					<Text color="gray.600">528 friends</Text>
+					<Text color="gray.600">{friendsCount} friends</Text>
 				</Box>
 
 				<Link href="/">

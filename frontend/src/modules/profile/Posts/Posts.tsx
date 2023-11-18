@@ -3,25 +3,20 @@ import React, { FC } from "react";
 import { CreateFeed, ExtraLinks } from "@/ui";
 import { Friends, IntroBio, Photos } from "./containers";
 import { FeedPost } from "@/ui/FeedPost/FeedPost";
-import { useAuth } from "@/contexts";
-import { useRouter } from "next/router";
-import { useGetUser } from "@/apiHooks/user/useGetUser";
+import { useUserPosts } from "@/apiHooks/post/useUserPosts";
 
-interface Props {}
+interface Props {
+	friendsCount: number;
+	id: number;
+}
 
-export const Posts: FC<Props> = () => {
-	const { user } = useAuth();
-	const { query } = useRouter();
-	const userId = query.user_id as string;
-
-	const isUser = user ? Boolean(userId) && user?.uid !== userId : false;
-
-	const { data, error, refetch } = useGetUser({
-		uid: userId,
-		enabled: isUser,
+export const Posts: FC<Props> = ({ friendsCount, id }) => {
+	const { data: posts } = useUserPosts({
+		id,
+		enabled: true,
 	});
 
-	console.log(data);
+	console.log(id);
 
 	return (
 		<Flex gap={4}>
@@ -33,7 +28,7 @@ export const Posts: FC<Props> = () => {
 						</Stack>
 
 						<Photos />
-						<Friends />
+						<Friends friendsCount={friendsCount} />
 					</Stack>
 					<ExtraLinks
 						links={[
@@ -52,7 +47,21 @@ export const Posts: FC<Props> = () => {
 			<Stack flexBasis="60%">
 				<CreateFeed />
 
-				<FeedPost />
+				{posts &&
+					posts.map((data) => {
+						if (!data) return;
+						return (
+							<FeedPost
+								key={data.id}
+								postContent={data.postContent ?? ""}
+								id={data.id}
+								user={data.user}
+								videos={data.videos}
+								images={data.images}
+								createdAt={data.createdAt}
+							/>
+						);
+					})}
 			</Stack>
 		</Flex>
 	);
