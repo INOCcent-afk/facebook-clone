@@ -9,15 +9,17 @@ export const rootTypeDefs = gql`
 	type Query {
 		users: [User]
 		user(uid: String!): User
+		me: User
+
+		profiles: [Profile]
 		followedBy(uid: String, skip: Int, take: Int): User
 		following(uid: String, skip: Int, take: Int): User
 		followedByRequest(uid: String, skip: Int, take: Int): User
 		followingRequest(uid: String, skip: Int, take: Int): User
 
-		profiles: [Profile]
 		posts: [Post]
+		userPosts(id: Int): [Post]
 		comments: [Comment]
-		me: User
 	}
 
 	${userTypeDef}

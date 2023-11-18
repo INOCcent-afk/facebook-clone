@@ -7,7 +7,12 @@ type PostsPayloadType =
 	| Prisma.Prisma__PostClient<Post[], never>
 	| Post[];
 
+interface userPosts {
+	id: number;
+}
+
 export const postResolvers = {
+	// User Feed
 	posts: async (
 		_: any,
 		__: any,
@@ -19,6 +24,41 @@ export const postResolvers = {
 
 		try {
 			const posts = await prisma.post.findMany({
+				orderBy: [
+					{
+						createdAt: "desc",
+					},
+				],
+				include: {
+					user: true,
+				},
+			});
+
+			return posts;
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
+	// User Profile Posts
+	userPosts: async (
+		_: any,
+		{ id }: userPosts,
+		{ prisma }: Context
+	): Promise<PostsPayloadType> => {
+		if (!id) {
+			throw new GraphQLError("You must provide a ID param");
+		}
+
+		try {
+			const posts = await prisma.post.findMany({
+				orderBy: [
+					{
+						createdAt: "desc",
+					},
+				],
+				where: {
+					userId: id,
+				},
 				include: {
 					user: true,
 				},
