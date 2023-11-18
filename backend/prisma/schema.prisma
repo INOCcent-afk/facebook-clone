@@ -8,24 +8,26 @@ datasource db {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  uid              String            @unique
-  firstName        String
-  lastName         String
-  username         String            @unique
-  email            String            @unique
-  followedBy       User[]            @relation("UserFollows")
-  following        User[]            @relation("UserFollows")
-  friendsCount     Int               @default(0)
-  profile          Profile?
-  posts            Post[]
-  comments         Comment[]
-  notifications    Notification[]
-  reactions        Reaction[]
-  chatPrivateRooms ChatRoomPrivate[]
-  chatRoomGroups   ChatRoomGroup[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  id                Int               @id @default(autoincrement())
+  uid               String            @unique
+  firstName         String
+  lastName          String
+  username          String            @unique
+  email             String            @unique
+  friendsCount      Int               @default(0)
+  profile           Profile?
+  posts             Post[]
+  comments          Comment[]
+  notifications     Notification[]
+  reactions         Reaction[]
+  chatPrivateRooms  ChatRoomPrivate[]
+  chatRoomGroups    ChatRoomGroup[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  followedBy        User[]            @relation("UserFollows")
+  following         User[]            @relation("UserFollows")
+  followedByRequest User[]            @relation("UserFollowedRequest")
+  followingRequest  User[]            @relation("UserFollowedRequest")
 }
 
 model Profile {

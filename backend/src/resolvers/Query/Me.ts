@@ -16,17 +16,6 @@ export const meResolvers = {
 			where: {
 				uid: userInfo?.userUid,
 			},
-			include: {
-				followedBy: {
-					select: {
-						uid: true,
-						firstName: true,
-						lastName: true,
-					},
-					skip: 2,
-					take: 4,
-				},
-			},
 		});
 
 		if (!user) {

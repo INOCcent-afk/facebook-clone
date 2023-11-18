@@ -10,6 +10,7 @@ export const userTypeDef = gql`
 		email: String
 		followedBy: [User]
 		following: [User]
+		friendsCount: Int
 		profile: Profile
 		posts: [Post]
 		comments: [Comment]
