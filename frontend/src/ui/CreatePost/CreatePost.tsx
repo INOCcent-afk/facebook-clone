@@ -1,5 +1,7 @@
 import { useCreatePost } from "@/apiHooks/post/useCreatePost";
 import { useAuth } from "@/contexts";
+import { Maybe, Post, User } from "@/graphql/generated/graphql";
+import { MyLatestPost } from "@/models/post";
 import {
 	Avatar,
 	Box,
@@ -16,12 +18,27 @@ import {
 	Text,
 	Textarea,
 } from "@chakra-ui/react";
-import React, { ChangeEvent, FC, useRef, useState, FormEvent } from "react";
+import React, {
+	ChangeEvent,
+	FC,
+	useRef,
+	useState,
+	FormEvent,
+	Dispatch,
+	SetStateAction,
+} from "react";
 
-interface Props extends Omit<ModalProps, "children"> {}
+interface Props extends Omit<ModalProps, "children"> {
+	myLatestPosts: MyLatestPost[];
+	setMyLatestPosts: Dispatch<SetStateAction<MyLatestPost[]>>;
+}
 
-export const CreatePost: FC<Props> = ({ ...restProps }) => {
-	const { token } = useAuth();
+export const CreatePost: FC<Props> = ({
+	setMyLatestPosts,
+	myLatestPosts,
+	...restProps
+}) => {
+	const { user, token } = useAuth();
 	const [content, setContent] = useState("");
 
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -50,8 +67,31 @@ export const CreatePost: FC<Props> = ({ ...restProps }) => {
 				token: token ?? "",
 			},
 			{
-				onSuccess: () => {
-					console.log("Sucseses");
+				onSuccess: async ({ createPost }) => {
+					const {
+						id,
+						createdAt,
+						images,
+						postContent,
+						postParentId,
+						videos,
+					} = createPost;
+
+					setContent("");
+
+					setMyLatestPosts([
+						...myLatestPosts,
+						{
+							id,
+							createdAt,
+							images,
+							postContent,
+							postParentId,
+							videos,
+							user,
+						},
+					]);
+					restProps.onClose();
 				},
 				onError: () => {
 					console.log("Error");

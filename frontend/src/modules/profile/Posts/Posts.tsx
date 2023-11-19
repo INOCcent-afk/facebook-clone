@@ -1,9 +1,10 @@
 import { Box, Flex, Stack } from "@chakra-ui/react";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { CreateFeed, ExtraLinks } from "@/ui";
 import { Friends, IntroBio, Photos } from "./containers";
 import { FeedPost } from "@/ui/FeedPost/FeedPost";
 import { useUserPosts } from "@/apiHooks/post/useUserPosts";
+import { MyLatestPost } from "@/models/post";
 
 interface Props {
 	friendsCount: number;
@@ -15,6 +16,7 @@ export const Posts: FC<Props> = ({ friendsCount, id }) => {
 		id,
 		enabled: true,
 	});
+	const [myLatestPosts, setMyLatestPosts] = useState<MyLatestPost[]>([]);
 
 	console.log(id);
 
@@ -45,7 +47,26 @@ export const Posts: FC<Props> = ({ friendsCount, id }) => {
 			</Box>
 
 			<Stack flexBasis="60%">
-				<CreateFeed />
+				<CreateFeed
+					myLatestPosts={myLatestPosts}
+					setMyLatestPosts={setMyLatestPosts}
+				/>
+
+				{myLatestPosts.reverse().map((data) => {
+					if (!data) return;
+
+					return (
+						<FeedPost
+							key={data.id}
+							postContent={data.postContent ?? ""}
+							id={data.id}
+							user={data.user}
+							videos={data.videos}
+							images={data.images}
+							createdAt={data.createdAt}
+						/>
+					);
+				})}
 
 				{posts &&
 					posts.map((data) => {

@@ -1,9 +1,9 @@
-import { User } from "@/graphql/generated/graphql";
+import { Maybe, User } from "@/graphql/generated/graphql";
 import { createContext, useState, ReactNode, useContext, FC } from "react";
 
 interface Context {
-	user: Partial<User> | null;
-	setUser: (user: Partial<User> | null) => void;
+	user: Maybe<User> | null;
+	setUser: (user: Maybe<User> | null) => void;
 
 	token: string | null;
 	setToken: (token: string | null) => void;
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export const AuthProvider: FC<Props> = ({ children }) => {
-	const [user, setUser] = useState<Partial<User> | null>(null);
+	const [user, setUser] = useState<Maybe<User> | null>(null);
 	const [token, setToken] = useState<string | null>(null);
 
 	return (

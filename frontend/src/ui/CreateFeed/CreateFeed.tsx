@@ -7,13 +7,19 @@ import {
 	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { FC, Dispatch, SetStateAction } from "react";
 import { MdPhotoLibrary } from "react-icons/md";
 import { FaRegSmileBeam } from "react-icons/fa";
 import { ContentContainer } from "../ContentContainer/ContentContainer";
 import { CreatePost } from "../CreatePost/CreatePost";
+import { MyLatestPost } from "@/models/post";
 
-export const CreateFeed = () => {
+interface Props {
+	myLatestPosts: MyLatestPost[];
+	setMyLatestPosts: Dispatch<SetStateAction<MyLatestPost[]>>;
+}
+
+export const CreateFeed: FC<Props> = ({ setMyLatestPosts, myLatestPosts }) => {
 	const { isOpen, onClose, onOpen } = useDisclosure();
 
 	return (
@@ -75,7 +81,12 @@ export const CreateFeed = () => {
 					</Button>
 				</HStack>
 			</ContentContainer>
-			<CreatePost isOpen={isOpen} onClose={onClose} />
+			<CreatePost
+				isOpen={isOpen}
+				onClose={onClose}
+				setMyLatestPosts={setMyLatestPosts}
+				myLatestPosts={myLatestPosts}
+			/>
 		</>
 	);
 };
