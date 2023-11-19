@@ -14,6 +14,10 @@ interface UserProps {
 	};
 }
 
+interface FriendShipProps {
+	friendUid: string;
+}
+
 type UserPayloadType = null | Prisma.Prisma__UserClient<User, never> | User;
 
 export const userResolvers = {
@@ -66,6 +70,56 @@ export const userResolvers = {
 				throw new GraphQLError("Username already exists");
 			}
 
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
+	addFriend: async (
+		_: any,
+		{ friendUid }: FriendShipProps,
+		{ prisma, userInfo }: Context
+	) => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
+			throw new GraphQLError("Forbidden access (unauthenticated)");
+		}
+
+		try {
+			await prisma.user.update({
+				where: { uid: userInfo.userUid },
+				data: { friends: { connect: [{ uid: friendUid }] } },
+			});
+
+			const user = await prisma.user.update({
+				where: { uid: friendUid },
+				data: { friends: { connect: [{ uid: userInfo.userUid }] } },
+			});
+
+			return user;
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
+	removeFriend: async (
+		_: any,
+		{ friendUid }: FriendShipProps,
+		{ prisma, userInfo }: Context
+	) => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
+			throw new GraphQLError("Forbidden access (unauthenticated)");
+		}
+
+		try {
+			await prisma.user.update({
+				where: { uid: userInfo.userUid },
+				data: { friends: { disconnect: [{ uid: friendUid }] } },
+			});
+
+			const user = await prisma.user.update({
+				where: { uid: friendUid },
+				data: { friends: { disconnect: [{ uid: userInfo.userUid }] } },
+			});
+
+			return user;
+		} catch (error) {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},

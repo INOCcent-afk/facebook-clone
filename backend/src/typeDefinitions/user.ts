@@ -8,17 +8,19 @@ export const userTypeDef = gql`
 		lastName: String
 		username: String
 		email: String
-		followedBy: [User]
-		following: [User]
-		friendsCount: Int
 		profile: Profile
 		posts: [Post]
 		comments: [Comment]
 		isFriends: Boolean
+		friends: [User]
+		friendRequests: [User]
+		friendsCount: Int
 	}
 
 	type Mutation {
 		registerUser(user: UserInput!): User!
+		addFriend(friendUid: String): User!
+		removeFriend(friendUid: String): User!
 	}
 
 	input UserInput {

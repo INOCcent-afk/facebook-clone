@@ -47,156 +47,37 @@ export const userResolvers = {
 
 		return data;
 	},
-	following: async (
+	friends: async (
 		_: any,
 		{ uid, skip, take }: FriendsArgs,
 		{ prisma }: Context
 	) => {
-		if (!uid) {
-			throw new GraphQLError("you must provide a UID param");
-		}
-		if (!skip) {
-			throw new GraphQLError("you must provide a Skip param");
-		}
-		if (!take) {
-			throw new GraphQLError("you must provide a Take param");
-		}
-
-		const user = await prisma.user.findUnique({
-			where: {
-				uid: uid,
-			},
-			include: {
-				following: {
-					select: {
-						uid: true,
-						firstName: true,
-						lastName: true,
-					},
-					skip,
-					take,
+		try {
+			const user = await prisma.user.findUnique({
+				where: {
+					uid,
 				},
-			},
-		});
-
-		if (!user) {
-			throw new GraphQLError("User not found");
-		}
-
-		return user;
-	},
-	followedBy: async (
-		_: any,
-		{ uid, skip, take }: FriendsArgs,
-		{ prisma }: Context
-	) => {
-		if (!uid) {
-			throw new GraphQLError("you must provide a UID param");
-		}
-		if (!skip) {
-			throw new GraphQLError("you must provide a Skip param");
-		}
-		if (!take) {
-			throw new GraphQLError("you must provide a Take param");
-		}
-
-		const user = await prisma.user.findUnique({
-			where: {
-				uid: uid,
-			},
-			include: {
-				followedBy: {
-					select: {
-						uid: true,
-						firstName: true,
-						lastName: true,
+				include: {
+					friends: {
+						skip,
+						take,
 					},
-					skip,
-					take,
 				},
-			},
-		});
+			});
 
-		if (!user) {
-			throw new GraphQLError("User not found");
-		}
-
-		return user;
-	},
-	followedByRequest: async (
-		_: any,
-		{ uid, skip, take }: FriendsArgs,
-		{ prisma }: Context
-	) => {
-		if (!uid) {
-			throw new GraphQLError("you must provide a UID param");
-		}
-		if (!skip) {
-			throw new GraphQLError("you must provide a Skip param");
-		}
-		if (!take) {
-			throw new GraphQLError("you must provide a Take param");
-		}
-
-		const user = await prisma.user.findUnique({
-			where: {
-				uid: uid,
-			},
-			include: {
-				followedByRequest: {
-					select: {
-						uid: true,
-						firstName: true,
-						lastName: true,
+			const friendsCount = await prisma.user.count({
+				where: {
+					friends: {
+						some: {
+							uid,
+						},
 					},
-					skip,
-					take,
 				},
-			},
-		});
+			});
 
-		if (!user) {
-			throw new GraphQLError("User not found");
+			return { ...user, friendsCount };
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
 		}
-
-		return user;
-	},
-	followingRequest: async (
-		_: any,
-		{ uid, skip, take }: FriendsArgs,
-		{ prisma }: Context
-	) => {
-		if (!uid) {
-			throw new GraphQLError("you must provide a UID param");
-		}
-		if (!skip) {
-			throw new GraphQLError("you must provide a Skip param");
-		}
-		if (!take) {
-			throw new GraphQLError("you must provide a Take param");
-		}
-
-		const user = await prisma.user.findUnique({
-			where: {
-				uid: uid,
-			},
-			include: {
-				followingRequest: {
-					select: {
-						uid: true,
-						firstName: true,
-						lastName: true,
-					},
-					skip,
-					take,
-				},
-			},
-		});
-
-		if (!user) {
-			throw new GraphQLError("User not found");
-		}
-
-		return user;
 	},
 };

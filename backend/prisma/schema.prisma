@@ -8,26 +8,28 @@ datasource db {
 }
 
 model User {
-  id                Int               @id @default(autoincrement())
-  uid               String            @unique
-  firstName         String
-  lastName          String
-  username          String            @unique
-  email             String            @unique
-  friendsCount      Int               @default(0)
-  profile           Profile?
-  posts             Post[]
-  comments          Comment[]
-  notifications     Notification[]
-  reactions         Reaction[]
-  chatPrivateRooms  ChatRoomPrivate[]
-  chatRoomGroups    ChatRoomGroup[]
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  followedBy        User[]            @relation("UserFollows")
-  following         User[]            @relation("UserFollows")
-  followedByRequest User[]            @relation("UserFollowedRequest")
-  followingRequest  User[]            @relation("UserFollowedRequest")
+  id               Int               @id @default(autoincrement())
+  uid              String            @unique
+  firstName        String
+  lastName         String
+  username         String            @unique
+  email            String            @unique
+  profile          Profile?
+  posts            Post[]
+  comments         Comment[]
+  notifications    Notification[]
+  reactions        Reaction[]
+  chatPrivateRooms ChatRoomPrivate[]
+  chatRoomGroups   ChatRoomGroup[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  friends                User[] @relation("UserFriends")
+  friendRequests         User[] @relation("UserFriendRequests")
+  // This second "side" of the UserFriends relation exists solely 
+  // to satisfy prisma's requirements; we won't access it directly.
+  symmetricFriends       User[] @relation("UserFriends")
+  symmetricFriendRequest User[] @relation("UserFriendRequests")
 }
 
 model Profile {

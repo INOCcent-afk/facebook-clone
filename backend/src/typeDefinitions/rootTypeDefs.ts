@@ -10,13 +10,8 @@ export const rootTypeDefs = gql`
 		users: [User]
 		user(uid: String!): User
 		me: User
-
+		friends(uid: String!, skip: Int!, take: Int!): User
 		profiles: [Profile]
-		followedBy(uid: String, skip: Int, take: Int): User
-		following(uid: String, skip: Int, take: Int): User
-		followedByRequest(uid: String, skip: Int, take: Int): User
-		followingRequest(uid: String, skip: Int, take: Int): User
-
 		posts: [Post]
 		userPosts(id: Int): [Post]
 		comments: [Comment]
