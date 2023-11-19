@@ -7,12 +7,6 @@ export const createPost = graphql(/* GraphQL */ `
 			id
 			images
 			createdAt
-			user {
-				id
-				uid
-				firstName
-				lastName
-			}
 			postContent
 			postParentId
 		}

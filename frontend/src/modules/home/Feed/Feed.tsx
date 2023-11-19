@@ -10,7 +10,7 @@ export const Feed = () => {
 			<Header />
 			<Box
 				backgroundColor="gray.900"
-				height="100vh"
+				minHeight="screen"
 				width="full"
 				marginTop={HEADER_HEIGHT}
 				paddingTop={8}

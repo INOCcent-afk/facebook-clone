@@ -4,6 +4,7 @@ export const getUser = graphql(/* GraphQL */ `
 	query getUser($uid: String!) {
 		user(uid: $uid) {
 			id
+			uid
 			firstName
 			lastName
 			email

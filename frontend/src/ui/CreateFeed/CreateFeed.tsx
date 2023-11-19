@@ -13,17 +13,24 @@ import { FaRegSmileBeam } from "react-icons/fa";
 import { ContentContainer } from "../ContentContainer/ContentContainer";
 import { CreatePost } from "../CreatePost/CreatePost";
 import { MyLatestPost } from "@/models/post";
+import { MeOnly } from "@/containers/MeOnly/MeOnly";
+import { Maybe } from "@/graphql/generated/graphql";
 
 interface Props {
 	myLatestPosts: MyLatestPost[];
 	setMyLatestPosts: Dispatch<SetStateAction<MyLatestPost[]>>;
+	userUid?: Maybe<string>;
 }
 
-export const CreateFeed: FC<Props> = ({ setMyLatestPosts, myLatestPosts }) => {
+export const CreateFeed: FC<Props> = ({
+	setMyLatestPosts,
+	myLatestPosts,
+	userUid,
+}) => {
 	const { isOpen, onClose, onOpen } = useDisclosure();
 
 	return (
-		<>
+		<MeOnly uid={userUid}>
 			<ContentContainer>
 				<HStack>
 					<Avatar size="md" src={MOCK_PROFILE_PICTURE} />
@@ -87,6 +94,6 @@ export const CreateFeed: FC<Props> = ({ setMyLatestPosts, myLatestPosts }) => {
 				setMyLatestPosts={setMyLatestPosts}
 				myLatestPosts={myLatestPosts}
 			/>
-		</>
+		</MeOnly>
 	);
 };

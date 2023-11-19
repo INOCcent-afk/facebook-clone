@@ -5,20 +5,20 @@ import { Friends, IntroBio, Photos } from "./containers";
 import { FeedPost } from "@/ui/FeedPost/FeedPost";
 import { useUserPosts } from "@/apiHooks/post/useUserPosts";
 import { MyLatestPost } from "@/models/post";
+import { Maybe } from "@/graphql/generated/graphql";
 
 interface Props {
 	friendsCount: number;
-	id: number;
+	userId: number;
+	userUid?: Maybe<string>;
 }
 
-export const Posts: FC<Props> = ({ friendsCount, id }) => {
+export const Posts: FC<Props> = ({ friendsCount, userId, userUid }) => {
 	const { data: posts } = useUserPosts({
-		id,
+		id: userId,
 		enabled: true,
 	});
 	const [myLatestPosts, setMyLatestPosts] = useState<MyLatestPost[]>([]);
-
-	console.log(id);
 
 	return (
 		<Flex gap={4}>
@@ -26,7 +26,7 @@ export const Posts: FC<Props> = ({ friendsCount, id }) => {
 				<Box position="sticky" top="-600px">
 					<Stack gap={4} mb={2}>
 						<Stack gap={2}>
-							<IntroBio />
+							<IntroBio bio="WELCOME TO FB!" userUid={userUid} />
 						</Stack>
 
 						<Photos />
@@ -50,6 +50,7 @@ export const Posts: FC<Props> = ({ friendsCount, id }) => {
 				<CreateFeed
 					myLatestPosts={myLatestPosts}
 					setMyLatestPosts={setMyLatestPosts}
+					userUid={userUid}
 				/>
 
 				{myLatestPosts.reverse().map((data) => {

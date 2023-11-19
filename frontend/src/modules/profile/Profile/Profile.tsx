@@ -9,24 +9,20 @@ import { useRouter } from "next/router";
 import { useGetUser } from "@/apiHooks/user/useGetUser";
 
 export const Profile = () => {
-	const { user } = useAuth();
+	const { user: me } = useAuth();
 	const { query } = useRouter();
 	const userId = query.user_id as string;
 
-	const isNotMe = user ? Boolean(userId) && user?.uid !== userId : false;
+	const isNotMe = me ? Boolean(userId) && me?.uid !== userId : false;
 
-	const { data, error } = useGetUser({
+	const { data: userData, error } = useGetUser({
 		uid: userId,
 		enabled: isNotMe,
 	});
 
-	const friendsCount = isNotMe ? data?.friendsCount : user?.friendsCount;
-	const fullName = isNotMe
-		? `${data?.firstName} ${data?.lastName}`
-		: `${user?.firstName} ${user?.lastName}`;
-	const id = isNotMe ? data?.id : user?.id;
+	const user = isNotMe ? userData : me;
 
-	console.log(data, user);
+	console.log(user, user);
 
 	return (
 		<>
@@ -34,13 +30,14 @@ export const Profile = () => {
 			<Box marginTop={HEADER_HEIGHT} backgroundColor="gray.700">
 				<CoverPhoto />
 				<ProfileHeader
-					friendsCount={friendsCount ?? 0}
-					fullName={fullName}
+					friendsCount={user?.friendsCount ?? 0}
+					fullName={`${user?.firstName} ${user?.lastName}`}
 					posts={
-						id ? (
+						user?.id ? (
 							<Posts
-								friendsCount={friendsCount ?? 0}
-								id={Number(id)}
+								friendsCount={user?.friendsCount ?? 0}
+								userId={Number(user.id)}
+								userUid={user.uid}
 							/>
 						) : null
 					}

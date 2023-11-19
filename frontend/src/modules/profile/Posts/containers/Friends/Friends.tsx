@@ -8,6 +8,9 @@ interface Props {
 }
 
 export const Friends: FC<Props> = ({ friendsCount, ...restProps }) => {
+	if (!friendsCount) {
+		return null;
+	}
 	return (
 		<ContentContainer {...restProps}>
 			<Flex alignItems="flex-start" justifyContent="space-between" mb={4}>
@@ -20,7 +23,7 @@ export const Friends: FC<Props> = ({ friendsCount, ...restProps }) => {
 
 				<Link href="/">
 					<Text as="span" color="brand">
-						See all photos
+						See all friends
 					</Text>
 				</Link>
 			</Flex>
