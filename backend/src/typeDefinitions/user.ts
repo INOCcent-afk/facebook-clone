@@ -14,6 +14,7 @@ export const userTypeDef = gql`
 		profile: Profile
 		posts: [Post]
 		comments: [Comment]
+		isFriends: Boolean
 	}
 
 	type Mutation {

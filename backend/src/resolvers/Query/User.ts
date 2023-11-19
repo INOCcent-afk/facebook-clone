@@ -35,7 +35,9 @@ export const userResolvers = {
 				throw new GraphQLError("User not found");
 			}
 
-			return user;
+			const result = { ...user, isFriends: false };
+
+			return result;
 		} catch (error) {
 			throw new GraphQLError(JSON.stringify(error));
 		}

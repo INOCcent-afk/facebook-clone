@@ -134,53 +134,56 @@ export const FeedPost: FC<Props> = ({
 							</Text>
 						</Box>
 					</Flex>
-					<Box>
-						<MeOnly uid={user?.uid}>
-							<Menu>
-								<MenuButton
-									variant="circledButton"
-									backgroundColor="gray.700"
-									as={Button}
-								>
-									<HiDotsHorizontal
-										size={18}
-										style={{
-											width: "100%",
-										}}
-									/>
-								</MenuButton>
-								<MenuList
-									backgroundColor="gray.700"
-									border="none"
-									boxShadow="0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1)"
-									px={2}
-								>
-									<MenuItem
+
+					{user?.uid && (
+						<Box>
+							<MeOnly uid={user.uid}>
+								<Menu>
+									<MenuButton
+										variant="circledButton"
 										backgroundColor="gray.700"
-										color="white"
-										borderRadius="md"
-										_hover={{
-											backgroundColor: "gray.800",
-										}}
-										onClick={openUpdatePost}
+										as={Button}
 									>
-										Edit
-									</MenuItem>
-									<MenuItem
+										<HiDotsHorizontal
+											size={18}
+											style={{
+												width: "100%",
+											}}
+										/>
+									</MenuButton>
+									<MenuList
 										backgroundColor="gray.700"
-										color="white"
-										borderRadius="md"
-										_hover={{
-											backgroundColor: "gray.800",
-										}}
-										onClick={openConfirmationModal}
+										border="none"
+										boxShadow="0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1)"
+										px={2}
 									>
-										Delete
-									</MenuItem>
-								</MenuList>
-							</Menu>
-						</MeOnly>
-					</Box>
+										<MenuItem
+											backgroundColor="gray.700"
+											color="white"
+											borderRadius="md"
+											_hover={{
+												backgroundColor: "gray.800",
+											}}
+											onClick={openUpdatePost}
+										>
+											Edit
+										</MenuItem>
+										<MenuItem
+											backgroundColor="gray.700"
+											color="white"
+											borderRadius="md"
+											_hover={{
+												backgroundColor: "gray.800",
+											}}
+											onClick={openConfirmationModal}
+										>
+											Delete
+										</MenuItem>
+									</MenuList>
+								</Menu>
+							</MeOnly>
+						</Box>
+					)}
 				</Flex>
 
 				<Box color="white" marginY={4}>

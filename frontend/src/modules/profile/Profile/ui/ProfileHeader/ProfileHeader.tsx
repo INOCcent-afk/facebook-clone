@@ -21,12 +21,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC, ReactNode } from "react";
-import {
-	HiChevronDown,
-	HiDotsHorizontal,
-	HiOutlinePlusSm,
-} from "react-icons/hi";
-import { RiPencilFill } from "react-icons/ri";
+import { HiChevronDown, HiDotsHorizontal } from "react-icons/hi";
 import { EditProfileControls } from "../EditProfileControls/EditProfileControls";
 import { FriendControls } from "../FriendControls/FriendControls";
 
