@@ -1,3 +1,5 @@
+import { MeOnly } from "@/containers/MeOnly/MeOnly";
+import { OtherUserOnly } from "@/containers/OtherUserOnly/OtherUserOnly";
 import {
 	Avatar,
 	Box,
@@ -25,10 +27,13 @@ import {
 	HiOutlinePlusSm,
 } from "react-icons/hi";
 import { RiPencilFill } from "react-icons/ri";
+import { EditProfileControls } from "../EditProfileControls/EditProfileControls";
+import { FriendControls } from "../FriendControls/FriendControls";
 
 interface Props {
 	friendsCount: number;
 	fullName: string;
+	userUid?: string | null;
 
 	// Panels
 	posts: ReactNode;
@@ -39,6 +44,7 @@ interface Props {
 export const ProfileHeader: FC<Props> = ({
 	friendsCount,
 	fullName,
+	userUid,
 	posts,
 	about,
 	friends,
@@ -62,21 +68,9 @@ export const ProfileHeader: FC<Props> = ({
 					</Box>
 				</Box>
 				<Flex gap={4} py={10}>
-					<Button>
-						<Text as="span" color="white" mr={1}>
-							<HiOutlinePlusSm size={18} />
-						</Text>{" "}
-						Add to story
-					</Button>
-					<Button variant="lightGray">
-						<Text as="span" color="white" mr={2}>
-							<RiPencilFill size={18} />
-						</Text>
-						Edit profile
-					</Button>
-					<Button variant="lightGray">
-						<HiChevronDown size={18} />
-					</Button>
+					{userUid && <EditProfileControls userUid={userUid} />}
+
+					{userUid && <FriendControls userUid={userUid} />}
 				</Flex>
 			</Flex>
 

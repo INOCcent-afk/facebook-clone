@@ -9,15 +9,13 @@ import { FeedPost } from "@/ui/FeedPost/FeedPost";
 import { MyLatestPost } from "@/models/post";
 
 export const FeedPanel = () => {
-	const { token } = useAuth();
+	const { user, token } = useAuth();
 	const [myLatestPosts, setMyLatestPosts] = useState<MyLatestPost[]>([]);
 
 	const { data: posts } = usePosts({
 		token: token ?? "",
 		enabled: Boolean(token),
 	});
-
-	console.log(posts);
 
 	return (
 		<Box
@@ -29,10 +27,13 @@ export const FeedPanel = () => {
 		>
 			<StoriesBlock />
 
-			<CreateFeed
-				setMyLatestPosts={setMyLatestPosts}
-				myLatestPosts={myLatestPosts}
-			/>
+			{user?.uid && (
+				<CreateFeed
+					setMyLatestPosts={setMyLatestPosts}
+					myLatestPosts={myLatestPosts}
+					userUid={user?.uid}
+				/>
+			)}
 
 			{myLatestPosts.reverse().map((data) => {
 				if (!data) return;

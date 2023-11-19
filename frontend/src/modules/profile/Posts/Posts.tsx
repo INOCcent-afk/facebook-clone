@@ -5,12 +5,11 @@ import { Friends, IntroBio, Photos } from "./containers";
 import { FeedPost } from "@/ui/FeedPost/FeedPost";
 import { useUserPosts } from "@/apiHooks/post/useUserPosts";
 import { MyLatestPost } from "@/models/post";
-import { Maybe } from "@/graphql/generated/graphql";
 
 interface Props {
 	friendsCount: number;
 	userId: number;
-	userUid?: Maybe<string>;
+	userUid: string;
 }
 
 export const Posts: FC<Props> = ({ friendsCount, userId, userUid }) => {
@@ -25,9 +24,14 @@ export const Posts: FC<Props> = ({ friendsCount, userId, userUid }) => {
 			<Box as="aside" flexBasis="40%">
 				<Box position="sticky" top="-600px">
 					<Stack gap={4} mb={2}>
-						<Stack gap={2}>
-							<IntroBio bio="WELCOME TO FB!" userUid={userUid} />
-						</Stack>
+						{userId && (
+							<Stack gap={2}>
+								<IntroBio
+									bio="WELCOME TO FB!"
+									userUid={userUid}
+								/>
+							</Stack>
+						)}
 
 						<Photos />
 						<Friends friendsCount={friendsCount} />

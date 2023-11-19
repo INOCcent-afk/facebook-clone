@@ -22,8 +22,6 @@ export const Profile = () => {
 
 	const user = isNotMe ? userData : me;
 
-	console.log(user, user);
-
 	return (
 		<>
 			<Header />
@@ -32,8 +30,9 @@ export const Profile = () => {
 				<ProfileHeader
 					friendsCount={user?.friendsCount ?? 0}
 					fullName={`${user?.firstName} ${user?.lastName}`}
+					userUid={user?.uid}
 					posts={
-						user?.id ? (
+						user && user.id && user.uid ? (
 							<Posts
 								friendsCount={user?.friendsCount ?? 0}
 								userId={Number(user.id)}

@@ -14,12 +14,11 @@ import { ContentContainer } from "../ContentContainer/ContentContainer";
 import { CreatePost } from "../CreatePost/CreatePost";
 import { MyLatestPost } from "@/models/post";
 import { MeOnly } from "@/containers/MeOnly/MeOnly";
-import { Maybe } from "@/graphql/generated/graphql";
 
 interface Props {
 	myLatestPosts: MyLatestPost[];
 	setMyLatestPosts: Dispatch<SetStateAction<MyLatestPost[]>>;
-	userUid?: Maybe<string>;
+	userUid: string;
 }
 
 export const CreateFeed: FC<Props> = ({

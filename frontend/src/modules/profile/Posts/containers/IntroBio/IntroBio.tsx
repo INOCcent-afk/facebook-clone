@@ -1,12 +1,11 @@
 import { MeOnly } from "@/containers/MeOnly/MeOnly";
-import { Maybe } from "@/graphql/generated/graphql";
 import { ContentContainer } from "@/ui";
 import { Button, Heading, Stack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 
 interface Props {
 	bio?: string;
-	userUid?: Maybe<string>;
+	userUid: string;
 }
 
 export const IntroBio: FC<Props> = ({ bio, userUid }) => {
