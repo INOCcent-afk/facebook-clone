@@ -79,7 +79,7 @@ export const userResolvers = {
 		{ prisma, userInfo }: Context
 	) => {
 		if (!userInfo || (userInfo && !userInfo.userUid)) {
-			throw new GraphQLError("Forbidden access (unauthenticated)");
+			throw new GraphQLError("Forbidden access  (unauthenticated)");
 		}
 
 		try {
