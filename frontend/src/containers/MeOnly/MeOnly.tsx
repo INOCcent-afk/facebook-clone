@@ -9,6 +9,8 @@ interface Props {
 export const MeOnly: FC<Props> = ({ uid, children }) => {
 	const { user } = useAuth();
 
+
+	
 	if (user?.uid !== uid) {
 		return null;
 	}
