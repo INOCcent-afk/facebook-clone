@@ -85,12 +85,93 @@ export const userResolvers = {
 		try {
 			await prisma.user.update({
 				where: { uid: userInfo.userUid },
+				data: { friendRequests: { connect: [{ uid: userUid }] } },
+			});
+
+			const user = await prisma.user.update({
+				where: { uid: userUid },
+				data: {
+					friendRequests: { connect: [{ uid: userInfo.userUid }] },
+				},
+			});
+
+			return user;
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
+	confirmFriendRequest: async (
+		_: any,
+		{ userUid }: FriendShipProps,
+		{ prisma, userInfo }: Context
+	) => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
+			throw new GraphQLError("Forbidden access  (unauthenticated)");
+		}
+
+		try {
+			await prisma.user.update({
+				where: { uid: userInfo.userUid },
 				data: { friends: { connect: [{ uid: userUid }] } },
 			});
 
 			const user = await prisma.user.update({
 				where: { uid: userUid },
 				data: { friends: { connect: [{ uid: userInfo.userUid }] } },
+			});
+
+			return user;
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
+	cancelFriendRequest: async (
+		_: any,
+		{ userUid }: FriendShipProps,
+		{ prisma, userInfo }: Context
+	) => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
+			throw new GraphQLError("Forbidden access  (unauthenticated)");
+		}
+
+		try {
+			await prisma.user.update({
+				where: { uid: userInfo.userUid },
+				data: { friendRequests: { connect: [{ uid: userUid }] } },
+			});
+
+			const user = await prisma.user.update({
+				where: { uid: userUid },
+				data: {
+					friendRequests: { connect: [{ uid: userInfo.userUid }] },
+				},
+			});
+
+			return user;
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
+	rejectFriendRequest: async (
+		_: any,
+		{ userUid }: FriendShipProps,
+		{ prisma, userInfo }: Context
+	) => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
+			throw new GraphQLError("Forbidden access  (unauthenticated)");
+		}
+
+		try {
+			await prisma.user.update({
+				where: { uid: userInfo.userUid },
+				data: { friendRequests: { connect: [{ uid: userUid }] } },
+			});
+
+			const user = await prisma.user.update({
+				where: { uid: userUid },
+				data: {
+					friendRequests: { connect: [{ uid: userInfo.userUid }] },
+				},
 			});
 
 			return user;

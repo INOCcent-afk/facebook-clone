@@ -20,7 +20,10 @@ export const userTypeDef = gql`
 	type Mutation {
 		registerUser(user: UserInput!): User!
 		addFriend(userUid: String!): User!
+		confirmFriendRequest(userUid: String!): User!
 		unfriend(userUid: String!): User!
+		cancelFriendRequest(userUid: String!): User!
+		rejectFriendRequest(userUid: String!): User!
 	}
 
 	input UserInput {
