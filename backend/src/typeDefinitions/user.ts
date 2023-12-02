@@ -12,6 +12,7 @@ export const userTypeDef = gql`
 		posts: [Post]
 		comments: [Comment]
 		isFriends: Boolean
+		isInFriendRequests: Boolean
 		friends: [User]
 		friendRequests: [User]
 		friendsCount: Int

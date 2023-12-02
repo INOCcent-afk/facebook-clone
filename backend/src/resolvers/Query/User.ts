@@ -18,7 +18,7 @@ export const userResolvers = {
 	user: async (
 		_: any,
 		{ uid }: UserArgs,
-		{ prisma }: Context
+		{ prisma, userInfo }: Context
 	): Promise<UserPayloadType> => {
 		if (!uid) {
 			throw new GraphQLError("you must provide a user id");
@@ -35,7 +35,37 @@ export const userResolvers = {
 				throw new GraphQLError("User not found");
 			}
 
-			const result = { ...user, isFriends: false };
+			if (!userInfo || (userInfo && !userInfo.userUid)) {
+				const friendCount = await prisma.user.count({
+					where: {
+						uid: userInfo?.userUid,
+						friends: {
+							some: {
+								uid: uid,
+							},
+						},
+					},
+				});
+
+				const friendRequestCount = await prisma.user.count({
+					where: {
+						uid: userInfo?.userUid,
+						friendRequests: {
+							some: {
+								uid: uid,
+							},
+						},
+					},
+				});
+				const isFriends = friendCount > 0;
+				const isInFriendRequests = friendRequestCount > 0;
+
+				const result = { ...user, isFriends, isInFriendRequests };
+
+				return result;
+			}
+
+			const result = { ...user };
 
 			return result;
 		} catch (error) {
