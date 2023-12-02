@@ -63,9 +63,17 @@ export const ProfileHeader: FC<Props> = ({
 					</Box>
 				</Box>
 				<Flex gap={4} py={10}>
-					{userUid && <EditProfileControls userUid={userUid} />}
+					{userUid && (
+						<MeOnly uid={userUid}>
+							<EditProfileControls />
+						</MeOnly>
+					)}
 
-					{userUid && <FriendControls userUid={userUid} />}
+					{userUid && (
+						<OtherUserOnly uid={userUid}>
+							<FriendControls />
+						</OtherUserOnly>
+					)}
 				</Flex>
 			</Flex>
 

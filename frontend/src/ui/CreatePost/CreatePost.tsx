@@ -1,6 +1,5 @@
 import { useCreatePost } from "@/apiHooks/post/useCreatePost";
 import { useAuth } from "@/contexts";
-import { Maybe, Post, User } from "@/graphql/generated/graphql";
 import { MyLatestPost } from "@/models/post";
 import {
 	Avatar,
@@ -109,7 +108,9 @@ export const CreatePost: FC<Props> = ({
 				color="white"
 			>
 				<ModalCloseButton zIndex={1} />
-				<ModalHeader textAlign="center">Create Post</ModalHeader>
+				<ModalHeader textAlign="center" tabIndex={-1}>
+					Create Post
+				</ModalHeader>
 				<Divider />
 				<ModalBody paddingX={4} paddingY={4}>
 					<Box as="form" onSubmit={handleCreatePost}>
@@ -133,6 +134,7 @@ export const CreatePost: FC<Props> = ({
 								left={0}
 								spellCheck={false}
 								maxHeight={600}
+								tabIndex={0}
 							/>
 						</Box>
 						<Button

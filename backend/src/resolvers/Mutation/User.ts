@@ -15,7 +15,7 @@ interface UserProps {
 }
 
 interface FriendShipProps {
-	friendUid: string;
+	userUid: string;
 }
 
 type UserPayloadType = null | Prisma.Prisma__UserClient<User, never> | User;
@@ -75,7 +75,7 @@ export const userResolvers = {
 	},
 	addFriend: async (
 		_: any,
-		{ friendUid }: FriendShipProps,
+		{ userUid }: FriendShipProps,
 		{ prisma, userInfo }: Context
 	) => {
 		if (!userInfo || (userInfo && !userInfo.userUid)) {
@@ -85,11 +85,11 @@ export const userResolvers = {
 		try {
 			await prisma.user.update({
 				where: { uid: userInfo.userUid },
-				data: { friends: { connect: [{ uid: friendUid }] } },
+				data: { friends: { connect: [{ uid: userUid }] } },
 			});
 
 			const user = await prisma.user.update({
-				where: { uid: friendUid },
+				where: { uid: userUid },
 				data: { friends: { connect: [{ uid: userInfo.userUid }] } },
 			});
 
@@ -98,9 +98,9 @@ export const userResolvers = {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
-	removeFriend: async (
+	unfriend: async (
 		_: any,
-		{ friendUid }: FriendShipProps,
+		{ userUid }: FriendShipProps,
 		{ prisma, userInfo }: Context
 	) => {
 		if (!userInfo || (userInfo && !userInfo.userUid)) {
@@ -110,11 +110,11 @@ export const userResolvers = {
 		try {
 			await prisma.user.update({
 				where: { uid: userInfo.userUid },
-				data: { friends: { disconnect: [{ uid: friendUid }] } },
+				data: { friends: { disconnect: [{ uid: userUid }] } },
 			});
 
 			const user = await prisma.user.update({
-				where: { uid: friendUid },
+				where: { uid: userUid },
 				data: { friends: { disconnect: [{ uid: userInfo.userUid }] } },
 			});
 

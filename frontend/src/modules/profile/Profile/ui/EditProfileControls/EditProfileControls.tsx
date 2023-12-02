@@ -1,16 +1,13 @@
-import { MeOnly } from "@/containers/MeOnly/MeOnly";
 import { Button, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { HiOutlinePlusSm } from "react-icons/hi";
 import { RiPencilFill } from "react-icons/ri";
 
-interface Props {
-	userUid: string;
-}
+interface Props {}
 
-export const EditProfileControls: FC<Props> = ({ userUid }) => {
+export const EditProfileControls: FC<Props> = () => {
 	return (
-		<MeOnly uid={userUid}>
+		<>
 			<Button>
 				<Text as="span" color="white" mr={1}>
 					<HiOutlinePlusSm size={18} />
@@ -23,6 +20,6 @@ export const EditProfileControls: FC<Props> = ({ userUid }) => {
 				</Text>
 				Edit profile
 			</Button>
-		</MeOnly>
+		</>
 	);
 };

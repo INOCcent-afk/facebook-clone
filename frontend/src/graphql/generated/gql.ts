@@ -16,7 +16,9 @@ const documents = {
     "\n\tmutation createPost($post: PostInput!) {\n\t\tcreatePost(post: $post) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t\tpostParentId\n\t\t}\n\t}\n": types.CreatePostDocument,
     "\n\tmutation deletePost($postId: ID!) {\n\t\tdeletePost(postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n": types.DeletePostDocument,
     "\n\tmutation updatePost($postId: ID!, $post: PostInput!) {\n\t\tupdatePost(postId: $postId, post: $post) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdatePostDocument,
+    "\n\tmutation addFriend($userUid: String!) {\n\t\taddFriend(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n": types.AddFriendDocument,
     "\n\tmutation registerUser($user: UserInput!) {\n\t\tregisterUser(user: $user) {\n\t\t\temail\n\t\t\tid\n\t\t\tuid\n\t\t}\n\t}\n": types.RegisterUserDocument,
+    "\n\tmutation unfriend($userUid: String!) {\n\t\tunfriend(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n": types.UnfriendDocument,
     "\n\tquery getMe {\n\t\tme {\n\t\t\tid\n\t\t\tuid\n\t\t\temail\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\tfriendsCount\n\t\t}\n\t}\n": types.GetMeDocument,
     "\n\tquery getPosts {\n\t\tposts {\n\t\t\tid\n\t\t\timages\n\t\t\tpostContent\n\t\t\tpostParentId\n\t\t\tvideos\n\t\t\tuser {\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tupdatedAt\n\t\t\tcreatedAt\n\t\t}\n\t}\n": types.GetPostsDocument,
     "\n\tquery userPosts($id: Int) {\n\t\tuserPosts(id: $id) {\n\t\t\tid\n\t\t\timages\n\t\t\tpostContent\n\t\t\tpostParentId\n\t\t\tvideos\n\t\t\tuser {\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tuserId\n\t\t\tcreatedAt\n\t\t\tupdatedAt\n\t\t}\n\t}\n": types.UserPostsDocument,
@@ -53,7 +55,15 @@ export function graphql(source: "\n\tmutation updatePost($postId: ID!, $post: Po
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n\tmutation addFriend($userUid: String!) {\n\t\taddFriend(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation addFriend($userUid: String!) {\n\t\taddFriend(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n\tmutation registerUser($user: UserInput!) {\n\t\tregisterUser(user: $user) {\n\t\t\temail\n\t\t\tid\n\t\t\tuid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation registerUser($user: UserInput!) {\n\t\tregisterUser(user: $user) {\n\t\t\temail\n\t\t\tid\n\t\t\tuid\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation unfriend($userUid: String!) {\n\t\tunfriend(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation unfriend($userUid: String!) {\n\t\tunfriend(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
