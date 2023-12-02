@@ -24,12 +24,11 @@ model User {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
 
-  friends          User[] @relation("UserFriends")
-  // friendRequests         User[] @relation("UserFriendRequests")
+  friends User[] @relation("UserFriends")
+
   // This second "side" of the UserFriends relation exists solely 
   // to satisfy prisma's requirements; we won't access it directly.
   symmetricFriends User[] @relation("UserFriends")
-  // symmetricFriendRequest User[] @relation("UserFriendRequests")
 
   friendRequestsSender   FriendRequest[] @relation("UserFriendRequestsSender")
   friendRequestsReceiver FriendRequest[] @relation("UserFriendRequestsReceiver")
@@ -37,16 +36,16 @@ model User {
 }
 
 model FriendRequest {
-  id         Int      @id @default(autoincrement())
-  sender     User     @relation("UserFriendRequestsSender", fields: [senderId], references: [id])
-  senderId   Int
-  receiver   User     @relation("UserFriendRequestsReceiver", fields: [receiverId], references: [id])
-  receiverId Int
-  createdAt  DateTime @default(now())
-  User       User?    @relation(fields: [userId], references: [id])
-  userId     Int?
+  id          Int      @id @default(autoincrement())
+  sender      User     @relation("UserFriendRequestsSender", fields: [senderUid], references: [uid])
+  senderUid   String
+  receiver    User     @relation("UserFriendRequestsReceiver", fields: [receiverUid], references: [uid])
+  receiverUid String
+  createdAt   DateTime @default(now())
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
 
-  @@index([senderId, receiverId])
+  @@index([senderUid, receiverUid])
 }
 
 model Profile {

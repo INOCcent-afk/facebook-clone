@@ -15,17 +15,21 @@ import { SlUserUnfollow } from "react-icons/sl";
 import { IoPersonAdd } from "react-icons/io5";
 
 interface Props {
-	isFollowing: boolean;
+	isFriends: boolean;
+	isInFriendRequestions: boolean;
 }
 
-export const FriendControls: FC<Props> = ({ isFollowing }) => {
+export const FriendControls: FC<Props> = ({
+	isFriends,
+	isInFriendRequestions,
+}) => {
 	const addFriend = () => {};
 
 	const unfriend = () => {};
 
 	return (
 		<>
-			{isFollowing && (
+			{isFriends && (
 				<Menu>
 					<MenuButton
 						as={Button}
@@ -59,11 +63,23 @@ export const FriendControls: FC<Props> = ({ isFollowing }) => {
 				</Menu>
 			)}
 
-			{!isFollowing && (
+			{!isFriends && !isInFriendRequestions && (
 				<Button leftIcon={<IoPersonAdd size={20} />}>Add Friend</Button>
 			)}
 
-			<Button variant={isFollowing ? "primary" : "lightGray"}>
+			{isInFriendRequestions && (
+				<Button leftIcon={<IoPersonAdd size={20} />}>
+					Confirm request
+				</Button>
+			)}
+
+			{!isInFriendRequestions && (
+				<Button leftIcon={<IoPersonAdd size={20} />}>
+					Cancel request
+				</Button>
+			)}
+
+			<Button variant={isFriends ? "primary" : "lightGray"}>
 				<Text as="span" color="white" mr={2}>
 					<FaFacebookMessenger size={18} />
 				</Text>

@@ -71,7 +71,7 @@ export const ProfileHeader: FC<Props> = ({
 
 					{userUid && (
 						<OtherUserOnly uid={userUid}>
-							{/* <FriendControls /> */}
+							<FriendControls />
 						</OtherUserOnly>
 					)}
 				</Flex>

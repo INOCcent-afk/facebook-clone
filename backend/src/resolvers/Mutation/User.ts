@@ -18,6 +18,10 @@ interface FriendShipProps {
 	userUid: string;
 }
 
+interface FriendShipRequestProps {
+	receiverUid: string;
+}
+
 type UserPayloadType = null | Prisma.Prisma__UserClient<User, never> | User;
 
 export const userResolvers = {
@@ -75,7 +79,7 @@ export const userResolvers = {
 	},
 	addFriend: async (
 		_: any,
-		{ userUid }: FriendShipProps,
+		{ receiverUid }: FriendShipRequestProps,
 		{ prisma, userInfo }: Context
 	) => {
 		if (!userInfo || (userInfo && !userInfo.userUid)) {
@@ -83,19 +87,33 @@ export const userResolvers = {
 		}
 
 		try {
-			await prisma.user.update({
-				where: { uid: userInfo.userUid },
-				data: { friendRequests: { connect: [{ uid: userUid }] } },
+			const receiverExists = await prisma.user.findUnique({
+				where: { uid: receiverUid },
 			});
 
-			const user = await prisma.user.update({
-				where: { uid: userUid },
-				data: {
-					friendRequests: { connect: [{ uid: userInfo.userUid }] },
+			if (!receiverExists) {
+				throw new GraphQLError("Receiver does not exist.");
+			}
+
+			const existingRequest = await prisma.friendRequest.findFirst({
+				where: {
+					senderUid: userInfo.userUid,
+					receiverUid,
 				},
 			});
 
-			return user;
+			if (existingRequest) {
+				throw new GraphQLError("Friend request already sent.");
+			}
+
+			const friendRequest = await prisma.friendRequest.create({
+				data: {
+					sender: { connect: { uid: userInfo.userUid } },
+					receiver: { connect: { uid: receiverUid } },
+				},
+			});
+
+			return friendRequest;
 		} catch (error) {
 			throw new GraphQLError(JSON.stringify(error));
 		}
@@ -125,60 +143,60 @@ export const userResolvers = {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
-	cancelFriendRequest: async (
-		_: any,
-		{ userUid }: FriendShipProps,
-		{ prisma, userInfo }: Context
-	) => {
-		if (!userInfo || (userInfo && !userInfo.userUid)) {
-			throw new GraphQLError("Forbidden access  (unauthenticated)");
-		}
+	// cancelFriendRequest: async (
+	// 	_: any,
+	// 	{ userUid }: FriendShipProps,
+	// 	{ prisma, userInfo }: Context
+	// ) => {
+	// 	if (!userInfo || (userInfo && !userInfo.userUid)) {
+	// 		throw new GraphQLError("Forbidden access  (unauthenticated)");
+	// 	}
 
-		try {
-			await prisma.user.update({
-				where: { uid: userInfo.userUid },
-				data: { friendRequests: { connect: [{ uid: userUid }] } },
-			});
+	// 	try {
+	// 		await prisma.user.update({
+	// 			where: { uid: userInfo.userUid },
+	// 			data: { friendRequests: { connect: [{ uid: userUid }] } },
+	// 		});
 
-			const user = await prisma.user.update({
-				where: { uid: userUid },
-				data: {
-					friendRequests: { connect: [{ uid: userInfo.userUid }] },
-				},
-			});
+	// 		const user = await prisma.user.update({
+	// 			where: { uid: userUid },
+	// 			data: {
+	// 				friendRequests: { connect: [{ uid: userInfo.userUid }] },
+	// 			},
+	// 		});
 
-			return user;
-		} catch (error) {
-			throw new GraphQLError(JSON.stringify(error));
-		}
-	},
-	rejectFriendRequest: async (
-		_: any,
-		{ userUid }: FriendShipProps,
-		{ prisma, userInfo }: Context
-	) => {
-		if (!userInfo || (userInfo && !userInfo.userUid)) {
-			throw new GraphQLError("Forbidden access  (unauthenticated)");
-		}
+	// 		return user;
+	// 	} catch (error) {
+	// 		throw new GraphQLError(JSON.stringify(error));
+	// 	}
+	// },
+	// rejectFriendRequest: async (
+	// 	_: any,
+	// 	{ userUid }: FriendShipProps,
+	// 	{ prisma, userInfo }: Context
+	// ) => {
+	// 	if (!userInfo || (userInfo && !userInfo.userUid)) {
+	// 		throw new GraphQLError("Forbidden access  (unauthenticated)");
+	// 	}
 
-		try {
-			await prisma.user.update({
-				where: { uid: userInfo.userUid },
-				data: { friendRequests: { connect: [{ uid: userUid }] } },
-			});
+	// 	try {
+	// 		await prisma.user.update({
+	// 			where: { uid: userInfo.userUid },
+	// 			data: { friendRequests: { connect: [{ uid: userUid }] } },
+	// 		});
 
-			const user = await prisma.user.update({
-				where: { uid: userUid },
-				data: {
-					friendRequests: { connect: [{ uid: userInfo.userUid }] },
-				},
-			});
+	// 		const user = await prisma.user.update({
+	// 			where: { uid: userUid },
+	// 			data: {
+	// 				friendRequests: { connect: [{ uid: userInfo.userUid }] },
+	// 			},
+	// 		});
 
-			return user;
-		} catch (error) {
-			throw new GraphQLError(JSON.stringify(error));
-		}
-	},
+	// 		return user;
+	// 	} catch (error) {
+	// 		throw new GraphQLError(JSON.stringify(error));
+	// 	}
+	// },
 	unfriend: async (
 		_: any,
 		{ userUid }: FriendShipProps,
