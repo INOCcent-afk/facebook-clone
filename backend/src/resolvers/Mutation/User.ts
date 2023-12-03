@@ -102,7 +102,16 @@ export const userResolvers = {
 				},
 			});
 
-			if (existingRequest) {
+			const existingRequestByFriend =
+				await prisma.friendRequest.findFirst({
+					where: {
+						senderUid: receiverUid,
+						receiverUid: userInfo.userUid,
+					},
+				});
+
+			//  This check is for securing API abstraction
+			if (existingRequest || existingRequestByFriend) {
 				throw new GraphQLError("Friend request already sent.");
 			}
 
@@ -139,8 +148,25 @@ export const userResolvers = {
 				data: { friends: { connect: [{ uid: userInfo.userUid }] } },
 			});
 
+			await prisma.friendRequest.deleteMany({
+				where: {
+					receiverUid: userInfo.userUid,
+					senderUid: userUid,
+				},
+			});
+
 			return user;
 		} catch (error) {
+			await prisma.user.update({
+				where: { uid: userInfo.userUid },
+				data: { friends: { disconnect: [{ uid: userUid }] } },
+			});
+
+			await prisma.user.update({
+				where: { uid: userUid },
+				data: { friends: { disconnect: [{ uid: userInfo.userUid }] } },
+			});
+
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
