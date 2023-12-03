@@ -170,9 +170,9 @@ export const userResolvers = {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
-	cancelFriendRequest: async (
+	cancelRejectFriendRequest: async (
 		_: any,
-		{ id }: { id: number },
+		{ userUid }: FriendShipProps,
 		{ prisma, userInfo }: Context
 	) => {
 		if (!userInfo || (userInfo && !userInfo.userUid)) {
@@ -183,7 +183,8 @@ export const userResolvers = {
 			// Check if the friend request exists and the requester is the sender
 			const friendRequest = await prisma.friendRequest.findUnique({
 				where: {
-					id,
+					receiverUid: userInfo.userUid,
+					senderUid: userUid,
 				},
 				include: {
 					sender: true,
@@ -200,9 +201,10 @@ export const userResolvers = {
 			}
 
 			// Delete the friend request
-			await prisma.friendRequest.delete({
+			await prisma.friendRequest.deleteMany({
 				where: {
-					id,
+					receiverUid: userInfo.userUid,
+					senderUid: userUid,
 				},
 			});
 
@@ -211,33 +213,6 @@ export const userResolvers = {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
-	// rejectFriendRequest: async (
-	// 	_: any,
-	// 	{ userUid }: FriendShipProps,
-	// 	{ prisma, userInfo }: Context
-	// ) => {
-	// 	if (!userInfo || (userInfo && !userInfo.userUid)) {
-	// 		throw new GraphQLError("Forbidden access  (unauthenticated)");
-	// 	}
-
-	// 	try {
-	// 		await prisma.user.update({
-	// 			where: { uid: userInfo.userUid },
-	// 			data: { friendRequests: { connect: [{ uid: userUid }] } },
-	// 		});
-
-	// 		const user = await prisma.user.update({
-	// 			where: { uid: userUid },
-	// 			data: {
-	// 				friendRequests: { connect: [{ uid: userInfo.userUid }] },
-	// 			},
-	// 		});
-
-	// 		return user;
-	// 	} catch (error) {
-	// 		throw new GraphQLError(JSON.stringify(error));
-	// 	}
-	// },
 	unfriend: async (
 		_: any,
 		{ userUid }: FriendShipProps,
@@ -260,6 +235,16 @@ export const userResolvers = {
 
 			return user;
 		} catch (error) {
+			await prisma.user.update({
+				where: { uid: userInfo.userUid },
+				data: { friends: { connect: [{ uid: userUid }] } },
+			});
+
+			await prisma.user.update({
+				where: { uid: userUid },
+				data: { friends: { connect: [{ uid: userInfo.userUid }] } },
+			});
+
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},

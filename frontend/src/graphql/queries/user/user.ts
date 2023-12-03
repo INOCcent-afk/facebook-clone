@@ -18,12 +18,6 @@ export const getUser = graphql(/* GraphQL */ `
 			}
 			isFriends
 			isInFriendRequests
-			friends {
-				id
-			}
-			friendRequests {
-				id
-			}
 		}
 	}
 `);
