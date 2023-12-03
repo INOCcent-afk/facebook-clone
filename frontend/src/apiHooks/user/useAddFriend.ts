@@ -9,7 +9,7 @@ interface Props {
 
 const addFriend = async ({ token, uid }: Props) => {
 	const data = await graphQLClient(token).request(addFriendQL, {
-		userUid: uid,
+		receiverUid: uid,
 	});
 	return data;
 };

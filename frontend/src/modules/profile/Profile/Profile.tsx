@@ -21,8 +21,6 @@ export const Profile = () => {
 		enabled: Boolean(isNotMe && token),
 	});
 
-	console.log(Boolean(token), isNotMe);
-
 	const user = isNotMe ? userData : me;
 
 	return (

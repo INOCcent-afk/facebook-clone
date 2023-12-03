@@ -181,15 +181,19 @@ export const userResolvers = {
 
 		try {
 			// Check if the friend request exists and the requester is the sender
-			const friendRequest = await prisma.friendRequest.findUnique({
+			const friendRequest = await prisma.friendRequest.findFirst({
 				where: {
-					receiverUid: userInfo.userUid,
-					senderUid: userUid,
+					AND: {
+						receiverUid: userInfo.userUid,
+						senderUid: userUid,
+					},
 				},
 				include: {
 					sender: true,
 				},
 			});
+
+			console.log(friendRequest);
 
 			if (
 				!friendRequest ||
