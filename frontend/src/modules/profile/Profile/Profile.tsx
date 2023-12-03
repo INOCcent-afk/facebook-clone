@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { useGetUser } from "@/apiHooks/user/useGetUser";
 
 export const Profile = () => {
-	const { user: me } = useAuth();
+	const { user: me, token } = useAuth();
 	const { query } = useRouter();
 	const userId = query.user_id as string;
 
@@ -17,8 +17,11 @@ export const Profile = () => {
 
 	const { data: userData, error } = useGetUser({
 		uid: userId,
-		enabled: isNotMe,
+		token: token ?? "",
+		enabled: Boolean(isNotMe && token),
 	});
+
+	console.log(Boolean(token), isNotMe);
 
 	const user = isNotMe ? userData : me;
 
@@ -31,7 +34,12 @@ export const Profile = () => {
 					friendsCount={user?.friendsCount ?? 0}
 					fullName={`${user?.firstName} ${user?.lastName}`}
 					userUid={user?.uid}
-					posts={
+					isFriends={Boolean(user?.isFriends)}
+					isInFriendRequests={Boolean(user?.isInFriendRequests)}
+					isRequestingToBeFriend={Boolean(
+						user?.isRequestingToBeFriend
+					)}
+					postsPanel={
 						user && user.id && user.uid ? (
 							<Posts
 								friendsCount={user?.friendsCount ?? 0}
@@ -40,8 +48,8 @@ export const Profile = () => {
 							/>
 						) : null
 					}
-					about={<h1>About</h1>}
-					friends={<h1>Friends</h1>}
+					aboutPanel={<h1>About</h1>}
+					friendsPanel={<h1>Friends</h1>}
 				/>
 			</Box>
 		</>

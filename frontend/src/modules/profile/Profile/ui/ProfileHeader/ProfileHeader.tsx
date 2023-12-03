@@ -29,20 +29,25 @@ interface Props {
 	friendsCount: number;
 	fullName: string;
 	userUid?: string | null;
+	isFriends: boolean;
+	isInFriendRequests: boolean;
+	isRequestingToBeFriend: boolean;
 
-	// Panels
-	posts: ReactNode;
-	about: ReactNode;
-	friends: ReactNode;
+	postsPanel: ReactNode;
+	aboutPanel: ReactNode;
+	friendsPanel: ReactNode;
 }
 
 export const ProfileHeader: FC<Props> = ({
 	friendsCount,
 	fullName,
 	userUid,
-	posts,
-	about,
-	friends,
+	postsPanel,
+	aboutPanel,
+	friendsPanel,
+	isFriends,
+	isInFriendRequests,
+	isRequestingToBeFriend,
 }) => {
 	const containerStyle: BoxProps = {
 		maxWidth: 1250,
@@ -71,7 +76,11 @@ export const ProfileHeader: FC<Props> = ({
 
 					{userUid && (
 						<OtherUserOnly uid={userUid}>
-							<FriendControls />
+							<FriendControls
+								isFriends={isFriends}
+								isInFriendRequests={isInFriendRequests}
+								isRequestingToBeFriend={isRequestingToBeFriend}
+							/>
 						</OtherUserOnly>
 					)}
 				</Flex>
@@ -260,21 +269,21 @@ export const ProfileHeader: FC<Props> = ({
 					<TabPanel px={0} pb={0}>
 						<Box backgroundColor="gray.900">
 							<Box {...containerStyle} pt={4}>
-								{posts}
+								{postsPanel}
 							</Box>
 						</Box>
 					</TabPanel>
 					<TabPanel px={0}>
 						<Box minHeight={1000} backgroundColor="gray.900">
 							<Box {...containerStyle} pt={4}>
-								{about}
+								{aboutPanel}
 							</Box>
 						</Box>
 					</TabPanel>
 					<TabPanel px={0}>
 						<Box minHeight={1000} backgroundColor="gray.900">
 							<Box {...containerStyle} pt={4}>
-								{friends}
+								{friendsPanel}
 							</Box>
 						</Box>
 					</TabPanel>

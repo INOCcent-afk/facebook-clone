@@ -18,6 +18,7 @@ export const getUser = graphql(/* GraphQL */ `
 			}
 			isFriends
 			isInFriendRequests
+			isRequestingToBeFriend
 		}
 	}
 `);

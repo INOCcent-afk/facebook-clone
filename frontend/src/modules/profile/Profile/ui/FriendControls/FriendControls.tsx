@@ -16,16 +16,24 @@ import { IoPersonAdd } from "react-icons/io5";
 
 interface Props {
 	isFriends: boolean;
-	isInFriendRequestions: boolean;
+	isInFriendRequests: boolean;
+	isRequestingToBeFriend: boolean;
 }
 
 export const FriendControls: FC<Props> = ({
 	isFriends,
-	isInFriendRequestions,
+	isInFriendRequests,
+	isRequestingToBeFriend,
 }) => {
 	const addFriend = () => {};
 
 	const unfriend = () => {};
+
+	console.log(isFriends);
+
+	console.log(isInFriendRequests);
+
+	console.log(isRequestingToBeFriend);
 
 	return (
 		<>
@@ -63,19 +71,19 @@ export const FriendControls: FC<Props> = ({
 				</Menu>
 			)}
 
-			{!isFriends && !isInFriendRequestions && (
+			{!isFriends && !isInFriendRequests && !isRequestingToBeFriend && (
 				<Button leftIcon={<IoPersonAdd size={20} />}>Add Friend</Button>
 			)}
 
-			{isInFriendRequestions && (
+			{isInFriendRequests && (
 				<Button leftIcon={<IoPersonAdd size={20} />}>
-					Confirm request
+					Cancel request
 				</Button>
 			)}
 
-			{!isInFriendRequestions && (
+			{isRequestingToBeFriend && (
 				<Button leftIcon={<IoPersonAdd size={20} />}>
-					Cancel request
+					Confirm request
 				</Button>
 			)}
 

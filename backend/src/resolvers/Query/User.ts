@@ -38,6 +38,8 @@ export const userResolvers = {
 				throw new GraphQLError("User not found");
 			}
 
+			console.log(userInfo);
+
 			if (userInfo && userInfo.userUid) {
 				const friendCount = await prisma.user.count({
 					where: {
@@ -64,10 +66,15 @@ export const userResolvers = {
 					});
 
 				const isFriends = friendCount > 0;
-				const isInFriendRequests =
-					friendRequestCount > 0 || friendRequestByFriendCount > 0;
+				const isInFriendRequests = friendRequestByFriendCount > 0;
+				const isRequestingToBeFriend = friendRequestCount > 0;
 
-				const result = { ...user, isFriends, isInFriendRequests };
+				const result = {
+					...user,
+					isFriends,
+					isInFriendRequests,
+					isRequestingToBeFriend,
+				};
 
 				return result;
 			}
