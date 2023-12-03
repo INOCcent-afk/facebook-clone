@@ -14,13 +14,13 @@ export const userTypeDef = gql`
 		isFriends: Boolean
 		isInFriendRequests: Boolean
 		friends: [User]
-		friendRequests: [User]
+		friendRequest: [Friendship]
 		friendsCount: Int
 	}
 
 	type Mutation {
 		registerUser(user: UserInput!): User!
-		addFriend(userUid: String!): User!
+		addFriend(receiverUid: String!): Friendship!
 		confirmFriendRequest(userUid: String!): User!
 		unfriend(userUid: String!): User!
 		cancelFriendRequest(userUid: String!): User!

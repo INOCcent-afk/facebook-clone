@@ -32,7 +32,7 @@ model User {
 
   friendRequestsSender   FriendRequest[] @relation("UserFriendRequestsSender")
   friendRequestsReceiver FriendRequest[] @relation("UserFriendRequestsReceiver")
-  FriendRequest          FriendRequest[]
+  friendRequest          FriendRequest[]
 }
 
 model FriendRequest {

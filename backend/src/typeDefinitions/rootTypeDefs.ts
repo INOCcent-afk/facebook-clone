@@ -2,6 +2,7 @@ import { gql } from "apollo-server";
 import { userTypeDef } from "./user";
 import { profileTypeDef } from "./profile";
 import { postTypeDef } from "./post";
+import { friendshipTypeDef } from "./friendship";
 
 export const rootTypeDefs = gql`
 	scalar Date
@@ -20,4 +21,5 @@ export const rootTypeDefs = gql`
 	${userTypeDef}
 	${profileTypeDef}
 	${postTypeDef}
+	${friendshipTypeDef}
 `;

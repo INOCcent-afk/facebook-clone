@@ -110,6 +110,7 @@ export const userResolvers = {
 				data: {
 					sender: { connect: { uid: userInfo.userUid } },
 					receiver: { connect: { uid: receiverUid } },
+					User: { connect: { uid: userInfo.userUid } },
 				},
 			});
 
@@ -143,33 +144,47 @@ export const userResolvers = {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
-	// cancelFriendRequest: async (
-	// 	_: any,
-	// 	{ userUid }: FriendShipProps,
-	// 	{ prisma, userInfo }: Context
-	// ) => {
-	// 	if (!userInfo || (userInfo && !userInfo.userUid)) {
-	// 		throw new GraphQLError("Forbidden access  (unauthenticated)");
-	// 	}
+	cancelFriendRequest: async (
+		_: any,
+		{ id }: { id: number },
+		{ prisma, userInfo }: Context
+	) => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
+			throw new GraphQLError("Forbidden access  (unauthenticated)");
+		}
 
-	// 	try {
-	// 		await prisma.user.update({
-	// 			where: { uid: userInfo.userUid },
-	// 			data: { friendRequests: { connect: [{ uid: userUid }] } },
-	// 		});
+		try {
+			// Check if the friend request exists and the requester is the sender
+			const friendRequest = await prisma.friendRequest.findUnique({
+				where: {
+					id,
+				},
+				include: {
+					sender: true,
+				},
+			});
 
-	// 		const user = await prisma.user.update({
-	// 			where: { uid: userUid },
-	// 			data: {
-	// 				friendRequests: { connect: [{ uid: userInfo.userUid }] },
-	// 			},
-	// 		});
+			if (
+				!friendRequest ||
+				friendRequest.sender.uid !== userInfo.userUid
+			) {
+				throw new Error(
+					"Friend request not found or you are not the sender."
+				);
+			}
 
-	// 		return user;
-	// 	} catch (error) {
-	// 		throw new GraphQLError(JSON.stringify(error));
-	// 	}
-	// },
+			// Delete the friend request
+			await prisma.friendRequest.delete({
+				where: {
+					id,
+				},
+			});
+
+			return true;
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
 	// rejectFriendRequest: async (
 	// 	_: any,
 	// 	{ userUid }: FriendShipProps,
