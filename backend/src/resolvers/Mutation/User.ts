@@ -170,7 +170,7 @@ export const userResolvers = {
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
-	cancelRejectFriendRequest: async (
+	rejectFriendRequest: async (
 		_: any,
 		{ userUid }: FriendShipProps,
 		{ prisma, userInfo }: Context
@@ -183,36 +183,72 @@ export const userResolvers = {
 			// Check if the friend request exists and the requester is the sender
 			const friendRequest = await prisma.friendRequest.findFirst({
 				where: {
-					AND: {
-						receiverUid: userInfo.userUid,
-						senderUid: userUid,
-					},
+					receiverUid: userInfo.userUid,
+					senderUid: userUid,
 				},
 				include: {
 					sender: true,
 				},
 			});
 
-			console.log(friendRequest);
-
-			if (
-				!friendRequest ||
-				friendRequest.sender.uid !== userInfo.userUid
-			) {
-				throw new Error(
+			if (!friendRequest || friendRequest.sender.uid !== userUid) {
+				throw new GraphQLError(
 					"Friend request not found or you are not the sender."
 				);
 			}
 
 			// Delete the friend request
-			await prisma.friendRequest.deleteMany({
+			const result = await prisma.friendRequest.deleteMany({
 				where: {
 					receiverUid: userInfo.userUid,
 					senderUid: userUid,
 				},
 			});
 
-			return true;
+			return result;
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
+	cancelFriendRequest: async (
+		_: any,
+		{ userUid }: FriendShipProps,
+		{ prisma, userInfo }: Context
+	) => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
+			throw new GraphQLError("Forbidden access  (unauthenticated)");
+		}
+
+		try {
+			// Check if the friend request exists and the requester is the sender
+			const friendRequest = await prisma.friendRequest.findFirst({
+				where: {
+					receiverUid: userUid,
+					senderUid: userInfo.userUid,
+				},
+				include: {
+					sender: true,
+				},
+			});
+
+			if (
+				!friendRequest ||
+				friendRequest.senderUid !== userInfo.userUid
+			) {
+				throw new GraphQLError(
+					"Friend request not found or you are not the sender."
+				);
+			}
+
+			// Delete the friend request
+			const result = await prisma.friendRequest.deleteMany({
+				where: {
+					receiverUid: userUid,
+					senderUid: userInfo.userUid,
+				},
+			});
+
+			return result;
 		} catch (error) {
 			throw new GraphQLError(JSON.stringify(error));
 		}

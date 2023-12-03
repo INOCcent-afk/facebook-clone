@@ -34,7 +34,8 @@ export const FriendControls: FC<Props> = ({
 
 	const {
 		handleAddFriend,
-		handleCancelRejectFriendRequest,
+		handleRejectFriendRequest,
+		handleCancelFriendRequest,
 		handleConfirmFriendRequest,
 	} = useFriendControls({ token: token ?? "", uid: userId });
 
@@ -86,7 +87,7 @@ export const FriendControls: FC<Props> = ({
 			{isInFriendRequests && (
 				<Button
 					leftIcon={<IoPersonAdd size={20} />}
-					onClick={handleCancelRejectFriendRequest}
+					onClick={handleCancelFriendRequest}
 				>
 					Cancel request
 				</Button>
@@ -102,7 +103,7 @@ export const FriendControls: FC<Props> = ({
 					</Button>
 					<Button
 						leftIcon={<IoPersonAdd size={20} />}
-						onClick={handleCancelRejectFriendRequest}
+						onClick={handleRejectFriendRequest}
 					>
 						Reject request
 					</Button>

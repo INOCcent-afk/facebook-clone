@@ -1,6 +1,7 @@
 import { useAddFriend } from "@/apiHooks/user/useAddFriend";
-import { useCancelRejectFriendRequest } from "@/apiHooks/user/useCancelFriendRequest";
+import { useRejectFriendRequest } from "@/apiHooks/user/useRejectFriendRequest";
 import { useConfirmFriendRequest } from "@/apiHooks/user/useCofirmFriendRequest";
+import { useCancelFriendRequest } from "@/apiHooks/user/useCancelFriendRequest";
 
 interface Props {
 	token: string;
@@ -9,25 +10,30 @@ interface Props {
 
 export const useFriendControls = ({ token, uid }: Props) => {
 	const { mutate: addFriend } = useAddFriend();
-	const { mutate: cancelRejectFriendRequest } =
-		useCancelRejectFriendRequest();
+	const { mutate: rejectFriendRequest } = useRejectFriendRequest();
 	const { mutate: confirmFriendRequest } = useConfirmFriendRequest();
+	const { mutate: cancelFriendRequest } = useCancelFriendRequest();
 
 	const handleAddFriend = () => {
 		addFriend({ token, uid });
-	};
-
-	const handleCancelRejectFriendRequest = () => {
-		cancelRejectFriendRequest({ token, uid });
 	};
 
 	const handleConfirmFriendRequest = () => {
 		confirmFriendRequest({ token, uid });
 	};
 
+	const handleRejectFriendRequest = () => {
+		rejectFriendRequest({ token, uid });
+	};
+
+	const handleCancelFriendRequest = () => {
+		cancelFriendRequest({ token, uid });
+	};
+
 	return {
 		handleAddFriend,
-		handleCancelRejectFriendRequest,
+		handleRejectFriendRequest,
 		handleConfirmFriendRequest,
+		handleCancelFriendRequest,
 	};
 };

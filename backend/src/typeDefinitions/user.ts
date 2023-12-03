@@ -24,7 +24,8 @@ export const userTypeDef = gql`
 		addFriend(receiverUid: String!): Friendship!
 		confirmFriendRequest(userUid: String!): User!
 		unfriend(userUid: String!): User!
-		cancelRejectFriendRequest(userUid: String!): User!
+		rejectFriendRequest(userUid: String!): Friendship!
+		cancelFriendRequest(userUid: String!): Friendship!
 	}
 
 	input UserInput {
