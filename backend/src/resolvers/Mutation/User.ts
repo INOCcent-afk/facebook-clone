@@ -191,6 +191,8 @@ export const userResolvers = {
 				},
 			});
 
+			console.log(userUid, userInfo);
+
 			if (!friendRequest || friendRequest.sender.uid !== userUid) {
 				throw new GraphQLError(
 					"Friend request not found or you are not the sender."

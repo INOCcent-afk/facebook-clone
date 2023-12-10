@@ -17,7 +17,16 @@ export const meResolvers = {
 				uid: userInfo?.userUid,
 			},
 			include: {
-				friendRequest: true,
+				friendRequestsReceiver: {
+					include: {
+						User: true,
+					},
+				},
+				friendRequestsSender: {
+					include: {
+						User: true,
+					},
+				},
 				friends: true,
 			},
 		});

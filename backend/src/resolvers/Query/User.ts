@@ -30,7 +30,7 @@ export const userResolvers = {
 					uid: uid,
 				},
 				include: {
-					friendRequest: true,
+					friendRequestsReceiver: true,
 					friends: true,
 				},
 			});

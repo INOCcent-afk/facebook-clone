@@ -15,8 +15,9 @@ export const userTypeDef = gql`
 		isInFriendRequests: Boolean
 		isRequestingToBeFriend: Boolean
 		friends: [User]
-		friendRequest: [Friendship]
 		friendsCount: Int
+		friendRequestsReceiver: [Friendship]
+		friendRequestsSender: [Friendship]
 	}
 
 	type Mutation {

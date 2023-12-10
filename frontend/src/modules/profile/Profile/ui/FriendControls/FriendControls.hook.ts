@@ -9,12 +9,23 @@ interface Props {
 	uid: string;
 }
 
-export const useFriendControls = ({ token, uid }: Props) => {
+export const useFriendControls = ({
+	token,
+	uid,
+}: Props): {
+	handleAddFriend: () => void;
+	handleRejectFriendRequest: () => void;
+	handleConfirmFriendRequest: () => void;
+	handleCancelFriendRequest: () => void;
+	handleUnfriend: () => void;
+} => {
 	const { mutate: addFriend } = useAddFriend();
 	const { mutate: rejectFriendRequest } = useRejectFriendRequest();
 	const { mutate: confirmFriendRequest } = useConfirmFriendRequest();
 	const { mutate: cancelFriendRequest } = useCancelFriendRequest();
 	const { mutate: unfriend } = useUnfriend();
+
+	console.log(token, uid);
 
 	const handleAddFriend = () => {
 		addFriend({ token, uid });

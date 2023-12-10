@@ -14,10 +14,20 @@ export const getMe = graphql(/* GraphQL */ `
 				cover_photo
 				profilePicture
 			}
-			friendRequest {
+			friendRequestsReceiver {
 				User {
 					firstName
 					lastName
+					uid
+					id
+				}
+			}
+			friendRequestsSender {
+				User {
+					firstName
+					lastName
+					uid
+					id
 				}
 			}
 		}

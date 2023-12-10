@@ -30,7 +30,7 @@ export const FriendControls: FC<Props> = ({
 	isRequestingToBeFriend,
 }) => {
 	const { token } = useAuth();
-	
+
 	const { query } = useRouter();
 
 	const userId = query.user_id as string;
@@ -41,7 +41,6 @@ export const FriendControls: FC<Props> = ({
 		handleCancelFriendRequest,
 		handleConfirmFriendRequest,
 		handleUnfriend,
-
 	} = useFriendControls({ token: token ?? "", uid: userId });
 
 	return (
