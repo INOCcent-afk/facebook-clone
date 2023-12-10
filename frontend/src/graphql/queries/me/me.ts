@@ -9,6 +9,17 @@ export const getMe = graphql(/* GraphQL */ `
 			firstName
 			lastName
 			friendsCount
+			profile {
+				bio
+				cover_photo
+				profilePicture
+			}
+			friendRequest {
+				User {
+					firstName
+					lastName
+				}
+			}
 		}
 	}
 `);

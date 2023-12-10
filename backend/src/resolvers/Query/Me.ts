@@ -16,12 +16,18 @@ export const meResolvers = {
 			where: {
 				uid: userInfo?.userUid,
 			},
+			include: {
+				friendRequest: true,
+				friends: true,
+			},
 		});
 
 		if (!user) {
 			throw new GraphQLError("User not found");
 		}
 
-		return user;
+		const result = { ...user, friendsCount: user.friends.length };
+
+		return result;
 	},
 };

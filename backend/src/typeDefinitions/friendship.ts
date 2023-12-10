@@ -7,5 +7,6 @@ export const friendshipTypeDef = gql`
 		senderUid: String
 		receiverUid: String
 		createdAt: Date
+		User: User
 	}
 `;

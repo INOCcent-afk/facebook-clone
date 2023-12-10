@@ -21,7 +21,11 @@ export const Profile = () => {
 		enabled: Boolean(isNotMe && token),
 	});
 
+	console.log(error);
+
 	const user = isNotMe ? userData : me;
+
+	console.log(userData);
 
 	return (
 		<>
