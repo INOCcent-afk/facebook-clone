@@ -1,4 +1,4 @@
-import { gql } from "apollo-server";
+import { gql } from "apollo-server-express";
 import { userTypeDef } from "./user";
 import { profileTypeDef } from "./profile";
 import { postTypeDef } from "./post";

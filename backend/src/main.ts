@@ -1,10 +1,15 @@
-import { ApolloServer } from "apollo-server";
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
 import { rootTypeDefs } from "./typeDefinitions/rootTypeDefs";
 import { Query, Mutation } from "./resolvers";
 import { PrismaClient } from "@prisma/client";
 import { getUserFromToken } from "./utils";
 import { Context } from "./models/global";
 import { dateScalar } from "./scalars/date";
+import http from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+
 require("dotenv").config();
 
 export const prisma = new PrismaClient();
@@ -26,15 +31,27 @@ const server = new ApolloServer({
 			userInfo: userInfo?.uid ? { userUid: userInfo?.uid } : null,
 		};
 	},
-	cors: {
-		origin: [
-			`${process.env.CLIENT_URL || "http://localhost:3000"}`,
-			"https://studio.apollographql.com",
-		],
-		credentials: true,
-	},
 });
 
-server.listen().then(({ url }) => {
-	console.log(`Server ready on ${url}`);
+const app = express();
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
+
+app.use(cors());
+
+server.start().then(() => {
+	server.applyMiddleware({ app });
+
+	httpServer.listen(4000, () => {
+		console.log(
+			`🚀 Server ready at http://localhost:4000${server.graphqlPath}`
+		);
+	});
+
+	io.on("connection", (socket) => {
+		console.log("A user connected");
+		socket.on("disconnect", () => {
+			console.log("User disconnected");
+		});
+	});
 });
