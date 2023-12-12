@@ -8,7 +8,6 @@ import { Context } from "./models/global";
 import { dateScalar } from "./scalars/date";
 import http from "http";
 import { Server } from "socket.io";
-import cors from "cors";
 
 require("dotenv").config();
 
@@ -35,12 +34,27 @@ const server = new ApolloServer({
 
 const app = express();
 const httpServer = http.createServer(app);
-const io = new Server(httpServer);
-
-app.use(cors());
+const io = new Server(httpServer, {
+	cors: {
+		origin: [
+			`${process.env.CLIENT_URL || "http://localhost:3000"}`,
+			"https://studio.apollographql.com",
+		],
+		credentials: true,
+	},
+});
 
 server.start().then(() => {
-	server.applyMiddleware({ app });
+	server.applyMiddleware({
+		app,
+		cors: {
+			origin: [
+				`${process.env.CLIENT_URL || "http://localhost:3000"}`,
+				"https://studio.apollographql.com",
+			],
+			credentials: true,
+		},
+	});
 
 	httpServer.listen(4000, () => {
 		console.log(
@@ -49,7 +63,13 @@ server.start().then(() => {
 	});
 
 	io.on("connection", (socket) => {
-		console.log("A user connected");
+		console.log("Connected");
+
+		socket.on("ping", (data) => {
+			console.log(data);
+			socket.emit("pong", "POTANGINA MO JEPOY DIZON");
+		});
+
 		socket.on("disconnect", () => {
 			console.log("User disconnected");
 		});

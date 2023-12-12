@@ -7,8 +7,6 @@ import { useAuth } from "@/contexts";
 export const ConversationPanel = () => {
 	const { user } = useAuth();
 
-	console.log(user);
-
 	return (
 		<Flex flexDirection="column" gap={4} flexBasis="20%" paddingRight="4">
 			{user && (

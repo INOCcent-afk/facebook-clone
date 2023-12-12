@@ -9,7 +9,6 @@ export const getUser = graphql(/* GraphQL */ `
 			lastName
 			email
 			profile {
-				profilePicture
 				cover_photo
 				profilePicture
 				id

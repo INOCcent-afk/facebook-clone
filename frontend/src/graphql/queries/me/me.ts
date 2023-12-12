@@ -10,9 +10,10 @@ export const getMe = graphql(/* GraphQL */ `
 			lastName
 			friendsCount
 			profile {
-				bio
 				cover_photo
 				profilePicture
+				id
+				userId
 			}
 			friendRequestsReceiver {
 				User {
