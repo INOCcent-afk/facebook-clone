@@ -8,23 +8,27 @@ datasource db {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  uid              String            @unique
-  firstName        String
-  lastName         String
-  username         String            @unique
-  email            String            @unique
-  profile          Profile?
-  posts            Post[]
-  comments         Comment[]
-  notifications    Notification[]
-  reactions        Reaction[]
-  chatPrivateRooms ChatRoomPrivate[]
-  chatRoomGroups   ChatRoomGroup[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  id            Int            @id @default(autoincrement())
+  uid           String         @unique
+  firstName     String
+  lastName      String
+  username      String         @unique
+  email         String         @unique
+  profile       Profile?
+  posts         Post[]
+  comments      Comment[]
+  notifications Notification[]
+  reactions     Reaction[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   friends User[] @relation("UserFriends")
+
+  chatRooms      ChatRoom[]      @relation("userToChatRooms")
+  chatRoomGroups ChatRoomGroup[] @relation("userToChatRoomGroups")
+
+  createdGroups ChatRoomGroup[] @relation("createdByGroup")
+  createdRooms  ChatRoom[]      @relation("createdByRoom")
 
   // This second "side" of the UserFriends relation exists solely 
   // to satisfy prisma's requirements; we won't access it directly.
@@ -33,6 +37,10 @@ model User {
   friendRequestsSender   FriendRequest[] @relation("UserFriendRequestsSender")
   friendRequestsReceiver FriendRequest[] @relation("UserFriendRequestsReceiver")
   friendRequest          FriendRequest[]
+
+  ChatRoomGroup ChatRoomGroup[]
+  ChatRoom      ChatRoom[]
+  GroupMember   GroupMember[]
 }
 
 model FriendRequest {
@@ -119,16 +127,34 @@ enum Emoji {
   ANGRY
 }
 
-model ChatRoomPrivate {
-  id           Int    @id @default(autoincrement())
-  user         User   @relation(fields: [userId], references: [id])
-  userId       Int
-  chatRoomName String
+model ChatRoomGroup {
+  id        Int           @id @default(autoincrement())
+  members   GroupMember[]
+  userId    Int?
+  createdBy User?         @relation("createdByGroup", fields: [userId], references: [id], map: "createdByRoom_FK")
+  user      User?         @relation(fields: [userId], references: [id])
+
+  userChatRoomGroups User[] @relation("userToChatRoomGroups")
 }
 
-model ChatRoomGroup {
-  id      Int      @id @default(autoincrement())
-  User    User     @relation(fields: [userId], references: [id])
-  userId  Int
-  members String[]
+model ChatRoom {
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  type         String // 'single' or 'group'
+  chatRoomName String?
+  members      GroupMember[]
+  createdBy    User          @relation("createdByRoom", fields: [userId], references: [id], map: "createdByRoom_FK")
+  user         User          @relation(fields: [userId], references: [id])
+
+  userChatRooms User[] @relation("userToChatRooms")
+}
+
+model GroupMember {
+  id              Int            @id @default(autoincrement())
+  user            User           @relation(fields: [userId], references: [id])
+  userId          Int
+  chatRoom        ChatRoom       @relation(fields: [chatRoomId], references: [id])
+  chatRoomId      Int
+  chatRoomGroup   ChatRoomGroup? @relation(fields: [chatRoomGroupId], references: [id])
+  chatRoomGroupId Int?
 }
