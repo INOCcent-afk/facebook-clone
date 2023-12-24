@@ -5,6 +5,7 @@ import {
 	HStack,
 	Menu,
 	MenuButton,
+	MenuList,
 	Text,
 	Tooltip,
 	useDisclosure,
@@ -14,8 +15,9 @@ import React from "react";
 import { ProfileMenu, SearchFacebook } from "../";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { IoNotificationsSharp } from "react-icons/io5";
-import { MessengerNotif } from "../MessengerNotif/MessengerNotif";
 import { MdPeopleAlt } from "react-icons/md";
+import { HiDotsHorizontal } from "react-icons/hi";
+import { MessengerMenu } from "../MessengerMenu/MessengerMenu";
 
 export const Header = () => {
 	const {} = useDisclosure();
@@ -50,18 +52,7 @@ export const Header = () => {
 				</Box>
 				<SearchFacebook />
 				<HStack gap={1} flexBasis="20%" justifyContent="flex-end">
-					<Menu>
-						<Tooltip label="Messenger">
-							<MenuButton
-								as={Button}
-								variant="circledButton"
-								size="circledMd"
-								position="relative"
-							>
-								<FaFacebookMessenger size={20} />
-							</MenuButton>
-						</Tooltip>
-					</Menu>
+					<MessengerMenu />
 
 					<Tooltip label="Notifications">
 						<Button variant="circledButton" size="circledMd">
