@@ -16,7 +16,7 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
-import { ContentContainer } from "../ContentContainer/ContentContainer";
+import { ContentContainer } from "../../containers/ContentContainer/ContentContainer";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";

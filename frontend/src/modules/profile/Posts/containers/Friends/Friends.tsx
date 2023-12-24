@@ -1,4 +1,4 @@
-import { ContentContainer } from "@/ui";
+import { ContentContainer } from "@/containers/ContentContainer/ContentContainer";
 import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { FC } from "react";

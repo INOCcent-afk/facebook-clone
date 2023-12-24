@@ -5,7 +5,6 @@ interface GlobalStyles {
 }
 const global: GlobalStyles = {
 	body: {
-		minHeight: "100vh",
 		color: "#000000",
 	},
 

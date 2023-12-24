@@ -10,7 +10,7 @@ import {
 import React, { FC, Dispatch, SetStateAction } from "react";
 import { MdPhotoLibrary } from "react-icons/md";
 import { FaRegSmileBeam } from "react-icons/fa";
-import { ContentContainer } from "../ContentContainer/ContentContainer";
+import { ContentContainer } from "../../containers/ContentContainer/ContentContainer";
 import { CreatePost } from "../CreatePost/CreatePost";
 import { MyLatestPost } from "@/models/post";
 import { MeOnly } from "@/containers/MeOnly/MeOnly";

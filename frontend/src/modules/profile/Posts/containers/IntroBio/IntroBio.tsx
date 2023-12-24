@@ -1,5 +1,5 @@
+import { ContentContainer } from "@/containers/ContentContainer/ContentContainer";
 import { MeOnly } from "@/containers/MeOnly/MeOnly";
-import { ContentContainer } from "@/ui";
 import { Button, Heading, Stack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 

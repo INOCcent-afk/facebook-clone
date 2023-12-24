@@ -1,4 +1,4 @@
-import { ContentContainer } from "@/ui";
+import { ContentContainer } from "@/containers/ContentContainer/ContentContainer";
 import {
 	Box,
 	BoxProps,

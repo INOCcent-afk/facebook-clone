@@ -10,11 +10,11 @@ export const Feed = () => {
 			<Header />
 			<Box
 				backgroundColor="gray.900"
-				minHeight="screen"
+				height={`calc(100vh - ${HEADER_HEIGHT}px)`}
 				width="full"
 				marginTop={HEADER_HEIGHT}
 				paddingTop={8}
-				alignItems="flex-start"
+				alignItems="start"
 				justifyContent="space-between"
 				display="flex"
 			>

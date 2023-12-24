@@ -1,10 +1,21 @@
 import { HEADER_HEIGHT } from "@/utils";
-import { Box, Button, HStack, Tooltip, useDisclosure } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	HStack,
+	Menu,
+	MenuButton,
+	Text,
+	Tooltip,
+	useDisclosure,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { ProfileMenu, SearchFacebook } from "../";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { IoNotificationsSharp } from "react-icons/io5";
+import { MessengerNotif } from "../MessengerNotif/MessengerNotif";
+import { MdPeopleAlt } from "react-icons/md";
 
 export const Header = () => {
 	const {} = useDisclosure();
@@ -39,11 +50,19 @@ export const Header = () => {
 				</Box>
 				<SearchFacebook />
 				<HStack gap={1} flexBasis="20%" justifyContent="flex-end">
-					<Tooltip label="Messenger">
-						<Button variant="circledButton" size="circledMd">
-							<FaFacebookMessenger size={20} />
-						</Button>
-					</Tooltip>
+					<Menu>
+						<Tooltip label="Messenger">
+							<MenuButton
+								as={Button}
+								variant="circledButton"
+								size="circledMd"
+								position="relative"
+							>
+								<FaFacebookMessenger size={20} />
+							</MenuButton>
+						</Tooltip>
+					</Menu>
+
 					<Tooltip label="Notifications">
 						<Button variant="circledButton" size="circledMd">
 							<IoNotificationsSharp size={20} />
