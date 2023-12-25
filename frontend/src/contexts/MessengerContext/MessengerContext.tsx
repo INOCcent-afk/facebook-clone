@@ -7,6 +7,7 @@ interface Context {
 
 export const MessengerContext = createContext<Context>({
 	activeChats: [],
+
 	setActiveChats: () => {},
 });
 
