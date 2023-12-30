@@ -1,8 +1,10 @@
 import { useMe } from "@/apiHooks";
 import { useAuth } from "@/contexts";
+import { useMessengerState } from "@/contexts/MessengerContext/MessengerContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { FC, ReactNode, useEffect } from "react";
 import { io } from "socket.io-client";
+import { PopupChats } from "../PopupChats/PopupChats";
 
 interface Props {
 	children?: ReactNode;
@@ -12,6 +14,7 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 	const auth = getAuth();
 
 	const { setToken, setUser, token } = useAuth();
+	const { activeChats, handleRemoveActiveChat } = useMessengerState();
 
 	useEffect(() => {
 		const socket = io("http://localhost:4000");
@@ -44,5 +47,16 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 		}
 	}, [data]);
 
-	return <div>{children}</div>;
+	console.log(activeChats);
+
+	return (
+		<div>
+			{children}
+
+			<PopupChats
+				chats={activeChats}
+				handleRemoveActiveChat={handleRemoveActiveChat}
+			/>
+		</div>
+	);
 };

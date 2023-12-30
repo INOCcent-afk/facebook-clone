@@ -1,9 +1,6 @@
+import { Message } from "@/models/Messenger";
 import { FC, ReactNode, createContext, useContext, useState } from "react";
 
-interface Message {
-	id: string;
-	name: string;
-}
 interface Context {
 	activeChats: Message[] | null;
 	handleSetActiveChat: (user: Message) => void;
@@ -24,11 +21,15 @@ export const MessengerProvider: FC<Props> = ({ children }) => {
 	const [activeChats, setActiveChats] = useState<Message[]>([]);
 
 	const handleSetActiveChat = (message: Message) => {
-		if (activeChats.length === 2) {
-			let tete = activeChats;
-			tete.shift();
+		const chatExists = activeChats.some((chat) => chat.id === message.id);
 
-			setActiveChats([...tete, message]);
+		if (chatExists) return;
+
+		if (activeChats.length === 2) {
+			let cloneChats = activeChats;
+			cloneChats.shift();
+
+			setActiveChats([...cloneChats, message]);
 		} else {
 			setActiveChats((prevArray) => [...prevArray, message]);
 		}
