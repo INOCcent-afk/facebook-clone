@@ -72,6 +72,29 @@ export const Button = defineStyleConfig({
 			},
 		},
 
+		circleUnstyled: {
+			padding: 0,
+			height: 10,
+			width: 10,
+			fontWeight: "normal",
+			borderRadius: "50%",
+
+			...Object.fromEntries(
+				[
+					"_hover",
+					"_active",
+					"_focus",
+					"_visited",
+					"_focusVisible",
+					"_focusWithin",
+				].map((prop) => [prop, { opacity: 1 }])
+			),
+
+			_hover: {
+				backgroundColor: "gray.800",
+			},
+		},
+
 		unstyled: {
 			padding: 0,
 			height: "fit-content",
