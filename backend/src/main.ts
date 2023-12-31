@@ -4,10 +4,10 @@ import { rootTypeDefs } from "./typeDefinitions/rootTypeDefs";
 import { Query, Mutation } from "./resolvers";
 import { PrismaClient } from "@prisma/client";
 import { getUserFromToken } from "./utils";
-import { Context } from "./models/global";
+import { Context, Me } from "./models/global";
 import { dateScalar } from "./scalars/date";
 import http from "http";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 
 require("dotenv").config();
 
@@ -44,6 +44,23 @@ const io = new Server(httpServer, {
 	},
 });
 
+interface ModifiedSocket extends Socket {
+	userInfo?: Me;
+}
+
+io.use(async (socket: ModifiedSocket, next) => {
+	const token = socket.handshake.auth.token;
+
+	if (!token) {
+		return next(new Error("Authentication error"));
+	}
+
+	const userInfo = await getUserFromToken(`Bearer ${token}`);
+
+	socket.userInfo = userInfo?.uid ? { userUid: userInfo?.uid } : null;
+	next();
+});
+
 server.start().then(() => {
 	server.applyMiddleware({
 		app,
@@ -62,12 +79,18 @@ server.start().then(() => {
 		);
 	});
 
-	io.on("connection", (socket) => {
-		console.log("Connected");
+	io.on("connection", (socket: ModifiedSocket) => {
+		console.log(socket.userInfo);
 
-		socket.on("ping", (data) => {
-			console.log(data);
-			socket.emit("pong", "POTANGINA MO JEPOY DIZON");
+		socket.on("joinPrivateRoom", (roomId: string) => {
+			if (roomId.includes(socket.userInfo?.userUid as string)) {
+				socket.join(roomId);
+				console.log("We joined!");
+			} else {
+				socket.emit("joinError", {
+					message: "You are not allowed to join this room",
+				});
+			}
 		});
 
 		socket.on("disconnect", () => {

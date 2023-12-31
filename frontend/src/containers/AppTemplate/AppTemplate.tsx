@@ -16,13 +16,6 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 	const { setToken, setUser, token } = useAuth();
 	const { activeChats, handleRemoveActiveChat } = useMessengerState();
 
-	useEffect(() => {
-		const socket = io("http://localhost:4000");
-
-		socket.emit("ping", { name: "bob" });
-		socket.on("pong", (data) => console.log(data));
-	}, []);
-
 	const { data } = useMe({
 		token: token ?? "",
 		enabled: Boolean(token),
@@ -35,6 +28,14 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 				const token = await user.getIdToken();
 
 				setToken(token);
+
+				const socket = io("http://localhost:4000", {
+					auth: {
+						token: token,
+					},
+				});
+
+				socket.emit("joinPrivateRoom", "IVEL84uKeebpXS5I5ViNKoajprq1");
 			}
 		});
 	}, []);
