@@ -7,7 +7,7 @@ import {
 	Stack,
 	Text,
 } from "@chakra-ui/react";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 
@@ -18,6 +18,8 @@ interface Props {
 }
 
 export const PopupChat: FC<Props> = ({ id, name, closeChat }) => {
+	const [message, setMessage] = useState();
+
 	return (
 		<Box width={328}>
 			<Flex
@@ -59,9 +61,10 @@ export const PopupChat: FC<Props> = ({ id, name, closeChat }) => {
 					<ChatMessage isMyMessage={true} />
 					<ChatMessage isMyMessage={true} />
 				</Stack>
-				<Box>
-					<Input />
-				</Box>
+				<Flex>
+					<Input color="white" />
+					<Button>SEND</Button>
+				</Flex>
 			</Box>
 		</Box>
 	);

@@ -1,5 +1,6 @@
 import { Maybe, User } from "@/graphql/generated/graphql";
 import { createContext, useState, ReactNode, useContext, FC } from "react";
+import { SocketProvider } from "../SocketContext/SocketContext";
 
 interface Context {
 	user: Maybe<User> | null;
@@ -27,7 +28,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
 	return (
 		<AuthContext.Provider value={{ user, setUser, token, setToken }}>
-			{children}
+			<SocketProvider token={token}>{children}</SocketProvider>
 		</AuthContext.Provider>
 	);
 };

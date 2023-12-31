@@ -3,7 +3,6 @@ import { useAuth } from "@/contexts";
 import { useMessengerState } from "@/contexts/MessengerContext/MessengerContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { FC, ReactNode, useEffect } from "react";
-import { io } from "socket.io-client";
 import { PopupChats } from "../PopupChats/PopupChats";
 
 interface Props {
@@ -28,14 +27,6 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 				const token = await user.getIdToken();
 
 				setToken(token);
-
-				const socket = io("http://localhost:4000", {
-					auth: {
-						token: token,
-					},
-				});
-
-				socket.emit("joinPrivateRoom", "IVEL84uKeebpXS5I5ViNKoajprq1");
 			}
 		});
 	}, []);

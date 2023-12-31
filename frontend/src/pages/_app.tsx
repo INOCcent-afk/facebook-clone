@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
 		<AuthProvider>
 			<MessengerProvider>
 				<QueryClientProvider client={queryClient}>
-					<ReactQueryDevtools initialIsOpen={true} />
+					{/* <ReactQueryDevtools initialIsOpen={false} /> */}
 					<ChakraProvider theme={theme}>
 						<AppTemplate>
 							<Component {...pageProps} />
