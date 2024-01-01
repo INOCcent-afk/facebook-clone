@@ -93,6 +93,19 @@ server.start().then(() => {
 			}
 		});
 
+		socket.on("privateMessage", ({ roomId, message }) => {
+			if (roomId.includes(socket.userInfo?.userUid as string)) {
+				io.to(roomId).emit("privateMessage", {
+					userUid: socket.userInfo?.userUid,
+					message,
+				});
+			} else {
+				socket.emit("joinError", {
+					message: "You are not allowed to join this room",
+				});
+			}
+		});
+
 		socket.on("disconnect", () => {
 			console.log("User disconnected");
 		});

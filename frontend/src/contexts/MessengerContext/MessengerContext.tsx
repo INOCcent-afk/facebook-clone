@@ -11,6 +11,8 @@ export const MessengerContext = createContext<Context>({
 	activeChats: [],
 	handleSetActiveChat: () => {},
 	handleRemoveActiveChat: () => {},
+
+	
 });
 
 interface Props {

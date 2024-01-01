@@ -4,9 +4,14 @@ import React, { FC } from "react";
 interface Props {
 	showAvatar?: boolean;
 	isMyMessage?: boolean;
+	message: string;
 }
 
-export const ChatMessage: FC<Props> = ({ showAvatar, isMyMessage }) => {
+export const ChatMessage: FC<Props> = ({
+	showAvatar,
+	isMyMessage,
+	message,
+}) => {
 	return (
 		<Flex
 			alignItems="end"
@@ -23,7 +28,7 @@ export const ChatMessage: FC<Props> = ({ showAvatar, isMyMessage }) => {
 				backgroundColor="#303030"
 				marginLeft={showAvatar ? 0 : 8}
 			>
-				<Text>HELLO</Text>
+				<Text>{message}</Text>
 			</Box>
 		</Flex>
 	);
