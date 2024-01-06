@@ -88,7 +88,7 @@ server.start().then(() => {
 				console.log("We joined!");
 			} else {
 				socket.emit("joinError", {
-					message: "You are not allowed to join this room",
+					message: " You are not allowed to join this room",
 				});
 			}
 		});
