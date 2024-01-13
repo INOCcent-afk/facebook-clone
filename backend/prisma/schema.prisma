@@ -24,12 +24,6 @@ model User {
 
   friends User[] @relation("UserFriends")
 
-  chatRooms      ChatRoom[]      @relation("userToChatRooms")
-  chatRoomGroups ChatRoomGroup[] @relation("userToChatRoomGroups")
-
-  createdGroups ChatRoomGroup[] @relation("createdByGroup")
-  createdRooms  ChatRoom[]      @relation("createdByRoom")
-
   // This second "side" of the UserFriends relation exists solely 
   // to satisfy prisma's requirements; we won't access it directly.
   symmetricFriends User[] @relation("UserFriends")
@@ -38,9 +32,9 @@ model User {
   friendRequestsReceiver FriendRequest[] @relation("UserFriendRequestsReceiver")
   friendRequest          FriendRequest[]
 
-  ChatRoomGroup ChatRoomGroup[]
-  ChatRoom      ChatRoom[]
-  GroupMember   GroupMember[]
+  chatRooms    ChatRoom[]
+  Message      Message[]
+  UserChatRoom UserChatRoom[]
 }
 
 model FriendRequest {
@@ -127,34 +121,29 @@ enum Emoji {
   ANGRY
 }
 
-model ChatRoomGroup {
-  id                 Int           @id @default(autoincrement())
-  members            GroupMember[]
-  createdBy          User?         @relation("createdByGroup", fields: [createdByUserId], references: [id])
-  createdByUserId    Int?
-  user               User?         @relation(fields: [userId], references: [id])
-  userId             Int?
-  userChatRoomGroups User[]        @relation("userToChatRoomGroups")
-}
-
 model ChatRoom {
-  id              Int           @id @default(autoincrement())
-  userId          Int
-  type            String // 'single' or 'group'
-  chatRoomName    String?
-  members         GroupMember[]
-  createdBy       User?         @relation("createdByRoom", fields: [createdByUserId], references: [id])
-  createdByUserId Int?
-  user            User?         @relation(fields: [userId], references: [id])
-  userChatRooms   User[]        @relation("userToChatRooms")
+  id           Int            @id @default(autoincrement())
+  name         String?
+  users        User[]
+  messages     Message[]
+  UserChatRoom UserChatRoom[]
 }
 
-model GroupMember {
-  id              Int            @id @default(autoincrement())
-  user            User           @relation(fields: [userId], references: [id])
-  userId          Int
-  chatRoom        ChatRoom       @relation(fields: [chatRoomId], references: [id])
-  chatRoomId      Int
-  chatRoomGroup   ChatRoomGroup? @relation(fields: [chatRoomGroupId], references: [id])
-  chatRoomGroupId Int?
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  timestamp  DateTime
+  userUid    String
+  user       User     @relation(fields: [userUid], references: [uid])
+  chatRoomId Int
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+}
+
+model UserChatRoom {
+  userUid    String
+  chatRoomId Int
+  user       User     @relation(fields: [userUid], references: [uid])
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+
+  @@id([userUid, chatRoomId])
 }
