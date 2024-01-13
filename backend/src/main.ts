@@ -97,16 +97,19 @@ server.start().then(() => {
 						);
 						if (allowedUsers) {
 							socket.join(String(roomId));
+
+							const messages = await prisma.message.findMany({
+								where: { chatRoomId: roomId },
+								include: { user: true },
+							});
+
+							io.to(String(roomId)).emit(
+								"loadMessages",
+								messages
+							);
 						} else {
 							io.to(socket.id).emit("accessDenied");
 						}
-
-						const messages = await prisma.message.findMany({
-							where: { chatRoomId: roomId },
-							include: { user: true },
-						});
-
-						io.to(String(roomId)).emit("loadMessages", messages);
 					};
 
 					if (roomId) {
@@ -174,18 +177,47 @@ server.start().then(() => {
 			}
 		);
 
-		socket.on("privateMessage", ({ roomId, message }) => {
-			if (roomId.includes(socket.userInfo?.userUid as string)) {
-				io.to(roomId).emit("privateMessage", {
-					userUid: socket.userInfo?.userUid,
-					message,
-				});
-			} else {
-				socket.emit("joinError", {
-					message: "You are not allowed to join this room",
-				});
+		socket.on(
+			"sendMessage",
+			async ({ roomId, senderUid, receieverUid, message }) => {
+				try {
+					const sendMessage = async (
+						roomId: number,
+						users: User[]
+					) => {
+						const uidsToCheck = [senderUid, receieverUid];
+						const allowedUsers = uidsToCheck.every((uidToCheck) =>
+							users.some((user) => user.uid === uidToCheck)
+						);
+						if (allowedUsers) {
+							io.to(String(roomId)).emit("privateMessage", {
+								userUid: socket.userInfo?.userUid,
+								message,
+							});
+						} else {
+							io.to(socket.id).emit("accessDenied");
+						}
+					};
+
+					if (roomId) {
+						const roomExists = await prisma.chatRoom.findUnique({
+							where: { id: roomId },
+							include: {
+								users: true,
+							},
+						});
+
+						if (roomExists) {
+							sendMessage(roomExists.id, roomExists.users);
+						}
+					}
+				} catch (error) {
+					socket.emit("sendMessageError", {
+						message: "Error sending message",
+					});
+				}
 			}
-		});
+		);
 
 		socket.on("disconnect", () => {
 			console.log("User disconnected");
