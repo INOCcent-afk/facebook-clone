@@ -96,10 +96,8 @@ server.start().then(() => {
 							users.some((user) => user.uid === uidToCheck)
 						);
 						if (allowedUsers) {
-							// Join the room
 							socket.join(String(roomId));
 						} else {
-							// Notify the client that the user is not allowed in the room
 							io.to(socket.id).emit("accessDenied");
 						}
 
@@ -112,7 +110,6 @@ server.start().then(() => {
 					};
 
 					if (roomId) {
-						// Check if the room exists
 						const existingRoom = await prisma.chatRoom.findUnique({
 							where: { id: roomId },
 							include: {
