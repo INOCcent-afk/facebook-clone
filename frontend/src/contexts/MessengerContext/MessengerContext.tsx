@@ -1,9 +1,9 @@
-import { Message } from "@/models/Messenger";
+import { Chat } from "@/models/Messenger";
 import { FC, ReactNode, createContext, useContext, useState } from "react";
 
 interface Context {
-	activeChats: Message[] | null;
-	handleSetActiveChat: (user: Message) => void;
+	activeChats: Chat[] | null;
+	handleSetActiveChat: (chat: Chat) => void;
 	handleRemoveActiveChat: (id: string) => void;
 }
 
@@ -11,8 +11,6 @@ export const MessengerContext = createContext<Context>({
 	activeChats: [],
 	handleSetActiveChat: () => {},
 	handleRemoveActiveChat: () => {},
-
-	
 });
 
 interface Props {
@@ -20,10 +18,12 @@ interface Props {
 }
 
 export const MessengerProvider: FC<Props> = ({ children }) => {
-	const [activeChats, setActiveChats] = useState<Message[]>([]);
+	const [activeChats, setActiveChats] = useState<Chat[]>([]);
 
-	const handleSetActiveChat = (message: Message) => {
-		const chatExists = activeChats.some((chat) => chat.id === message.id);
+	const handleSetActiveChat = (activeChat: Chat) => {
+		const chatExists = activeChats.some(
+			(chat) => chat.roomId === activeChat.roomId
+		);
 
 		if (chatExists) return;
 
@@ -31,14 +31,14 @@ export const MessengerProvider: FC<Props> = ({ children }) => {
 			let cloneChats = activeChats;
 			cloneChats.shift();
 
-			setActiveChats([...cloneChats, message]);
+			setActiveChats([...cloneChats, activeChat]);
 		} else {
-			setActiveChats((prevArray) => [...prevArray, message]);
+			setActiveChats((prevArray) => [...prevArray, activeChat]);
 		}
 	};
 
 	const handleRemoveActiveChat = (id: string) => {
-		setActiveChats(activeChats.filter((chat) => chat.id !== id));
+		setActiveChats(activeChats.filter((chat) => chat.roomId !== id));
 	};
 
 	return (

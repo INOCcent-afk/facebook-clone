@@ -21,7 +21,7 @@ export type Scalars = {
 export type ChatRoom = {
   __typename?: 'ChatRoom';
   id: Scalars['ID']['output'];
-  messages?: Maybe<Message>;
+  messages?: Maybe<Array<Maybe<Message>>>;
   name?: Maybe<Scalars['String']['output']>;
   users?: Maybe<Array<Maybe<User>>>;
 };
@@ -50,7 +50,6 @@ export type Message = {
   chatRoomId: Scalars['ID']['output'];
   content?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  timestamp?: Maybe<Scalars['Date']['output']>;
   userUid: Scalars['ID']['output'];
 };
 
@@ -282,14 +281,14 @@ export type GetChatQueryVariables = Exact<{
 }>;
 
 
-export type GetChatQuery = { __typename?: 'Query', chat?: { __typename?: 'ChatRoom', id: string, messages?: { __typename?: 'Message', id: string, content?: string | null, userUid: string } | null, users?: Array<{ __typename?: 'User', uid?: string | null, firstName?: string | null, lastName?: string | null } | null> | null } | null };
+export type GetChatQuery = { __typename?: 'Query', chat?: { __typename?: 'ChatRoom', id: string, messages?: Array<{ __typename?: 'Message', id: string, content?: string | null, userUid: string } | null> | null, users?: Array<{ __typename?: 'User', uid?: string | null, firstName?: string | null, lastName?: string | null } | null> | null } | null };
 
 export type GetChatsQueryVariables = Exact<{
   uid: Scalars['String']['input'];
 }>;
 
 
-export type GetChatsQuery = { __typename?: 'Query', chats?: Array<{ __typename?: 'ChatRoom', id: string, name?: string | null, messages?: { __typename?: 'Message', id: string, content?: string | null, userUid: string } | null, users?: Array<{ __typename?: 'User', uid?: string | null, firstName?: string | null, lastName?: string | null } | null> | null } | null> | null };
+export type GetChatsQuery = { __typename?: 'Query', chats?: Array<{ __typename?: 'ChatRoom', id: string, name?: string | null, messages?: Array<{ __typename?: 'Message', id: string, content?: string | null, userUid: string } | null> | null, users?: Array<{ __typename?: 'User', uid?: string | null, firstName?: string | null, lastName?: string | null } | null> | null } | null> | null };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
