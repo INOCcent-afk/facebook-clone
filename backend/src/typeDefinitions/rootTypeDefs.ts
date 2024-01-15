@@ -3,6 +3,7 @@ import { userTypeDef } from "./user";
 import { profileTypeDef } from "./profile";
 import { postTypeDef } from "./post";
 import { friendshipTypeDef } from "./friendship";
+import { chatTypeDef } from "./chat";
 
 export const rootTypeDefs = gql`
 	scalar Date
@@ -16,10 +17,12 @@ export const rootTypeDefs = gql`
 		posts: [Post]
 		userPosts(id: Int): [Post]
 		comments: [Comment]
+		chats(uid: String!): [ChatRoom]
 	}
 
 	${userTypeDef}
 	${profileTypeDef}
 	${postTypeDef}
 	${friendshipTypeDef}
+	${chatTypeDef}
 `;
