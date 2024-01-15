@@ -117,7 +117,7 @@ server.start().then(() => {
 
 					if (roomId) {
 						const existingRoom = await prisma.chatRoom.findUnique({
-							where: { id: roomId },
+							where: { id: Number(roomId) },
 							include: {
 								users: {
 									select: {
@@ -187,30 +187,40 @@ server.start().then(() => {
 		);
 
 		socket.on(
-			"sendMessage",
-			async ({ roomId, senderUid, receieverUid, message }) => {
+			"privateMessage",
+			async ({ roomId, senderUid, receiverUid, message }) => {
 				try {
 					const sendMessage = async (
 						roomId: number,
 						users: User[]
 					) => {
-						const uidsToCheck = [senderUid, receieverUid];
+						const uidsToCheck = [senderUid, receiverUid];
 						const allowedUsers = uidsToCheck.every((uidToCheck) =>
 							users.some((user) => user.uid === uidToCheck)
 						);
+
 						if (allowedUsers) {
 							io.to(String(roomId)).emit("privateMessage", {
 								userUid: socket.userInfo?.userUid,
 								message,
 							});
+
+							await prisma.message.create({
+								data: {
+									content: message,
+									chatRoomId: roomId,
+									userUid: senderUid,
+								},
+							});
 						} else {
 							io.to(socket.id).emit("accessDenied");
+							console.log("accessDenied");
 						}
 					};
 
 					if (roomId) {
 						const roomExists = await prisma.chatRoom.findUnique({
-							where: { id: roomId },
+							where: { id: Number(roomId) },
 							include: {
 								users: true,
 							},
@@ -224,6 +234,8 @@ server.start().then(() => {
 					socket.emit("sendMessageError", {
 						message: "Error sending message",
 					});
+
+					console.log(error);
 				}
 			}
 		);

@@ -41,6 +41,7 @@ export const chatResolvers = {
 				},
 				include: {
 					users: true,
+					messages: true,
 				},
 			});
 
@@ -68,18 +69,20 @@ export const chatResolvers = {
 			const chat = await prisma.chatRoom.findFirst({
 				where: {
 					users: {
-						every: {
-							uid: senderUid,
-							OR: {
-								uid: receiverUid,
+						some: {
+							uid: {
+								in: [senderUid, receiverUid],
 							},
 						},
 					},
 				},
 				include: {
 					users: true,
+					messages: true,
 				},
 			});
+
+			console.log(chat);
 
 			return chat;
 		} catch (error) {

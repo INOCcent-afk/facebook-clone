@@ -5,13 +5,12 @@ export const chatTypeDef = gql`
 		id: ID!
 		name: String
 		users: [User]
-		messages: Message
+		messages: [Message]
 	}
 
 	type Message {
 		id: ID!
 		content: String
-		timestamp: Date
 		userUid: ID!
 		chatRoomId: ID!
 	}
