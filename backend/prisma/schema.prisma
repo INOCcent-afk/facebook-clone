@@ -122,21 +122,22 @@ enum Emoji {
 }
 
 model ChatRoom {
-  id           Int            @id @default(autoincrement())
-  name         String?
-  users        User[]
-  messages     Message[]
+  id       Int       @id @default(autoincrement())
+  name     String?
+  users    User[]
+  messages Message[]
+
   UserChatRoom UserChatRoom[]
 }
 
 model Message {
   id         Int      @id @default(autoincrement())
   content    String
-  timestamp  DateTime
   userUid    String
   user       User     @relation(fields: [userUid], references: [uid])
   chatRoomId Int
   chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+  createdAt  DateTime @default(now())
 }
 
 model UserChatRoom {
