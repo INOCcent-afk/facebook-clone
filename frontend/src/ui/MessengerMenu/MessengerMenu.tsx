@@ -11,8 +11,20 @@ import React from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { ChatPreview } from "./ui/ChatPreview";
+import { useGetChats } from "@/apiHooks/chat/useGetChats";
+import { useAuth } from "@/contexts";
 
 export const MessengerMenu = () => {
+	const { user: me, token } = useAuth();
+
+	const { data: chats, error } = useGetChats({
+		uid: me?.uid as string,
+		token: token as string,
+		enabled: Boolean(me && token),
+	});
+
+	console.log(chats);
+
 	return (
 		<Menu>
 			<MenuButton
@@ -49,10 +61,22 @@ export const MessengerMenu = () => {
 				</Flex>
 
 				<Box marginTop={4}>
-					<ChatPreview
-						id={"iVipDGHkv3ShZiNWDqtS8xe0rNt1"}
-						name="Jovina inoc"
-					/>
+					{chats &&
+						chats?.map((chat) => {
+							const filteredUser = chat?.users?.filter(
+								(user) => me?.uid !== user?.uid
+							)[0];
+
+							if (!filteredUser) return;
+
+							return (
+								<ChatPreview
+									id={filteredUser?.uid}
+									name={`${filteredUser.firstName} ${filteredUser.lastName}`}
+									key={chat.id}
+								/>
+							);
+						})}
 				</Box>
 			</MenuList>
 		</Menu>

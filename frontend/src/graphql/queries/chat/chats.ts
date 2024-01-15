@@ -11,6 +11,8 @@ export const getChats = graphql(/* GraphQL */ `
 			}
 			users {
 				uid
+				firstName
+				lastName
 			}
 			name
 		}

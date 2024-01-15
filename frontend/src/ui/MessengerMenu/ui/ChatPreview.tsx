@@ -6,10 +6,12 @@ import { FaCircle } from "react-icons/fa";
 
 interface Props {
 	name: string;
-	id: string;
+	id: string | undefined | null;
 }
 
 export const ChatPreview: FC<Props> = ({ id, name }) => {
+	if (!id) return null;
+
 	return (
 		<Flex
 			backgroundColor="gray.700"
