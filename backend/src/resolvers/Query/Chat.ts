@@ -24,10 +24,13 @@ export const chatResolvers = {
 			const chats = await prisma.chatRoom.findMany({
 				where: {
 					users: {
-						every: {
+						some: {
 							uid: uid,
 						},
 					},
+				},
+				include: {
+					users: true,
 				},
 			});
 

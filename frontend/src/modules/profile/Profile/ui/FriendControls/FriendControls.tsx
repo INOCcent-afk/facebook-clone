@@ -17,21 +17,28 @@ import { useFriendControls } from "./FriendControls.hook";
 import { useAuth } from "@/contexts";
 import { useRouter } from "next/router";
 import { LabelledAction } from "@/ui";
+import { useSocket } from "@/contexts/SocketContext/SocketContext";
+import { useMessengerState } from "@/contexts/MessengerContext/MessengerContext";
 
 interface Props {
 	isFriends: boolean;
 	isInFriendRequests: boolean;
 	isRequestingToBeFriend: boolean;
+	friendName: string;
 }
 
 export const FriendControls: FC<Props> = ({
 	isFriends,
 	isInFriendRequests,
 	isRequestingToBeFriend,
+	friendName,
 }) => {
 	const { token } = useAuth();
 
 	const { query } = useRouter();
+
+	const { socket } = useSocket();
+	const { handleSetActiveChat } = useMessengerState();
 
 	const userId = query.user_id as string;
 
@@ -107,7 +114,19 @@ export const FriendControls: FC<Props> = ({
 				</>
 			)}
 
-			<Button variant={isFriends ? "primary" : "lightGray"}>
+			<Button
+				variant={isFriends ? "primary" : "lightGray"}
+				onClick={() => {
+					if (!socket) return;
+
+					handleSetActiveChat({ id: userId, name: friendName });
+					socket?.emit(
+						"joinPrivateRoom",
+						"kJKlb4w1FnWyKnMv83zWCf1ewdG3",
+						"iVipDGHkv3ShZiNWDqtS8xe0rNt1"
+					);
+				}}
+			>
 				<Text as="span" color="white" mr={2}>
 					<FaFacebookMessenger size={18} />
 				</Text>

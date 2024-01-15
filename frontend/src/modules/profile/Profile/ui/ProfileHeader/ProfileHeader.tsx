@@ -80,6 +80,7 @@ export const ProfileHeader: FC<Props> = ({
 								isFriends={isFriends}
 								isInFriendRequests={isInFriendRequests}
 								isRequestingToBeFriend={isRequestingToBeFriend}
+								friendName={fullName}
 							/>
 						</OtherUserOnly>
 					)}

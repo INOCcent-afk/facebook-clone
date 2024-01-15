@@ -10,9 +10,6 @@ interface Props {
 }
 
 export const ChatPreview: FC<Props> = ({ id, name }) => {
-	const { socket } = useSocket();
-	const { handleSetActiveChat } = useMessengerState();
-
 	return (
 		<Flex
 			backgroundColor="gray.700"
@@ -23,15 +20,6 @@ export const ChatPreview: FC<Props> = ({ id, name }) => {
 				backgroundColor: "gray.800",
 			}}
 			borderRadius="md"
-			onClick={() => {
-				if (!socket) return;
-
-				handleSetActiveChat({ id, name });
-				socket?.emit(
-					"joinPrivateRoom",
-					"IVEL84uKeebpXS5I5ViNKoajprq1-fmtgw2iGe4WKbTo2tFRDWvJ6eyG3"
-				);
-			}}
 		>
 			<Avatar />
 			<Flex

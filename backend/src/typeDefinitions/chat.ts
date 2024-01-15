@@ -4,7 +4,7 @@ export const chatTypeDef = gql`
 	type ChatRoom {
 		id: ID!
 		name: String
-		users: User
+		users: [User]
 		messages: Message
 	}
 

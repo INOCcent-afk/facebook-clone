@@ -13,12 +13,6 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { ChatPreview } from "./ui/ChatPreview";
 
 export const MessengerMenu = () => {
-	const messages = [
-		{ id: "1", name: "Imps" },
-		{ id: "2", name: "Troy" },
-		{ id: "3", name: "Pol" },
-	];
-
 	return (
 		<Menu>
 			<MenuButton
@@ -55,13 +49,10 @@ export const MessengerMenu = () => {
 				</Flex>
 
 				<Box marginTop={4}>
-					{messages.map((message) => (
-						<ChatPreview
-							id={message.id}
-							name={message.name}
-							key={message.id}
-						/>
-					))}
+					<ChatPreview
+						id={"iVipDGHkv3ShZiNWDqtS8xe0rNt1"}
+						name="Jovina inoc"
+					/>
 				</Box>
 			</MenuList>
 		</Menu>
