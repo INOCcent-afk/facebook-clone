@@ -6,6 +6,7 @@ import {
 	Menu,
 	MenuButton,
 	MenuList,
+	Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
@@ -77,6 +78,12 @@ export const MessengerMenu = () => {
 								/>
 							);
 						})}
+
+					{!chats?.length ? (
+						<Box textAlign="center" color="white">
+							<Text>No Messages</Text>
+						</Box>
+					) : null}
 				</Box>
 			</MenuList>
 		</Menu>

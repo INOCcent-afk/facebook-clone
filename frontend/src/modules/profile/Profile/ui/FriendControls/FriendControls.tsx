@@ -33,14 +33,14 @@ export const FriendControls: FC<Props> = ({
 	isRequestingToBeFriend,
 	friendName,
 }) => {
-	const { token } = useAuth();
+	const { user, token } = useAuth();
 
 	const { query } = useRouter();
 
 	const { socket } = useSocket();
 	const { handleSetActiveChat } = useMessengerState();
 
-	const userId = query.user_id as string;
+	const friendUserId = query.user_id as string;
 
 	const {
 		handleAddFriend,
@@ -48,7 +48,7 @@ export const FriendControls: FC<Props> = ({
 		handleCancelFriendRequest,
 		handleConfirmFriendRequest,
 		handleUnfriend,
-	} = useFriendControls({ token: token ?? "", uid: userId });
+	} = useFriendControls({ token: token ?? "", uid: friendUserId });
 
 	return (
 		<>
@@ -119,12 +119,8 @@ export const FriendControls: FC<Props> = ({
 				onClick={() => {
 					if (!socket) return;
 
-					handleSetActiveChat({ id: userId, name: friendName });
-					socket?.emit(
-						"joinPrivateRoom",
-						"kJKlb4w1FnWyKnMv83zWCf1ewdG3",
-						"iVipDGHkv3ShZiNWDqtS8xe0rNt1"
-					);
+					socket?.emit("joinPrivateRoom", user?.uid, friendUserId);
+					handleSetActiveChat({ id: friendUserId, name: friendName });
 				}}
 			>
 				<Text as="span" color="white" mr={2}>

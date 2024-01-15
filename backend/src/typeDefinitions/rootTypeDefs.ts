@@ -18,6 +18,7 @@ export const rootTypeDefs = gql`
 		userPosts(id: Int): [Post]
 		comments: [Comment]
 		chats(uid: String!): [ChatRoom]
+		chat(senderUid: String!, receiverUid: String!): ChatRoom
 	}
 
 	${userTypeDef}

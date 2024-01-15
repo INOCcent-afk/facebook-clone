@@ -90,7 +90,10 @@ server.start().then(() => {
 				roomId?: number
 			) => {
 				try {
-					const loadRoom = async (roomId: number, users: User[]) => {
+					const loadRoom = async (
+						roomId: number,
+						users: { uid: string }[]
+					) => {
 						const uidsToCheck = [senderUid, receieverUid];
 						const allowedUsers = uidsToCheck.every((uidToCheck) =>
 							users.some((user) => user.uid === uidToCheck)
@@ -116,14 +119,17 @@ server.start().then(() => {
 						const existingRoom = await prisma.chatRoom.findUnique({
 							where: { id: roomId },
 							include: {
-								users: true,
+								users: {
+									select: {
+										uid: true,
+									},
+								},
 							},
 						});
 
 						if (!existingRoom) {
 							const newChatRoom = await prisma.chatRoom.create({
 								data: {
-									name: "",
 									users: {
 										connect: [
 											{
@@ -148,7 +154,6 @@ server.start().then(() => {
 					} else {
 						const newChatRoom = await prisma.chatRoom.create({
 							data: {
-								name: "",
 								users: {
 									connect: [
 										{
@@ -161,7 +166,11 @@ server.start().then(() => {
 								},
 							},
 							include: {
-								users: true,
+								users: {
+									select: {
+										uid: true,
+									},
+								},
 							},
 						});
 
