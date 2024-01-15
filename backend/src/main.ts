@@ -171,7 +171,7 @@ server.start().then(() => {
 					console.log("We joined!");
 				} catch (error) {
 					socket.emit("joinError", {
-						message: "You are not allowed to join this room",
+						message: JSON.stringify(error),
 					});
 				}
 			}
