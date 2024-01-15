@@ -18,13 +18,11 @@ import { useAuth } from "@/contexts";
 export const MessengerMenu = () => {
 	const { user: me, token } = useAuth();
 
-	const { data: chats, error } = useGetChats({
+	const { data: chats } = useGetChats({
 		uid: me?.uid as string,
 		token: token as string,
 		enabled: Boolean(me && token),
 	});
-
-	console.log(chats);
 
 	return (
 		<Menu>

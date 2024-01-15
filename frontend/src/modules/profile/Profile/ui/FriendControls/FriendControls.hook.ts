@@ -25,8 +25,6 @@ export const useFriendControls = ({
 	const { mutate: cancelFriendRequest } = useCancelFriendRequest();
 	const { mutate: unfriend } = useUnfriend();
 
-	console.log(token, uid);
-
 	const handleAddFriend = () => {
 		addFriend({ token, uid });
 	};

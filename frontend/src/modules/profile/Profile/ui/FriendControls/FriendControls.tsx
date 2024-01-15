@@ -8,7 +8,7 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { MdPeopleAlt } from "react-icons/md";
 import { SlUserUnfollow } from "react-icons/sl";
@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import { LabelledAction } from "@/ui";
 import { useSocket } from "@/contexts/SocketContext/SocketContext";
 import { useMessengerState } from "@/contexts/MessengerContext/MessengerContext";
+import { useGetChat } from "@/apiHooks/chat/useGetChat";
 
 interface Props {
 	isFriends: boolean;
@@ -42,6 +43,13 @@ export const FriendControls: FC<Props> = ({
 
 	const friendUserId = query.user_id as string;
 
+	const { data: chat } = useGetChat({
+		senderUid: user?.uid as string,
+		receiverUid: friendUserId,
+		token: token as string,
+		enabled: Boolean(user && token),
+	});
+
 	const {
 		handleAddFriend,
 		handleRejectFriendRequest,
@@ -49,6 +57,23 @@ export const FriendControls: FC<Props> = ({
 		handleConfirmFriendRequest,
 		handleUnfriend,
 	} = useFriendControls({ token: token ?? "", uid: friendUserId });
+
+	const handleOpenMessage = () => {
+		if (!socket) return;
+
+		if (chat) {
+			console.log(user?.uid, friendUserId);
+			socket?.emit("joinPrivateRoom", user?.uid, friendUserId, chat.id);
+
+			handleSetActiveChat({
+				roomId: chat.id,
+				name: friendName,
+				messages: chat.messages,
+				senderUid: user?.uid as string,
+				receiverUid: friendUserId,
+			});
+		}
+	};
 
 	return (
 		<>
@@ -116,12 +141,7 @@ export const FriendControls: FC<Props> = ({
 
 			<Button
 				variant={isFriends ? "primary" : "lightGray"}
-				onClick={() => {
-					if (!socket) return;
-
-					socket?.emit("joinPrivateRoom", user?.uid, friendUserId);
-					handleSetActiveChat({ id: friendUserId, name: friendName });
-				}}
+				onClick={handleOpenMessage}
 			>
 				<Text as="span" color="white" mr={2}>
 					<FaFacebookMessenger size={18} />

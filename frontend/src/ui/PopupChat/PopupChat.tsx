@@ -12,14 +12,25 @@ import { IoMdClose } from "react-icons/io";
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { useSocket } from "@/contexts/SocketContext/SocketContext";
 import { useAuth } from "@/contexts";
+import { Message } from "@/graphql/generated/graphql";
 
 interface Props {
-	id: string;
+	roomId: string;
 	name: string;
+	receiverUid: string;
+	senderUid: string;
+	messages: (Partial<Message> | null)[] | null | undefined;
 	closeChat: (id: string) => void;
 }
 
-export const PopupChat: FC<Props> = ({ id, name, closeChat }) => {
+export const PopupChat: FC<Props> = ({
+	roomId,
+	name,
+	closeChat,
+	receiverUid,
+	senderUid,
+	messages,
+}) => {
 	const { user } = useAuth();
 	const { socket } = useSocket();
 	const [message, setMessage] = useState("");
@@ -31,6 +42,7 @@ export const PopupChat: FC<Props> = ({ id, name, closeChat }) => {
 		if (!socket) return;
 
 		socket.on("privateMessage", ({ userUid, message }) => {
+			console.log(userUid, message);
 			setReceivedMessages((prevMessages) => [
 				...prevMessages,
 				{
@@ -67,7 +79,7 @@ export const PopupChat: FC<Props> = ({ id, name, closeChat }) => {
 
 				<Flex>
 					<Button
-						onClick={() => closeChat(id)}
+						onClick={() => closeChat(roomId)}
 						variant="circleUnstyled"
 					>
 						<IoMdClose size={24} />
@@ -83,6 +95,19 @@ export const PopupChat: FC<Props> = ({ id, name, closeChat }) => {
 					paddingX={2}
 					color="white"
 				>
+					{messages &&
+						messages?.map((chat, index) => {
+							if (!chat) return;
+
+							return (
+								<ChatMessage
+									showAvatar={true}
+									isMyMessage={chat.userUid === user?.uid}
+									message={chat.content as string}
+									key={index}
+								/>
+							);
+						})}
 					{receivedMessages.map((chat, index) => (
 						<ChatMessage
 							showAvatar={true}
@@ -106,7 +131,9 @@ export const PopupChat: FC<Props> = ({ id, name, closeChat }) => {
 							if (!socket) return;
 
 							socket.emit("privateMessage", {
-								roomId: "IVEL84uKeebpXS5I5ViNKoajprq1-fmtgw2iGe4WKbTo2tFRDWvJ6eyG3",
+								roomId: roomId,
+								senderUid,
+								receiverUid: receiverUid,
 								message,
 							});
 
