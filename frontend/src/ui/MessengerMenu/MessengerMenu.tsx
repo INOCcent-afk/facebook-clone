@@ -13,7 +13,6 @@ import { FaFacebookMessenger } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useAuth } from "@/contexts";
 import { ChatPreview } from "./ui/ChatPreview";
-import { useMessengerState } from "@/contexts/MessengerContext/MessengerContext";
 import { useSocket } from "@/contexts/SocketContext/SocketContext";
 import { ChatRoom } from "@/graphql/generated/graphql";
 
