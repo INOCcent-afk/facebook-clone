@@ -69,6 +69,8 @@ model Notification {
   createdFor          Int // Id of user
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+
+  @@index([createdFor])
 }
 
 model Post {

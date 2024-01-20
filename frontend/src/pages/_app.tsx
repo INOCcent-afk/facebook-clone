@@ -7,7 +7,6 @@ import "firebase/compat/auth";
 import "../firebase/firebase-config";
 import { AuthProvider } from "@/contexts/";
 import { AppTemplate } from "@/containers/AppTemplate/AppTemplate";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { MessengerProvider } from "@/contexts/MessengerContext/MessengerContext";
 
 const queryClient = new QueryClient({

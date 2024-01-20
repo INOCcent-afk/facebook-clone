@@ -42,7 +42,6 @@ export const PopupChat: FC<Props> = ({
 		if (!socket) return;
 
 		socket.on("privateMessage", ({ userUid, message }) => {
-			console.log(userUid, message);
 			setReceivedMessages((prevMessages) => [
 				...prevMessages,
 				{
@@ -57,8 +56,6 @@ export const PopupChat: FC<Props> = ({
 			socket.off("privateMessage");
 		};
 	}, [socket]);
-
-	console.log(receivedMessages);
 
 	return (
 		<Box width={328}>

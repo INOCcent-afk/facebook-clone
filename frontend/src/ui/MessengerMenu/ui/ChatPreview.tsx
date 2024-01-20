@@ -1,27 +1,54 @@
+import { useAuth } from "@/contexts";
 import { useMessengerState } from "@/contexts/MessengerContext/MessengerContext";
 import { useSocket } from "@/contexts/SocketContext/SocketContext";
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import { Message } from "@/graphql/generated/graphql";
+import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { FaCircle } from "react-icons/fa";
 
 interface Props {
-	name: string;
-	id: string | undefined | null;
+	friendName: string;
+	roomId: string;
+	messages: (Partial<Message> | null)[] | null | undefined;
+	friendUid: string | null | undefined;
 }
 
-export const ChatPreview: FC<Props> = ({ id, name }) => {
-	if (!id) return null;
+export const ChatPreview: FC<Props> = ({
+	roomId,
+	friendName,
+	messages,
+	friendUid,
+}) => {
+	const { user } = useAuth();
+	const { socket } = useSocket();
+	const { handleSetActiveChat } = useMessengerState();
+
+	const handleOpenMessage = () => {
+		if (!socket) return;
+
+		socket?.emit("joinPrivateRoom", user?.uid, friendUid, roomId);
+
+		handleSetActiveChat({
+			roomId,
+			name: friendName,
+			messages: messages,
+			senderUid: user?.uid as string,
+			receiverUid: friendUid as string,
+		});
+	};
 
 	return (
 		<Flex
-			backgroundColor="gray.700"
 			p={2}
-			color="white"
 			gap={4}
+			borderRadius="md"
+			color="white"
+			backgroundColor="gray.700"
+			as={Button}
+			onClick={handleOpenMessage}
 			_hover={{
 				backgroundColor: "gray.800",
 			}}
-			borderRadius="md"
 		>
 			<Avatar />
 			<Flex
@@ -30,9 +57,16 @@ export const ChatPreview: FC<Props> = ({ id, name }) => {
 				alignItems="center"
 			>
 				<Box>
-					<Text>{name}</Text>
+					<Text>{friendName}</Text>
 					<Text fontSize="sm">
-						Gugutim ako <Text as="span">.5m</Text>
+						{messages &&
+						messages[messages?.length - 1]?.userUid ===
+							user?.uid ? (
+							<Text as="span">You:</Text>
+						) : (
+							<Text as="span">{friendName}:</Text>
+						)}{" "}
+						{messages && messages[messages?.length - 1]?.content}
 					</Text>
 				</Box>
 				<Box>

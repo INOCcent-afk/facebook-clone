@@ -80,7 +80,40 @@ server.start().then(() => {
 	});
 
 	io.on("connection", (socket: ModifiedSocket) => {
-		console.log(socket.userInfo);
+		socket.on("loadChats", async ({ uid }: { uid: string }) => {
+			try {
+				const chats = await prisma.chatRoom.findMany({
+					where: {
+						users: {
+							some: {
+								uid: uid,
+							},
+						},
+						messages: {
+							some: {
+								// Only chat room with messages
+							},
+						},
+					},
+					include: {
+						users: true,
+						messages: true,
+					},
+				});
+
+				console.log(chats);
+
+				socket.emit("loadChats", {
+					chats,
+				});
+			} catch (error) {
+				socket.emit("loadChatsError", {
+					message: "Error sending message",
+				});
+
+				console.log(error);
+			}
+		});
 
 		socket.on(
 			"joinPrivateRoom",
@@ -100,16 +133,6 @@ server.start().then(() => {
 						);
 						if (allowedUsers) {
 							socket.join(String(roomId));
-
-							const messages = await prisma.message.findMany({
-								where: { chatRoomId: roomId },
-								include: { user: true },
-							});
-
-							io.to(String(roomId)).emit(
-								"loadMessages",
-								messages
-							);
 						} else {
 							io.to(socket.id).emit("accessDenied");
 						}
@@ -203,6 +226,7 @@ server.start().then(() => {
 							io.to(String(roomId)).emit("privateMessage", {
 								userUid: socket.userInfo?.userUid,
 								message,
+								roomId: roomId,
 							});
 
 							await prisma.message.create({
@@ -211,6 +235,29 @@ server.start().then(() => {
 									chatRoomId: roomId,
 									userUid: senderUid,
 								},
+							});
+
+							const chats = await prisma.chatRoom.findMany({
+								where: {
+									users: {
+										some: {
+											uid: senderUid,
+										},
+									},
+									messages: {
+										some: {
+											// Only chat room with messages
+										},
+									},
+								},
+								include: {
+									users: true,
+									messages: true,
+								},
+							});
+
+							io.emit("loadChats", {
+								chats,
 							});
 						} else {
 							io.to(socket.id).emit("accessDenied");
@@ -227,7 +274,7 @@ server.start().then(() => {
 						});
 
 						if (roomExists) {
-							sendMessage(roomExists.id, roomExists.users);
+							await sendMessage(roomExists.id, roomExists.users);
 						}
 					}
 				} catch (error) {

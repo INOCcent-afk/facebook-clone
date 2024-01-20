@@ -1,6 +1,5 @@
 import { GraphQLError } from "graphql";
 import { Context } from "../../models";
-import { ChatRoom, Prisma } from "@prisma/client";
 
 interface ChatsArgs {
 	uid: string;

@@ -8,21 +8,41 @@ import {
 	MenuList,
 	Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { ChatPreview } from "./ui/ChatPreview";
-import { useGetChats } from "@/apiHooks/chat/useGetChats";
 import { useAuth } from "@/contexts";
+import { ChatPreview } from "./ui/ChatPreview";
+import { useMessengerState } from "@/contexts/MessengerContext/MessengerContext";
+import { useSocket } from "@/contexts/SocketContext/SocketContext";
+import { ChatRoom } from "@/graphql/generated/graphql";
 
 export const MessengerMenu = () => {
-	const { user: me, token } = useAuth();
+	const { user: me } = useAuth();
 
-	const { data: chats } = useGetChats({
-		uid: me?.uid as string,
-		token: token as string,
-		enabled: Boolean(me && token),
-	});
+	const [chats, setChats] = useState<ChatRoom[] | null>(null);
+
+	const { socket } = useSocket();
+
+	useEffect(() => {
+		console.log(Boolean(socket));
+
+		if (!socket) return;
+
+		socket.emit("loadChats", {
+			uid: me?.uid,
+		});
+
+		socket.on("loadChats", ({ chats }) => {
+			console.log("FUCK");
+			setChats(chats);
+		});
+
+		// Cleanup function for disconnecting the event listener
+		return () => {
+			socket.off("loadChats");
+		};
+	}, [socket]);
 
 	return (
 		<Menu>
@@ -66,12 +86,16 @@ export const MessengerMenu = () => {
 								(user) => me?.uid !== user?.uid
 							)[0];
 
-							if (!filteredUser) return;
+							if (!filteredUser || !chat || !chat.users) return;
+
+							const friendUid = chat.users[1]?.uid;
 
 							return (
 								<ChatPreview
-									id={filteredUser?.uid}
-									name={`${filteredUser.firstName} ${filteredUser.lastName}`}
+									roomId={chat.id}
+									friendName={`${filteredUser.firstName} ${filteredUser.lastName}`}
+									friendUid={friendUid}
+									messages={chat.messages}
 									key={chat.id}
 								/>
 							);
