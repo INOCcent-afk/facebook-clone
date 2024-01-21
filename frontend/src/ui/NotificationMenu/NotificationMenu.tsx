@@ -8,7 +8,7 @@ import {
 	MenuList,
 	Tooltip,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { NotificationPreview } from "./ui/NotificationPreview";
@@ -22,7 +22,7 @@ export const NotificationMenu = () => {
 
 	const queryClient = useQueryClient();
 
-	const { data } = useGetNotifications({
+	const { data, error } = useGetNotifications({
 		token: token ?? "",
 		uid: user?.uid ?? "",
 		enabled: Boolean(token && user?.uid),
@@ -37,8 +37,6 @@ export const NotificationMenu = () => {
 			uid: user?.uid,
 		});
 
-		console.log(user.uid);
-
 		socket.on(`${user?.uid}_notify`, (titi) => {
 			if (!data) {
 				queryClient.setQueryData(["notifications"], [titi]);
@@ -46,8 +44,8 @@ export const NotificationMenu = () => {
 			queryClient.setQueryData(["notifications"], { ...data, titi });
 		});
 
-		socket.on("loadNotifications", ({ chats }) => {
-			queryClient.setQueryData(["notifications"], chats);
+		socket.on("loadNotifications", ({ notifications }) => {
+			queryClient.setQueryData(["notifications"], notifications);
 		});
 
 		// Cleanup function for disconnecting the event listener
@@ -56,7 +54,7 @@ export const NotificationMenu = () => {
 		};
 	}, [socket, user]);
 
-	console.log(data);
+	console.log(data, error);
 
 	return (
 		<Menu>

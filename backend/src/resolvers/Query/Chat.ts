@@ -81,8 +81,6 @@ export const chatResolvers = {
 				},
 			});
 
-			console.log(chat);
-
 			return chat;
 		} catch (error) {
 			throw new GraphQLError(JSON.stringify(error));

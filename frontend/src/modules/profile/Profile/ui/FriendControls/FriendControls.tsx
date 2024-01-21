@@ -62,7 +62,6 @@ export const FriendControls: FC<Props> = ({
 		if (!socket) return;
 
 		if (chat) {
-			console.log(user?.uid, friendUserId);
 			socket?.emit("joinPrivateRoom", user?.uid, friendUserId, chat.id);
 
 			handleSetActiveChat({
