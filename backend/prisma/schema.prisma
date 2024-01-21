@@ -66,6 +66,7 @@ model Notification {
   user                User     @relation(fields: [userId], references: [id])
   userId              Int
   notificationMessage String
+  notificationUrl     String
   createdFor          Int // Id of user
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
