@@ -67,7 +67,7 @@ model Notification {
   userId              Int
   notificationMessage String
   notificationUrl     String
-  createdFor          Int // Id of user
+  createdFor          String // Uid of user
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 

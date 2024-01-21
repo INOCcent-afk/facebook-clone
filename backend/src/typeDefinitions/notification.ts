@@ -6,6 +6,14 @@ export const notificationTypeDef = gql`
 		notificationMessage: String
 		user: User
 		notificationUrl: String
-		createdFor: Int
+		createdFor: String
+	}
+
+	type Mutation {
+		createNotification(
+			notificationUrl: String!
+			notificationMessage: String!
+			createdFor: String!
+		): Notification
 	}
 `;

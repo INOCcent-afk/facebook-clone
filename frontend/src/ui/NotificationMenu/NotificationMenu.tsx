@@ -8,7 +8,7 @@ import {
 	MenuList,
 	Tooltip,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { NotificationPreview } from "./ui/NotificationPreview";
@@ -31,12 +31,19 @@ export const NotificationMenu = () => {
 	const { socket } = useSocket();
 
 	useEffect(() => {
-		console.log(Boolean(socket));
-
-		if (!socket) return;
+		if (!socket || !user) return;
 
 		socket.emit("loadNotifications", {
 			uid: user?.uid,
+		});
+
+		console.log(user.uid);
+
+		socket.on(`${user?.uid}_notify`, (titi) => {
+			if (!data) {
+				queryClient.setQueryData(["notifications"], [titi]);
+			}
+			queryClient.setQueryData(["notifications"], { ...data, titi });
 		});
 
 		socket.on("loadNotifications", ({ chats }) => {
@@ -47,7 +54,7 @@ export const NotificationMenu = () => {
 		return () => {
 			socket.off("loadChats");
 		};
-	}, [socket]);
+	}, [socket, user]);
 
 	console.log(data);
 

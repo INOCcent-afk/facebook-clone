@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n\tmutation createNotification(\n\t\t$notificationUrl: String!\n\t\t$notificationMessage: String!\n\t\t$createdFor: String!\n\t) {\n\t\tcreateNotification(\n\t\t\tnotificationUrl: $notificationUrl\n\t\t\tnotificationMessage: $notificationMessage\n\t\t\tcreatedFor: $createdFor\n\t\t) {\n\t\t\tcreatedFor\n\t\t\tid\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tuser {\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n": types.CreateNotificationDocument,
     "\n\tmutation createPost($post: PostInput!) {\n\t\tcreatePost(post: $post) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t\tpostParentId\n\t\t}\n\t}\n": types.CreatePostDocument,
     "\n\tmutation deletePost($postId: ID!) {\n\t\tdeletePost(postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n": types.DeletePostDocument,
     "\n\tmutation updatePost($postId: ID!, $post: PostInput!) {\n\t\tupdatePost(postId: $postId, post: $post) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdatePostDocument,
@@ -46,6 +47,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation createNotification(\n\t\t$notificationUrl: String!\n\t\t$notificationMessage: String!\n\t\t$createdFor: String!\n\t) {\n\t\tcreateNotification(\n\t\t\tnotificationUrl: $notificationUrl\n\t\t\tnotificationMessage: $notificationMessage\n\t\t\tcreatedFor: $createdFor\n\t\t) {\n\t\t\tcreatedFor\n\t\t\tid\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tuser {\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation createNotification(\n\t\t$notificationUrl: String!\n\t\t$notificationMessage: String!\n\t\t$createdFor: String!\n\t) {\n\t\tcreateNotification(\n\t\t\tnotificationUrl: $notificationUrl\n\t\t\tnotificationMessage: $notificationMessage\n\t\t\tcreatedFor: $createdFor\n\t\t) {\n\t\t\tcreatedFor\n\t\t\tid\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tuser {\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

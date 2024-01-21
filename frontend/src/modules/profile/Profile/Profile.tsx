@@ -15,17 +15,13 @@ export const Profile = () => {
 
 	const isNotMe = me ? Boolean(userId) && me?.uid !== userId : false;
 
-	const { data: userData, error } = useGetUser({
+	const { data: userData } = useGetUser({
 		uid: userId,
 		token: token ?? "",
 		enabled: Boolean(isNotMe && token),
 	});
 
-	console.log(error);
-
 	const user = isNotMe ? userData : me;
-
-	console.log(userData);
 
 	return (
 		<>

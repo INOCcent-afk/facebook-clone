@@ -80,13 +80,11 @@ server.start().then(() => {
 	});
 
 	io.on("connection", (socket: ModifiedSocket) => {
-		socket.on("notifications", async ({ uid }: { uid: string }) => {
+		socket.on("loadNotifications", async ({ uid }: { uid: string }) => {
 			try {
 				const notifications = await prisma.notification.findMany({
 					where: {
-						user: {
-							uid: uid,
-						},
+						createdFor: uid,
 					},
 				});
 
@@ -95,12 +93,63 @@ server.start().then(() => {
 				});
 			} catch (error) {
 				socket.emit("notificationsError", {
-					message: "Error sending message",
+					message: "Error fetching notifications",
 				});
 
 				console.log(error);
 			}
 		});
+
+		socket.on(
+			"sendNotification",
+			async ({
+				notificationUrl,
+				notificationMessage,
+				senderUid,
+				createdFor,
+			}: {
+				notificationUrl: string;
+				notificationMessage: string;
+				senderUid: string;
+				createdFor: string;
+			}) => {
+				if (!notificationMessage || !notificationUrl) {
+					socket.emit("sendNotificationError", {
+						message: "Error sending message",
+					});
+				}
+
+				try {
+					const notification = await prisma.notification.create({
+						data: {
+							createdFor: createdFor,
+							notificationMessage: notificationMessage,
+							notificationUrl: notificationUrl,
+							user: {
+								connect: {
+									uid: senderUid,
+								},
+							},
+						},
+						include: {
+							user: true,
+						},
+					});
+
+					io.emit(`${createdFor}_notify`, {
+						notificationUrl: notification.notificationUrl,
+						notificationMessage: notification.notificationMessage,
+						user: notification.user,
+					});
+				} catch (error) {
+					socket.emit("sendNotificationError", {
+						message: "Error sending notification",
+					});
+
+					console.log(error);
+				}
+			}
+		);
 
 		socket.on("loadChats", async ({ uid }: { uid: string }) => {
 			try {

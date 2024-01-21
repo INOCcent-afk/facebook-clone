@@ -39,8 +39,6 @@ export const AppTemplate: FC<Props> = ({ children }) => {
 		}
 	}, [data]);
 
-	console.log(activeChats);
-
 	return (
 		<div>
 			{children}

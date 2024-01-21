@@ -25,8 +25,6 @@ export const MessengerMenu = () => {
 	const { socket } = useSocket();
 
 	useEffect(() => {
-		console.log(Boolean(socket));
-
 		if (!socket) return;
 
 		socket.emit("loadChats", {
