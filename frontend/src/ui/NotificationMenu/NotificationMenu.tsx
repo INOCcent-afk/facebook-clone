@@ -22,7 +22,7 @@ export const NotificationMenu = () => {
 
 	const queryClient = useQueryClient();
 
-	const { data, error } = useGetNotifications({
+	const { data } = useGetNotifications({
 		token: token ?? "",
 		uid: user?.uid ?? "",
 		enabled: Boolean(token && user?.uid),
@@ -44,17 +44,20 @@ export const NotificationMenu = () => {
 			queryClient.setQueryData(["notifications"], { ...data, titi });
 		});
 
-		socket.on("loadNotifications", ({ notifications }) => {
+		socket.on(`${user.uid}_loadNotifications`, ({ notifications }) => {
+			console.log(notifications);
 			queryClient.setQueryData(["notifications"], notifications);
 		});
 
 		// Cleanup function for disconnecting the event listener
 		return () => {
-			socket.off("loadChats");
+			socket.off("loadNotifications");
+			socket.off(`${user.uid}_loadNotifications`);
+			socket.off(`${user?.uid}_notify`);
 		};
 	}, [socket, user]);
 
-	console.log(data, error);
+	console.log(data);
 
 	return (
 		<Menu>

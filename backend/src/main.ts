@@ -88,7 +88,7 @@ server.start().then(() => {
 					},
 				});
 
-				socket.emit("loadNotifications", {
+				socket.emit(`${uid}_loadNotifications`, {
 					notifications,
 				});
 			} catch (error) {
