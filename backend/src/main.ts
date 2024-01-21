@@ -101,8 +101,6 @@ server.start().then(() => {
 					},
 				});
 
-				console.log(chats);
-
 				socket.emit("loadChats", {
 					chats,
 				});
