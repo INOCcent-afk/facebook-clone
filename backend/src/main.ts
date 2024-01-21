@@ -80,6 +80,28 @@ server.start().then(() => {
 	});
 
 	io.on("connection", (socket: ModifiedSocket) => {
+		socket.on("notifications", async ({ uid }: { uid: string }) => {
+			try {
+				const notifications = await prisma.notification.findMany({
+					where: {
+						user: {
+							uid: uid,
+						},
+					},
+				});
+
+				socket.emit("loadNotifications", {
+					notifications,
+				});
+			} catch (error) {
+				socket.emit("notificationsError", {
+					message: "Error sending message",
+				});
+
+				console.log(error);
+			}
+		});
+
 		socket.on("loadChats", async ({ uid }: { uid: string }) => {
 			try {
 				const chats = await prisma.chatRoom.findMany({

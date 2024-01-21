@@ -7,6 +7,7 @@ import {
 	MenuButton,
 	MenuList,
 	Text,
+	Tooltip,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
@@ -33,7 +34,6 @@ export const MessengerMenu = () => {
 		});
 
 		socket.on("loadChats", ({ chats }) => {
-			console.log("FUCK");
 			setChats(chats);
 		});
 
@@ -45,19 +45,21 @@ export const MessengerMenu = () => {
 
 	return (
 		<Menu>
-			<MenuButton
-				as={Button}
-				variant="circledButton"
-				size="circledMd"
-				position="relative"
-			>
-				<FaFacebookMessenger
-					size={20}
-					style={{
-						width: "100%",
-					}}
-				/>
-			</MenuButton>
+			<Tooltip label="Messenger">
+				<MenuButton
+					as={Button}
+					variant="circledButton"
+					size="circledMd"
+					position="relative"
+				>
+					<FaFacebookMessenger
+						size={20}
+						style={{
+							width: "100%",
+						}}
+					/>
+				</MenuButton>
+			</Tooltip>
 
 			<MenuList
 				backgroundColor="gray.700"
