@@ -4,11 +4,12 @@ import React, { FC } from "react";
 import { FaCircle } from "react-icons/fa";
 
 interface Props {
-	user: User;
-	message: string;
+	user: (Partial<User> | null) | null | undefined;
+	message: string | null | undefined;
 }
 
 export const NotificationPreview: FC<Props> = ({ user, message }) => {
+	if (!message) return null;
 	return (
 		<Button
 			display="flex"
@@ -23,11 +24,11 @@ export const NotificationPreview: FC<Props> = ({ user, message }) => {
 				<Avatar size="md" />
 				<Text color="white">{message}</Text>
 			</Flex>
-			<Box>
+			{/* <Box>
 				<Text as="span" color="brand" fontSize="sm">
 					<FaCircle />
 				</Text>
-			</Box>
+			</Box> */}
 		</Button>
 	);
 };

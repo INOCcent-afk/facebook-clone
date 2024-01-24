@@ -8,6 +8,7 @@ import "../firebase/firebase-config";
 import { AuthProvider } from "@/contexts/";
 import { AppTemplate } from "@/containers/AppTemplate/AppTemplate";
 import { MessengerProvider } from "@/contexts/MessengerContext/MessengerContext";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -22,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
 		<AuthProvider>
 			<MessengerProvider>
 				<QueryClientProvider client={queryClient}>
-					{/* <ReactQueryDevtools initialIsOpen={false} /> */}
+					<ReactQueryDevtools initialIsOpen={true} />
 					<ChakraProvider theme={theme}>
 						<AppTemplate>
 							<Component {...pageProps} />

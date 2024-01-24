@@ -22,7 +22,7 @@ export const NotificationMenu = () => {
 
 	const queryClient = useQueryClient();
 
-	const { data } = useGetNotifications({
+	const { data: notifications } = useGetNotifications({
 		token: token ?? "",
 		uid: user?.uid ?? "",
 		enabled: Boolean(token && user?.uid),
@@ -37,15 +37,24 @@ export const NotificationMenu = () => {
 			uid: user?.uid,
 		});
 
-		socket.on(`${user?.uid}_notify`, (titi) => {
-			if (!data) {
-				queryClient.setQueryData(["notifications"], [titi]);
+		socket.on(
+			`${user?.uid}_notify`,
+			({ notification: newNotification }) => {
+				if (!notifications) {
+					queryClient.setQueryData(
+						["notifications"],
+						[newNotification]
+					);
+				} else {
+					queryClient.setQueryData(
+						["notifications"],
+						[...notifications, newNotification]
+					);
+				}
 			}
-			queryClient.setQueryData(["notifications"], { ...data, titi });
-		});
+		);
 
 		socket.on(`${user.uid}_loadNotifications`, ({ notifications }) => {
-			console.log(notifications);
 			queryClient.setQueryData(["notifications"], notifications);
 		});
 
@@ -55,9 +64,7 @@ export const NotificationMenu = () => {
 			socket.off(`${user.uid}_loadNotifications`);
 			socket.off(`${user?.uid}_notify`);
 		};
-	}, [socket, user]);
-
-	console.log(data);
+	}, [socket, user, notifications]);
 
 	return (
 		<Menu>
@@ -97,7 +104,14 @@ export const NotificationMenu = () => {
 				</Flex>
 
 				<Box marginTop={4}>
-					<NotificationPreview />
+					{notifications &&
+						notifications.map((data) => (
+							<NotificationPreview
+								key={data?.id}
+								user={data?.user}
+								message={data?.notificationMessage}
+							/>
+						))}
 				</Box>
 			</MenuList>
 		</Menu>

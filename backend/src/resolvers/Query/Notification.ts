@@ -22,9 +22,10 @@ export const notificationResolvers = {
 		try {
 			const notifications = await prisma.notification.findMany({
 				where: {
-					user: {
-						uid: uid,
-					},
+					createdFor: uid,
+				},
+				include: {
+					user: true,
 				},
 			});
 

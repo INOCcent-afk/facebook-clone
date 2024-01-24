@@ -7,6 +7,11 @@ export const getNotifications = graphql(/* GraphQL */ `
 			createdFor
 			notificationMessage
 			notificationUrl
+			user {
+				firstName
+				lastName
+				uid
+			}
 		}
 	}
 `);

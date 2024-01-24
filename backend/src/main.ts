@@ -137,9 +137,7 @@ server.start().then(() => {
 					});
 
 					io.emit(`${createdFor}_notify`, {
-						notificationUrl: notification.notificationUrl,
-						notificationMessage: notification.notificationMessage,
-						user: notification.user,
+						notification,
 					});
 				} catch (error) {
 					socket.emit("sendNotificationError", {
