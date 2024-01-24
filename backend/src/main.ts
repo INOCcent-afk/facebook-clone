@@ -86,6 +86,9 @@ server.start().then(() => {
 					where: {
 						createdFor: uid,
 					},
+					orderBy: {
+						createdAt: "desc",
+					},
 				});
 
 				socket.emit(`${uid}_loadNotifications`, {

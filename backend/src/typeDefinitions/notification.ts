@@ -7,6 +7,18 @@ export const notificationTypeDef = gql`
 		user: User
 		notificationUrl: String
 		createdFor: String
+		viewed: Boolean
+	}
+
+	type Notifications {
+		notifications: [Notification]
+		allViewed: Boolean
+	}
+
+	type NotificationCount {
+		id: ID!
+		user: User
+		count: Int
 	}
 
 	type Mutation {

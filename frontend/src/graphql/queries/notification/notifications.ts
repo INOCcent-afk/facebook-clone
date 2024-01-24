@@ -7,6 +7,7 @@ export const getNotifications = graphql(/* GraphQL */ `
 			createdFor
 			notificationMessage
 			notificationUrl
+			viewed
 			user {
 				firstName
 				lastName

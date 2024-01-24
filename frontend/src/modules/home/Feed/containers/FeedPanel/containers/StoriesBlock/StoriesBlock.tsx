@@ -15,7 +15,7 @@ export const StoriesBlock = () => {
 
 		socket.emit("sendNotification", {
 			createdFor: "kJKlb4w1FnWyKnMv83zWCf1ewdG3",
-			notificationMessage: "HELLO!",
+			notificationMessage: "FUCK O!",
 			notificationUrl: "/test/test",
 			senderUid: user?.uid,
 		});

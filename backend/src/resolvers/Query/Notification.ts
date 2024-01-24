@@ -27,9 +27,15 @@ export const notificationResolvers = {
 				include: {
 					user: true,
 				},
+				orderBy: {
+					createdAt: "desc",
+				},
 			});
 
-			return notifications;
+			return {
+				notifications,
+				allViewed: false,
+			};
 		} catch (error) {
 			throw new GraphQLError(JSON.stringify(error));
 		}

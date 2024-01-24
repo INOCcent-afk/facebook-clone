@@ -20,7 +20,7 @@ export const rootTypeDefs = gql`
 		comments: [Comment]
 		chats(uid: String!): [ChatRoom]
 		chat(senderUid: String!, receiverUid: String!): ChatRoom
-		notifications(uid: String!): [Notification]
+		notifications(uid: String!): Notifications
 	}
 
 	${userTypeDef}

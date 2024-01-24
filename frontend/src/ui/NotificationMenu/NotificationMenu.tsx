@@ -66,6 +66,8 @@ export const NotificationMenu = () => {
 		};
 	}, [socket, user, notifications]);
 
+	console.log(notifications);
+
 	return (
 		<Menu>
 			<Tooltip label="Notifications">
