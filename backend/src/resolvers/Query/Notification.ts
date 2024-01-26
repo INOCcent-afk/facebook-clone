@@ -32,10 +32,7 @@ export const notificationResolvers = {
 				},
 			});
 
-			return {
-				notifications,
-				allViewed: false,
-			};
+			return notifications;
 		} catch (error) {
 			throw new GraphQLError(JSON.stringify(error));
 		}

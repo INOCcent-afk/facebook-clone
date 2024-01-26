@@ -6,6 +6,7 @@ export const chatTypeDef = gql`
 		name: String
 		users: [User]
 		messages: [Message]
+		viewed: Boolean
 	}
 
 	type Message {
