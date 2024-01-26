@@ -41,6 +41,12 @@ export const MessengerMenu = () => {
 		};
 	}, [socket]);
 
+	// const notificationCount =
+	// notifications?.filter((notification) => notification?.viewed === false)
+	// 	.length || 0;
+
+	// Implement same fetching logic as Notifications
+
 	return (
 		<Menu>
 			<Tooltip label="Messenger">
