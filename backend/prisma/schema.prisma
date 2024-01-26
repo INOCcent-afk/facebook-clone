@@ -32,10 +32,9 @@ model User {
   friendRequestsReceiver FriendRequest[] @relation("UserFriendRequestsReceiver")
   friendRequest          FriendRequest[]
 
-  chatRooms         ChatRoom[]
-  Message           Message[]
-  UserChatRoom      UserChatRoom[]
-  NotificationCount Int
+  chatRooms    ChatRoom[]
+  Message      Message[]
+  UserChatRoom UserChatRoom[]
 }
 
 model FriendRequest {
@@ -131,6 +130,7 @@ model ChatRoom {
   name     String?
   users    User[]
   messages Message[]
+  viewed   Boolean   @default(false)
 
   UserChatRoom UserChatRoom[]
 }
