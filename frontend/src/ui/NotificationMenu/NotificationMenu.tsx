@@ -6,7 +6,9 @@ import {
 	Menu,
 	MenuButton,
 	MenuList,
+	Text,
 	Tooltip,
+	useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
@@ -30,11 +32,23 @@ export const NotificationMenu = () => {
 
 	const { socket } = useSocket();
 
+	const { isOpen, onClose, onOpen } = useDisclosure();
+
 	useEffect(() => {
 		if (!socket || !user) return;
 
 		socket.emit("loadNotifications", {
 			uid: user?.uid,
+		});
+
+		if (isOpen) {
+			socket.emit("viewNotifications", {
+				uid: user?.uid,
+			});
+		}
+
+		socket.on(`${user.uid}_viewNotifications`, ({ notifications }) => {
+			queryClient.setQueryData(["notifications"], notifications);
 		});
 
 		socket.on(
@@ -64,12 +78,14 @@ export const NotificationMenu = () => {
 			socket.off(`${user.uid}_loadNotifications`);
 			socket.off(`${user?.uid}_notify`);
 		};
-	}, [socket, user, notifications]);
+	}, [socket, user, notifications, isOpen]);
 
-	console.log(notifications);
+	const notificationCount =
+		notifications?.filter((notification) => notification?.viewed === false)
+			.length || 0;
 
 	return (
-		<Menu>
+		<Menu onOpen={onOpen} onClose={onClose}>
 			<Tooltip label="Notifications">
 				<MenuButton
 					as={Button}
@@ -77,6 +93,25 @@ export const NotificationMenu = () => {
 					size="circledMd"
 					position="relative"
 				>
+					{Boolean(notificationCount) && (
+						<Text
+							position="absolute"
+							backgroundColor="red.500"
+							borderRadius="full"
+							as="span"
+							width={4}
+							height={4}
+							fontSize="xs"
+							textAlign="center"
+							display="flex"
+							alignItems="center"
+							justifyContent="center"
+							top={1}
+							right={1}
+						>
+							{notificationCount}
+						</Text>
+					)}
 					<IoNotificationsSharp
 						size={20}
 						style={{
