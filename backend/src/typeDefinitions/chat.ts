@@ -6,7 +6,7 @@ export const chatTypeDef = gql`
 		name: String
 		users: [User]
 		messages: [Message]
-		viewed: Boolean
+		viewed: [String]
 	}
 
 	type Message {
@@ -14,5 +14,10 @@ export const chatTypeDef = gql`
 		content: String
 		userUid: ID!
 		chatRoomId: ID!
+	}
+
+	type Mutation {
+		updateChatViewed(roomId: String!): ChatRoom!
+		updateChatUnviewed(roomId: String!): ChatRoom!
 	}
 `;

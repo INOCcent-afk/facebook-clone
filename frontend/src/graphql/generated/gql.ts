@@ -13,6 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n\tmutation updateChatViewed($roomId: String!) {\n\t\tupdateChatViewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdateChatViewedDocument,
+    "\n\tmutation updateChatUnviewed($roomId: String!) {\n\t\tupdateChatUnviewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdateChatUnviewedDocument,
     "\n\tmutation createNotification(\n\t\t$notificationUrl: String!\n\t\t$notificationMessage: String!\n\t\t$createdFor: String!\n\t) {\n\t\tcreateNotification(\n\t\t\tnotificationUrl: $notificationUrl\n\t\t\tnotificationMessage: $notificationMessage\n\t\t\tcreatedFor: $createdFor\n\t\t) {\n\t\t\tcreatedFor\n\t\t\tid\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tuser {\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n": types.CreateNotificationDocument,
     "\n\tmutation createPost($post: PostInput!) {\n\t\tcreatePost(post: $post) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t\tpostParentId\n\t\t}\n\t}\n": types.CreatePostDocument,
     "\n\tmutation deletePost($postId: ID!) {\n\t\tdeletePost(postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n": types.DeletePostDocument,
@@ -23,8 +25,8 @@ const documents = {
     "\n\tmutation registerUser($user: UserInput!) {\n\t\tregisterUser(user: $user) {\n\t\t\temail\n\t\t\tid\n\t\t\tuid\n\t\t}\n\t}\n": types.RegisterUserDocument,
     "\n\tmutation rejectFriendRequest($userUid: String!) {\n\t\trejectFriendRequest(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n": types.RejectFriendRequestDocument,
     "\n\tmutation unfriend($userUid: String!) {\n\t\tunfriend(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n": types.UnfriendDocument,
-    "\n\tquery getChat($senderUid: String!, $receiverUid: String!) {\n\t\tchat(senderUid: $senderUid, receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n": types.GetChatDocument,
-    "\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t}\n\t}\n": types.GetChatsDocument,
+    "\n\tquery getChat($senderUid: String!, $receiverUid: String!) {\n\t\tchat(senderUid: $senderUid, receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tviewed\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n": types.GetChatDocument,
+    "\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tviewed\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t}\n\t}\n": types.GetChatsDocument,
     "\n\tquery getMe {\n\t\tme {\n\t\t\tid\n\t\t\tuid\n\t\t\temail\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\tfriendsCount\n\t\t\tprofile {\n\t\t\t\tcover_photo\n\t\t\t\tprofilePicture\n\t\t\t\tid\n\t\t\t\tuserId\n\t\t\t}\n\t\t\tfriendRequestsReceiver {\n\t\t\t\tUser {\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t\tuid\n\t\t\t\t\tid\n\t\t\t\t}\n\t\t\t}\n\t\t\tfriendRequestsSender {\n\t\t\t\tUser {\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t\tuid\n\t\t\t\t\tid\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.GetMeDocument,
     "\n\tquery getNotifications($uid: String!) {\n\t\tnotifications(uid: $uid) {\n\t\t\tid\n\t\t\tcreatedFor\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tviewed\n\t\t\tuser {\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n": types.GetNotificationsDocument,
     "\n\tquery getPosts {\n\t\tposts {\n\t\t\tid\n\t\t\timages\n\t\t\tpostContent\n\t\t\tpostParentId\n\t\t\tvideos\n\t\t\tuser {\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tupdatedAt\n\t\t\tcreatedAt\n\t\t}\n\t}\n": types.GetPostsDocument,
@@ -47,6 +49,14 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation updateChatViewed($roomId: String!) {\n\t\tupdateChatViewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation updateChatViewed($roomId: String!) {\n\t\tupdateChatViewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation updateChatUnviewed($roomId: String!) {\n\t\tupdateChatUnviewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation updateChatUnviewed($roomId: String!) {\n\t\tupdateChatUnviewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -90,11 +100,11 @@ export function graphql(source: "\n\tmutation unfriend($userUid: String!) {\n\t\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n\tquery getChat($senderUid: String!, $receiverUid: String!) {\n\t\tchat(senderUid: $senderUid, receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getChat($senderUid: String!, $receiverUid: String!) {\n\t\tchat(senderUid: $senderUid, receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n"];
+export function graphql(source: "\n\tquery getChat($senderUid: String!, $receiverUid: String!) {\n\t\tchat(senderUid: $senderUid, receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tviewed\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getChat($senderUid: String!, $receiverUid: String!) {\n\t\tchat(senderUid: $senderUid, receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tviewed\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t}\n\t}\n"];
+export function graphql(source: "\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tviewed\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tviewed\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

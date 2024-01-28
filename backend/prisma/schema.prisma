@@ -130,7 +130,7 @@ model ChatRoom {
   name     String?
   users    User[]
   messages Message[]
-  viewed   Boolean   @default(false)
+  viewed   String[]
 
   UserChatRoom UserChatRoom[]
 }
