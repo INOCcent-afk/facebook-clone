@@ -139,55 +139,105 @@ server.start().then(() => {
 
 				console.log(error);
 			}
-		}),
-			socket.on(
-				"sendNotification",
-				async ({
-					notificationUrl,
-					notificationMessage,
-					senderUid,
-					createdFor,
-				}: {
-					notificationUrl: string;
-					notificationMessage: string;
-					senderUid: string;
-					createdFor: string;
-				}) => {
-					if (!notificationMessage || !notificationUrl) {
-						socket.emit("sendNotificationError", {
-							message: "Error sending message",
-						});
-					}
+		});
 
-					try {
-						const notification = await prisma.notification.create({
-							data: {
-								createdFor: createdFor,
-								notificationMessage: notificationMessage,
-								notificationUrl: notificationUrl,
-								user: {
-									connect: {
-										uid: senderUid,
-									},
+		socket.on(
+			"sendNotification",
+			async ({
+				notificationUrl,
+				notificationMessage,
+				senderUid,
+				createdFor,
+			}: {
+				notificationUrl: string;
+				notificationMessage: string;
+				senderUid: string;
+				createdFor: string;
+			}) => {
+				if (!notificationMessage || !notificationUrl) {
+					socket.emit("sendNotificationError", {
+						message: "Error sending message",
+					});
+				}
+
+				try {
+					const notification = await prisma.notification.create({
+						data: {
+							createdFor: createdFor,
+							notificationMessage: notificationMessage,
+							notificationUrl: notificationUrl,
+							user: {
+								connect: {
+									uid: senderUid,
 								},
 							},
-							include: {
-								user: true,
-							},
-						});
+						},
+						include: {
+							user: true,
+						},
+					});
 
-						io.emit(`${createdFor}_notify`, {
-							notification,
-						});
-					} catch (error) {
-						socket.emit("sendNotificationError", {
-							message: "Error sending notification",
-						});
+					io.emit(`${createdFor}_notify`, {
+						notification,
+					});
+				} catch (error) {
+					socket.emit("sendNotificationError", {
+						message: "Error sending notification",
+					});
 
-						console.log(error);
-					}
+					console.log(error);
 				}
-			);
+			}
+		);
+
+		socket.on("viewChats", async ({ uid }: { uid: string }) => {
+			try {
+				const updatedChats = await prisma.chatRoom.updateMany({
+					data: {
+						viewed: uid,
+					},
+					where: {
+						users: {
+							some: {
+								uid: uid,
+							},
+						},
+						AND: {
+							viewed: {
+								hasSome: uid,
+							},
+						},
+					},
+				});
+
+				if (updatedChats.count) {
+					const chats = await prisma.chatRoom.findMany({
+						where: {
+							users: {
+								some: {
+									uid: uid,
+								},
+							},
+							messages: {
+								some: {
+									// Only chat room with messages
+								},
+							},
+						},
+					});
+
+					socket.emit(`${uid}_viewChats`, {
+						chats,
+					});
+				}
+			} catch (error) {
+				socket.emit("viewChatsError", {
+					message: "Error viewing chats",
+				});
+
+				console.log(error);
+			}
+		});
 
 		socket.on("loadChats", async ({ uid }: { uid: string }) => {
 			try {
@@ -254,6 +304,7 @@ server.start().then(() => {
 										uid: true,
 									},
 								},
+								messages: true,
 							},
 						});
 
@@ -273,6 +324,7 @@ server.start().then(() => {
 								},
 								include: {
 									users: true,
+									messages: true,
 								},
 							});
 
@@ -301,6 +353,7 @@ server.start().then(() => {
 										uid: true,
 									},
 								},
+								messages: true,
 							},
 						});
 
