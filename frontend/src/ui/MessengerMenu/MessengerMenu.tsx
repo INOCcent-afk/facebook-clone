@@ -8,6 +8,7 @@ import {
 	MenuList,
 	Text,
 	Tooltip,
+	useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
@@ -15,40 +16,59 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useAuth } from "@/contexts";
 import { ChatPreview } from "./ui/ChatPreview";
 import { useSocket } from "@/contexts/SocketContext/SocketContext";
-import { ChatRoom } from "@/graphql/generated/graphql";
+import { useGetChats } from "@/apiHooks/chat/useGetChats";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const MessengerMenu = () => {
-	const { user: me } = useAuth();
+	const { user: me, token } = useAuth();
 
-	const [chats, setChats] = useState<ChatRoom[] | null>(null);
+	const { data: chats } = useGetChats({
+		token: token ?? "",
+		uid: me?.uid ?? "",
+		enabled: false,
+	});
 
 	const { socket } = useSocket();
 
+	const { isOpen, onClose, onOpen } = useDisclosure();
+
+	const queryClient = useQueryClient();
+
 	useEffect(() => {
-		if (!socket) return;
+		if (!socket || !me) return;
 
 		socket.emit("loadChats", {
 			uid: me?.uid,
 		});
 
 		socket.on("loadChats", ({ chats }) => {
-			setChats(chats);
+			queryClient.setQueryData(["chats"], chats);
+		});
+
+		if (isOpen) {
+			socket.emit("viewChats", {
+				uid: me?.uid,
+			});
+		}
+
+		socket.on(`${me?.uid}_viewChats`, ({ chats }) => {
+			queryClient.setQueryData(["chats"], chats);
 		});
 
 		// Cleanup function for disconnecting the event listener
 		return () => {
 			socket.off("loadChats");
+			socket.off(`${me?.uid}_viewChats`);
 		};
-	}, [socket]);
+	}, [socket, me, chats, isOpen]);
 
-	// const notificationCount =
-	// notifications?.filter((notification) => notification?.viewed === false)
-	// 	.length || 0;
+	const chatCounts =
+		chats?.filter((chat) => chat?.viewed !== me?.uid).length || 0;
 
-	// Implement same fetching logic as Notifications
+	console.log(chats);
 
 	return (
-		<Menu>
+		<Menu onOpen={onOpen} onClose={onClose}>
 			<Tooltip label="Messenger">
 				<MenuButton
 					as={Button}
@@ -56,6 +76,25 @@ export const MessengerMenu = () => {
 					size="circledMd"
 					position="relative"
 				>
+					{Boolean(chatCounts) && (
+						<Text
+							position="absolute"
+							backgroundColor="red.500"
+							borderRadius="full"
+							as="span"
+							width={4}
+							height={4}
+							fontSize="xs"
+							textAlign="center"
+							display="flex"
+							alignItems="center"
+							justifyContent="center"
+							top={1}
+							right={1}
+						>
+							{chatCounts}
+						</Text>
+					)}
 					<FaFacebookMessenger
 						size={20}
 						style={{

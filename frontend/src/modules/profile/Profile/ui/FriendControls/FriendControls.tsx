@@ -1,14 +1,12 @@
 import {
 	Button,
-	Flex,
 	Menu,
 	MenuButton,
 	MenuItem,
 	MenuList,
 	Text,
 } from "@chakra-ui/react";
-import Link from "next/link";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { MdPeopleAlt } from "react-icons/md";
 import { SlUserUnfollow } from "react-icons/sl";
@@ -43,7 +41,7 @@ export const FriendControls: FC<Props> = ({
 
 	const friendUserId = query.user_id as string;
 
-	const { data: chat } = useGetChat({
+	const { data: chat, refetch } = useGetChat({
 		senderUid: user?.uid as string,
 		receiverUid: friendUserId,
 		token: token as string,
@@ -58,7 +56,7 @@ export const FriendControls: FC<Props> = ({
 		handleUnfriend,
 	} = useFriendControls({ token: token ?? "", uid: friendUserId });
 
-	const handleOpenMessage = () => {
+	const handleOpenMessage = async () => {
 		if (!socket) return;
 
 		if (chat) {
@@ -71,6 +69,19 @@ export const FriendControls: FC<Props> = ({
 				senderUid: user?.uid as string,
 				receiverUid: friendUserId,
 			});
+		} else {
+			socket?.emit("joinPrivateRoom", user?.uid, friendUserId);
+			const { data: refetchChatData } = await refetch();
+
+			if (refetchChatData) {
+				handleSetActiveChat({
+					roomId: refetchChatData.id,
+					name: friendName,
+					messages: refetchChatData?.messages,
+					senderUid: user?.uid as string,
+					receiverUid: friendUserId,
+				});
+			}
 		}
 	};
 

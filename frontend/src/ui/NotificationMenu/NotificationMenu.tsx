@@ -27,7 +27,7 @@ export const NotificationMenu = () => {
 	const { data: notifications } = useGetNotifications({
 		token: token ?? "",
 		uid: user?.uid ?? "",
-		enabled: Boolean(token && user?.uid),
+		enabled: false,
 	});
 
 	const { socket } = useSocket();
