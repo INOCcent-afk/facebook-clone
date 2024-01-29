@@ -417,12 +417,24 @@ server.start().then(() => {
 								},
 							});
 
-							await prisma.viewedChatRoom.create({
-								data: {
-									userUid: receiverUid,
-									chatRoomId: roomId,
-								},
-							});
+							const viewedChatRoom =
+								await prisma.viewedChatRoom.findUnique({
+									where: {
+										userUid_chatRoomId: {
+											chatRoomId: roomId,
+											userUid: receiverUid,
+										},
+									},
+								});
+
+							if (!viewedChatRoom) {
+								await prisma.viewedChatRoom.create({
+									data: {
+										userUid: receiverUid,
+										chatRoomId: roomId,
+									},
+								});
+							}
 
 							const chats = await prisma.chatRoom.findMany({
 								where: {
