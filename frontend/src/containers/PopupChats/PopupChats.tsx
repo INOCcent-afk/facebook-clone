@@ -9,6 +9,7 @@ interface Props {
 }
 
 export const PopupChats: FC<Props> = ({ chats, handleRemoveActiveChat }) => {
+	console.log(chats);
 	return (
 		<Flex position="fixed" bottom={0} right={15} gap={4}>
 			{chats?.map((chat) => (

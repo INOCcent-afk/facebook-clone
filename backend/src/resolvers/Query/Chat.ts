@@ -41,6 +41,7 @@ export const chatResolvers = {
 				include: {
 					users: true,
 					messages: true,
+					viewers: true,
 				},
 			});
 

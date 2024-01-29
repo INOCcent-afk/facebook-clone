@@ -63,7 +63,9 @@ export const MessengerMenu = () => {
 	}, [socket, me, chats, isOpen]);
 
 	const chatCounts =
-		chats?.filter((chat) => chat?.viewed !== me?.uid).length || 0;
+		chats?.filter((chat) =>
+			chat?.viewers?.some((viewer) => viewer?.userUid === me?.uid)
+		).length || 0;
 
 	console.log(chats);
 
@@ -132,13 +134,15 @@ export const MessengerMenu = () => {
 
 							if (!filteredUser || !chat || !chat.users) return;
 
-							const friendUid = chat.users[1]?.uid;
+							const friendUid = chat.users.find(
+								(user) => user?.uid !== me?.uid
+							);
 
 							return (
 								<ChatPreview
 									roomId={chat.id}
 									friendName={`${filteredUser.firstName} ${filteredUser.lastName}`}
-									friendUid={friendUid}
+									friendUid={friendUid?.uid}
 									messages={chat.messages}
 									key={chat.id}
 								/>

@@ -4,7 +4,6 @@ export const getChat = graphql(/* GraphQL */ `
 	query getChat($senderUid: String!, $receiverUid: String!) {
 		chat(senderUid: $senderUid, receiverUid: $receiverUid) {
 			id
-			viewed
 			messages {
 				id
 				content
