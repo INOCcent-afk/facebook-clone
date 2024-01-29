@@ -192,39 +192,34 @@ server.start().then(() => {
 
 		socket.on("viewChats", async ({ uid }: { uid: string }) => {
 			try {
-				const updatedChats = await prisma.chatRoom.updateMany({
-					data: {
-						viewed: uid,
-					},
-					where: {
-						users: {
-							some: {
-								uid: uid,
-							},
-						},
-						AND: {
-							viewed: {
-								hasSome: uid,
-							},
-						},
-					},
-				});
-
-				if (updatedChats.count) {
-					const chats = await prisma.chatRoom.findMany({
+				const updateViewedChats =
+					await prisma.viewedChatRoom.deleteMany({
 						where: {
-							users: {
-								some: {
-									uid: uid,
-								},
-							},
-							messages: {
-								some: {
-									// Only chat room with messages
-								},
+							AND: {
+								userUid: uid,
 							},
 						},
 					});
+
+				if (updateViewedChats.count) {
+					const chats = await prisma.chatRoom.findMany({
+						where: {
+							viewers: {
+								every: {
+									OR: [
+										{
+											userUid: uid,
+										},
+									],
+								},
+							},
+						},
+						include: {
+							viewers: true,
+						},
+					});
+
+					console.log(chats);
 
 					socket.emit(`${uid}_viewChats`, {
 						chats,
@@ -257,6 +252,7 @@ server.start().then(() => {
 					include: {
 						users: true,
 						messages: true,
+						viewers: true,
 					},
 				});
 
@@ -321,6 +317,18 @@ server.start().then(() => {
 											},
 										],
 									},
+									viewers: {
+										createMany: {
+											data: [
+												{
+													userUid: senderUid,
+												},
+												{
+													userUid: receieverUid,
+												},
+											],
+										},
+									},
 								},
 								include: {
 									users: true,
@@ -345,6 +353,18 @@ server.start().then(() => {
 											uid: receieverUid,
 										},
 									],
+								},
+								viewers: {
+									createMany: {
+										data: [
+											{
+												userUid: senderUid,
+											},
+											{
+												userUid: receieverUid,
+											},
+										],
+									},
 								},
 							},
 							include: {
@@ -397,6 +417,13 @@ server.start().then(() => {
 								},
 							});
 
+							await prisma.viewedChatRoom.create({
+								data: {
+									userUid: receiverUid,
+									chatRoomId: roomId,
+								},
+							});
+
 							const chats = await prisma.chatRoom.findMany({
 								where: {
 									users: {
@@ -413,6 +440,7 @@ server.start().then(() => {
 								include: {
 									users: true,
 									messages: true,
+									viewers: true,
 								},
 							});
 
