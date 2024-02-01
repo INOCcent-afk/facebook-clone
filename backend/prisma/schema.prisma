@@ -77,24 +77,28 @@ model Notification {
 }
 
 model Post {
-  id           Int       @id @default(autoincrement())
-  user         User      @relation(fields: [userId], references: [id])
-  userId       Int
-  postParentId Int?
-  comments     Comment[]
-  image        String?
-  video        String?
-  images       Post[]    @relation("Images")
-  videos       Post[]    @relation("Videos")
-  postContent  String?
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  comments    Comment[]
+  image       String?
+  video       String?
+  images      Post[]    @relation("Images")
+  videos      Post[]    @relation("Videos")
+  postContent String?
+
+  parentId   Int?  @unique
+  parentPost Post? @relation("ParentPost", fields: [parentId], references: [id])
 
   // This second "side" of the Images relation exists solely 
   // to satisfy prisma's requirements; we won't access it directly.
-  symmetricTweets Post[]     @relation("Images")
-  symmetricVideos Post[]     @relation("Videos")
-  reactions       Reaction[]
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  symmetricTweets     Post[] @relation("Images")
+  symmetricVideos     Post[] @relation("Videos")
+  symmetricParentPost Post?  @relation("ParentPost")
+
+  reactions Reaction[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Comment {
