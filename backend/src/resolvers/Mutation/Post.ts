@@ -9,6 +9,13 @@ interface PostArgs {
 	};
 }
 
+interface PostShareArgs {
+	post: {
+		postContent?: string;
+	};
+	postParentId: number;
+}
+
 type PostPayloadType = null | Prisma.Prisma__PostClient<Post, never> | Post;
 
 export const postResolvers = {
@@ -123,6 +130,43 @@ export const postResolvers = {
 			return await prisma.post.delete({
 				where: {
 					id: Number(postId),
+				},
+			});
+		} catch (error) {
+			throw new GraphQLError(JSON.stringify(error));
+		}
+	},
+	sharePost: async (
+		_: any,
+		{ post, postParentId }: PostShareArgs,
+		{ prisma, userInfo }: Context
+	): Promise<PostPayloadType> => {
+		if (!userInfo || (userInfo && !userInfo.userUid)) {
+			throw new GraphQLError("Forbidden access (unauthenticated)");
+		}
+
+		const { postContent } = post;
+
+		if (!postContent && !postParentId) {
+			throw new GraphQLError(
+				"you must provide a postParentId or content to create a post"
+			);
+		}
+
+		try {
+			return prisma.post.create({
+				data: {
+					user: {
+						connect: {
+							uid: userInfo.userUid,
+						},
+					},
+					parentPost: {
+						connect: {
+							parentId: postParentId,
+						},
+					},
+					postContent,
 				},
 			});
 		} catch (error) {
