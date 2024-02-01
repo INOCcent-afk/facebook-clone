@@ -19,6 +19,7 @@ export const postTypeDef = gql`
 		createPost(post: PostInput!): Post!
 		updatePost(postId: ID!, post: PostInput!): Post!
 		deletePost(postId: ID!): Post
+		sharePost(post: PostInput!, postParentId: Int!)
 	}
 
 	input PostInput {
