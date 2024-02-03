@@ -17,6 +17,8 @@ export const Posts: FC<Props> = ({ friendsCount, userId, userUid }) => {
 		enabled: true,
 	});
 
+	console.log(posts);
+
 	return (
 		<Flex gap={4}>
 			<Box as="aside" flexBasis="40%">

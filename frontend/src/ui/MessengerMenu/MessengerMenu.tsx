@@ -67,8 +67,6 @@ export const MessengerMenu = () => {
 			chat?.viewers?.some((viewer) => viewer?.userUid === me?.uid)
 		).length || 0;
 
-	console.log(chats);
-
 	return (
 		<Menu onOpen={onOpen} onClose={onClose}>
 			<Tooltip label="Messenger">

@@ -50,8 +50,6 @@ export const SharePost: FC<Props> = ({ sharePostId, ...restProps }) => {
 	const handleSharePost = (e: FormEvent<HTMLDivElement>) => {
 		e.preventDefault();
 
-		console.log(token);
-
 		sharePost(
 			{
 				postContent: content,

@@ -25,6 +25,7 @@ export const getUserPosts = graphql(/* GraphQL */ `
 					firstName
 					lastName
 				}
+				postContent
 				updatedAt
 				createdAt
 			}
