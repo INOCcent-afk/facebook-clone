@@ -8,7 +8,6 @@ export const createPost = graphql(/* GraphQL */ `
 			images
 			createdAt
 			postContent
-			postParentId
 		}
 	}
 `);
