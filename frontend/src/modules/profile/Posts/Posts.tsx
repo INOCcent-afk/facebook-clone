@@ -1,10 +1,9 @@
 import { Box, Flex, Stack } from "@chakra-ui/react";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { CreateFeed, ExtraLinks } from "@/ui";
 import { Friends, IntroBio, Photos } from "./containers";
 import { FeedPost } from "@/ui/FeedPost/FeedPost";
 import { useUserPosts } from "@/apiHooks/post/useUserPosts";
-import { MyLatestPost } from "@/models/post";
 
 interface Props {
 	friendsCount: number;
@@ -17,7 +16,6 @@ export const Posts: FC<Props> = ({ friendsCount, userId, userUid }) => {
 		id: userId,
 		enabled: true,
 	});
-	const [myLatestPosts, setMyLatestPosts] = useState<MyLatestPost[]>([]);
 
 	return (
 		<Flex gap={4}>
@@ -51,27 +49,7 @@ export const Posts: FC<Props> = ({ friendsCount, userId, userUid }) => {
 			</Box>
 
 			<Stack flexBasis="60%">
-				<CreateFeed
-					myLatestPosts={myLatestPosts}
-					setMyLatestPosts={setMyLatestPosts}
-					userUid={userUid}
-				/>
-
-				{myLatestPosts.reverse().map((data) => {
-					if (!data) return;
-
-					return (
-						<FeedPost
-							key={data.id}
-							postContent={data.postContent ?? ""}
-							id={data.id}
-							user={data.user}
-							videos={data.videos}
-							images={data.images}
-							createdAt={data.createdAt}
-						/>
-					);
-				})}
+				<CreateFeed userUid={userUid} />
 
 				{posts &&
 					posts.map((data) => {
@@ -85,6 +63,7 @@ export const Posts: FC<Props> = ({ friendsCount, userId, userUid }) => {
 								videos={data.videos}
 								images={data.images}
 								createdAt={data.createdAt}
+								sharedPost={data.sharedPost}
 							/>
 						);
 					})}
