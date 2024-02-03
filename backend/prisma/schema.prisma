@@ -87,14 +87,14 @@ model Post {
   videos      Post[]    @relation("Videos")
   postContent String?
 
-  parentId   Int?  @unique
-  parentPost Post? @relation("ParentPost", fields: [parentId], references: [id])
+  sharedPostId Int?  @unique
+  sharedPost   Post? @relation("SharedPost", fields: [sharedPostId], references: [id])
 
   // This second "side" of the Images relation exists solely 
   // to satisfy prisma's requirements; we won't access it directly.
   symmetricTweets     Post[] @relation("Images")
   symmetricVideos     Post[] @relation("Videos")
-  symmetricParentPost Post?  @relation("ParentPost")
+  symmetricSharedPost Post?  @relation("SharedPost")
 
   reactions Reaction[]
   createdAt DateTime   @default(now())

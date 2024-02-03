@@ -13,7 +13,7 @@ interface PostShareArgs {
 	post: {
 		postContent?: string;
 	};
-	postParentId: number;
+	sharedPostId: number;
 }
 
 type PostPayloadType = null | Prisma.Prisma__PostClient<Post, never> | Post;
@@ -138,7 +138,7 @@ export const postResolvers = {
 	},
 	sharePost: async (
 		_: any,
-		{ post, postParentId }: PostShareArgs,
+		{ post, sharedPostId }: PostShareArgs,
 		{ prisma, userInfo }: Context
 	): Promise<PostPayloadType> => {
 		if (!userInfo || (userInfo && !userInfo.userUid)) {
@@ -147,7 +147,7 @@ export const postResolvers = {
 
 		const { postContent } = post;
 
-		if (!postContent && !postParentId) {
+		if (!postContent && !sharedPostId) {
 			throw new GraphQLError(
 				"you must provide a postParentId or content to create a post"
 			);
@@ -161,9 +161,9 @@ export const postResolvers = {
 							uid: userInfo.userUid,
 						},
 					},
-					parentPost: {
+					sharedPost: {
 						connect: {
-							parentId: postParentId,
+							id: sharedPostId,
 						},
 					},
 					postContent,
