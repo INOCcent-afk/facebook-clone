@@ -27,11 +27,19 @@ import { Post } from "@/graphql/generated/graphql";
 import { MeOnly } from "@/containers/MeOnly/MeOnly";
 import { ConfirmationModal } from "../Modals/ConfirmationModal/ConfirmationModal";
 import { UpdatePost } from "../UpdatePost/UpdatePost";
+import { SharePost } from "../SharePost/SharePost";
+import { SharedFeedPost } from "../SharedFeedPost/SharedFeedPost";
 
 interface Props
 	extends Pick<
 		Post,
-		"images" | "id" | "videos" | "postContent" | "user" | "createdAt"
+		| "images"
+		| "id"
+		| "videos"
+		| "postContent"
+		| "user"
+		| "createdAt"
+		| "sharedPost"
 	> {}
 
 export const FeedPost: FC<Props> = ({
@@ -41,6 +49,7 @@ export const FeedPost: FC<Props> = ({
 	videos,
 	user,
 	createdAt,
+	sharedPost,
 }) => {
 	const { token } = useAuth();
 
@@ -49,21 +58,29 @@ export const FeedPost: FC<Props> = ({
 	const [isDeleted, setIsDelete] = useState(false);
 
 	const {
-		isOpen: isConfirmationOpen,
+		isOpen: isConfirmationModalOpen,
 		onOpen: openConfirmationModal,
 		onClose: closeConfirmationModal,
 	} = useDisclosure();
 
 	const {
-		isOpen: isUpdatePostOpen,
-		onOpen: openUpdatePost,
-		onClose: closeUpdatePost,
+		isOpen: isUpdatePostModalOpen,
+		onOpen: openUpdatePostModal,
+		onClose: closeUpdatePostModal,
+	} = useDisclosure();
+
+	const {
+		isOpen: isSharePostModalOpen,
+		onOpen: openSharePostModal,
+		onClose: closeSharePostModal,
 	} = useDisclosure();
 
 	const handleDeletePost = () => {
+		if (!token) return;
+
 		deletePost(
 			{
-				token: token ?? "",
+				token: token,
 				id,
 			},
 			{
@@ -80,7 +97,6 @@ export const FeedPost: FC<Props> = ({
 
 	const date = new Date(createdAt);
 
-	// Define months array for formatting
 	const months = [
 		"January",
 		"February",
@@ -96,10 +112,9 @@ export const FeedPost: FC<Props> = ({
 		"December",
 	];
 
-	// Extract date components
 	const month = months[date.getMonth()];
 	const day = date.getDate();
-	const hours = date.getHours() % 12 || 12; // Convert to 12-hour format
+	const hours = date.getHours() % 12 || 12;
 	const minutes = ("0" + date.getMinutes()).slice(-2);
 	const ampm = date.getHours() < 12 ? "AM" : "PM";
 
@@ -108,8 +123,8 @@ export const FeedPost: FC<Props> = ({
 	return isDeleted ? null : (
 		<>
 			<UpdatePost
-				isOpen={isUpdatePostOpen}
-				onClose={closeUpdatePost}
+				isOpen={isUpdatePostModalOpen}
+				onClose={closeUpdatePostModal}
 				id={id}
 				videos={videos}
 				images={images}
@@ -117,10 +132,16 @@ export const FeedPost: FC<Props> = ({
 			/>
 
 			<ConfirmationModal
-				isOpen={isConfirmationOpen}
+				isOpen={isConfirmationModalOpen}
 				handleConfirm={handleDeletePost}
 				title="Are you sure you want to delete this post?"
 				onClose={closeConfirmationModal}
+			/>
+
+			<SharePost
+				isOpen={isSharePostModalOpen}
+				onClose={closeSharePostModal}
+				sharePostId={Number(id)}
 			/>
 
 			<ContentContainer>
@@ -164,7 +185,7 @@ export const FeedPost: FC<Props> = ({
 											_hover={{
 												backgroundColor: "gray.800",
 											}}
-											onClick={openUpdatePost}
+											onClick={openUpdatePostModal}
 										>
 											Edit
 										</MenuItem>
@@ -186,10 +207,25 @@ export const FeedPost: FC<Props> = ({
 					)}
 				</Flex>
 
-				<Box color="white" marginY={4}>
-					<Text fontSize={images?.length ? 15 : 24}>
-						{postContent}
-					</Text>
+				<Box marginY={4}>
+					<Box color="white">
+						<Text fontSize={images?.length ? 15 : 24}>
+							{postContent}
+						</Text>
+					</Box>
+
+					<Box paddingY={2}>
+						{sharedPost && (
+							<SharedFeedPost
+								id={sharedPost.id}
+								createdAt={sharedPost.createdAt}
+								images={sharedPost.images}
+								videos={sharedPost.videos}
+								postContent={sharedPost.postContent}
+								user={sharedPost.user}
+							/>
+						)}
+					</Box>
 				</Box>
 
 				<Box mb={4}>
@@ -228,6 +264,7 @@ export const FeedPost: FC<Props> = ({
 							color="gray.600"
 							gap={2}
 							flexGrow={1}
+							onClick={openSharePostModal}
 						>
 							<Box>
 								<RiShareForwardLine size={24} />

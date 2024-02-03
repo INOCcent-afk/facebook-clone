@@ -1,5 +1,6 @@
-import { useCreatePost } from "@/apiHooks/post/useCreatePost";
+import { useSharePost } from "@/apiHooks/post/useSharePost";
 import { useAuth } from "@/contexts";
+import { MyLatestPost } from "@/models/post";
 import {
 	Avatar,
 	Box,
@@ -19,9 +20,11 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import React, { ChangeEvent, FC, useRef, useState, FormEvent } from "react";
 
-interface Props extends Omit<ModalProps, "children"> {}
+interface Props extends Omit<ModalProps, "children"> {
+	sharePostId: number;
+}
 
-export const CreatePost: FC<Props> = ({ ...restProps }) => {
+export const SharePost: FC<Props> = ({ sharePostId, ...restProps }) => {
 	const { token } = useAuth();
 	const [content, setContent] = useState("");
 
@@ -42,20 +45,23 @@ export const CreatePost: FC<Props> = ({ ...restProps }) => {
 		}
 	};
 
-	const { mutate: createPost } = useCreatePost();
+	const { mutate: sharePost } = useSharePost();
 
-	const handleCreatePost = (e: FormEvent<HTMLDivElement>) => {
+	const handleSharePost = (e: FormEvent<HTMLDivElement>) => {
 		e.preventDefault();
 
-		createPost(
+		console.log(token);
+
+		sharePost(
 			{
 				postContent: content,
 				token: token ?? "",
+				sharedPostId: sharePostId,
 			},
 			{
 				onSuccess: async () => {
 					setContent("");
-					queryClient.invalidateQueries([""]);
+					queryClient.invalidateQueries(["posts"]);
 					restProps.onClose();
 				},
 				onError: () => {
@@ -79,7 +85,7 @@ export const CreatePost: FC<Props> = ({ ...restProps }) => {
 				</ModalHeader>
 				<Divider />
 				<ModalBody paddingX={4} paddingY={4}>
-					<Box as="form" onSubmit={handleCreatePost}>
+					<Box as="form" onSubmit={handleSharePost}>
 						<Flex gap={3}>
 							<Avatar />
 							<Box>
@@ -108,7 +114,7 @@ export const CreatePost: FC<Props> = ({ ...restProps }) => {
 							width="full"
 							isDisabled={Boolean(!content)}
 						>
-							Post
+							Share
 						</Button>
 					</Box>
 				</ModalBody>
