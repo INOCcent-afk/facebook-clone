@@ -6,7 +6,19 @@ export const postTypeDef = gql`
 		id: ID!
 		userId: ID!
 		user: User
-		postParentId: ID
+		sharedPost: SharedPost
+		images: [String]
+		videos: [String]
+		comments: [Comment]
+		postContent: String
+		createdAt: Date
+		updatedAt: Date
+	}
+
+	type SharedPost {
+		id: ID!
+		userId: ID!
+		user: User
 		images: [String]
 		videos: [String]
 		comments: [Comment]
@@ -19,7 +31,7 @@ export const postTypeDef = gql`
 		createPost(post: PostInput!): Post!
 		updatePost(postId: ID!, post: PostInput!): Post!
 		deletePost(postId: ID!): Post
-		sharePost(post: PostInput!, postParentId: Int!)
+		sharePost(post: PostInput!, sharedPostId: Int!): Post!
 	}
 
 	input PostInput {

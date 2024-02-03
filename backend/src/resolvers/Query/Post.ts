@@ -31,6 +31,15 @@ export const postResolvers = {
 				],
 				include: {
 					user: true,
+					sharedPost: {
+						include: {
+							videos: true,
+							user: true,
+							images: true,
+							comments: true,
+							reactions: true,
+						},
+					},
 				},
 			});
 
