@@ -6,13 +6,27 @@ export const getPosts = graphql(/* GraphQL */ `
 			id
 			images
 			postContent
-			postParentId
 			videos
 			user {
 				id
 				uid
 				firstName
 				lastName
+			}
+			sharedPost {
+				id
+				images
+				videos
+				userId
+				user {
+					id
+					uid
+					firstName
+					lastName
+				}
+				postContent
+				updatedAt
+				createdAt
 			}
 			updatedAt
 			createdAt
