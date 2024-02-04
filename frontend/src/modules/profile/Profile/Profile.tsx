@@ -41,8 +41,11 @@ export const Profile = () => {
 						user && user.id && user.uid ? (
 							<Posts
 								friendsCount={user?.friendsCount ?? 0}
-								userId={Number(user.id)}
 								userUid={user.uid}
+								bio={me?.profile?.bio}
+								token={token}
+								friends={user.friends}
+								photos={user.photos}
 							/>
 						) : null
 					}

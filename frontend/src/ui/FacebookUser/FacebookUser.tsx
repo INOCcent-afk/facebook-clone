@@ -1,14 +1,7 @@
 import { useAuth } from "@/contexts";
 import { Friendship } from "@/graphql/generated/graphql";
 import { useFriendControls } from "@/modules/profile/Profile/ui/FriendControls/FriendControls.hook";
-import {
-	Avatar,
-	AvatarGroup,
-	Button,
-	Flex,
-	HStack,
-	Text,
-} from "@chakra-ui/react";
+import { Avatar, Button, Flex, HStack, Text } from "@chakra-ui/react";
 import { Maybe } from "graphql/jsutils/Maybe";
 import Link from "next/link";
 import React, { FC } from "react";

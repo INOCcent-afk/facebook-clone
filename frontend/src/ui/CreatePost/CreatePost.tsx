@@ -19,9 +19,11 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import React, { ChangeEvent, FC, useRef, useState, FormEvent } from "react";
 
-interface Props extends Omit<ModalProps, "children"> {}
+interface Props extends Omit<ModalProps, "children"> {
+	userUid: string;
+}
 
-export const CreatePost: FC<Props> = ({ ...restProps }) => {
+export const CreatePost: FC<Props> = ({ userUid, ...restProps }) => {
 	const { token } = useAuth();
 	const [content, setContent] = useState("");
 
@@ -55,7 +57,7 @@ export const CreatePost: FC<Props> = ({ ...restProps }) => {
 			{
 				onSuccess: async () => {
 					setContent("");
-					queryClient.invalidateQueries([""]);
+					queryClient.invalidateQueries(["posts", `user-${userUid}`]);
 					restProps.onClose();
 				},
 				onError: () => {

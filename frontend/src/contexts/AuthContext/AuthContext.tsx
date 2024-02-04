@@ -1,5 +1,5 @@
 import { Maybe, User } from "@/graphql/generated/graphql";
-import { createContext, useState, ReactNode, useContext, FC } from "react";
+import { createContext, useState, ReactNode, useContext, FC, use } from "react";
 import { SocketProvider } from "../SocketContext/SocketContext";
 
 interface Context {

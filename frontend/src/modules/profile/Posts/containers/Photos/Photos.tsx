@@ -1,4 +1,5 @@
 import { ContentContainer } from "@/containers/ContentContainer/ContentContainer";
+import { Photo } from "@/graphql/generated/graphql";
 import {
 	Box,
 	BoxProps,
@@ -11,9 +12,11 @@ import {
 import Link from "next/link";
 import React, { FC } from "react";
 
-interface Props extends BoxProps {}
+interface Props extends BoxProps {
+	photos: (Partial<Photo> | null)[] | null | undefined;
+}
 
-export const Photos: FC<Props> = ({ ...restProps }) => {
+export const Photos: FC<Props> = ({ photos, ...restProps }) => {
 	return (
 		<ContentContainer {...restProps}>
 			<Flex alignItems="flex-start" justifyContent="space-between" mb={4}>
@@ -30,20 +33,30 @@ export const Photos: FC<Props> = ({ ...restProps }) => {
 
 			<Box>
 				<Grid
-					templateColumns="repeat(3, 1fr)"
+					templateColumns={
+						photos?.length ? "repeat(3, 1fr)" : "repeat(1, 1fr)"
+					}
 					gap={2}
 					borderRadius="lg"
 					overflow="hidden"
 				>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
-					<GridItem w="100%" h="129px" bg="blue.500"></GridItem>
+					{photos?.length ? (
+						photos.map((photo) => (
+							<GridItem
+								w="100%"
+								h="129px"
+								bg="blue.500"
+							></GridItem>
+						))
+					) : (
+						<GridItem
+							color="gray.600"
+							textAlign="center"
+							width="full"
+						>
+							<Text>No Photos</Text>
+						</GridItem>
+					)}
 				</Grid>
 			</Box>
 		</ContentContainer>

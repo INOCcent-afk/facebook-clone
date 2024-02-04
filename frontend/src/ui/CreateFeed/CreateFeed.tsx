@@ -80,7 +80,7 @@ export const CreateFeed: FC<Props> = ({ userUid }) => {
 					</Button>
 				</HStack>
 			</ContentContainer>
-			<CreatePost isOpen={isOpen} onClose={onClose} />
+			<CreatePost isOpen={isOpen} onClose={onClose} userUid={userUid} />
 		</MeOnly>
 	);
 };

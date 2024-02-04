@@ -14,6 +14,15 @@ export const getMe = graphql(/* GraphQL */ `
 				profilePicture
 				id
 				userUid
+				bio
+			}
+			friends {
+				uid
+				firstName
+				lastName
+				profile {
+					profilePicture
+				}
 			}
 			friendRequestsReceiver {
 				User {
@@ -30,6 +39,10 @@ export const getMe = graphql(/* GraphQL */ `
 					uid
 					id
 				}
+			}
+			photos {
+				id
+				images
 			}
 		}
 	}

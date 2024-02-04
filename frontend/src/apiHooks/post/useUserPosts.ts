@@ -4,15 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 
 interface Props {
 	enabled?: boolean;
-	id: number;
+	uid: string;
 }
 
-export const useUserPosts = ({ enabled = false, id }: Props) => {
+export const useUserPosts = ({ enabled = false, uid }: Props) => {
 	const query = useQuery(
-		["user-posts", id],
+		["user-posts", uid],
 		async () => {
 			const { userPosts } = await graphQLClient().request(getUserPosts, {
-				id,
+				uid,
 			});
 			return userPosts;
 		},

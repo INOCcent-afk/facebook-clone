@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express";
 
 export const userTypeDef = gql`
 	type User {
-		id: ID!
+		id: ID
 		uid: String
 		firstName: String
 		lastName: String
@@ -18,6 +18,12 @@ export const userTypeDef = gql`
 		friendsCount: Int
 		friendRequestsReceiver: [Friendship]
 		friendRequestsSender: [Friendship]
+		photos: [Photo]
+	}
+
+	type Photo {
+		id: ID
+		images: [String]
 	}
 
 	type Mutation {

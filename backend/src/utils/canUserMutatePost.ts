@@ -27,7 +27,7 @@ export const canUserMutatePost = async ({
 		},
 	});
 
-	if (post?.userId !== user.id) {
+	if (post?.userUid !== user.uid) {
 		throw new GraphQLError("Post not owned by user");
 	}
 };

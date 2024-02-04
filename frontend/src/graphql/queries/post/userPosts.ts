@@ -1,8 +1,8 @@
 import { graphql } from "@/graphql/generated";
 
 export const getUserPosts = graphql(/* GraphQL */ `
-	query userPosts($id: Int) {
-		userPosts(id: $id) {
+	query userPosts($uid: String) {
+		userPosts(uid: $uid) {
 			id
 			images
 			postContent
