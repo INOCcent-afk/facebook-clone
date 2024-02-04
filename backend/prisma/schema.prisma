@@ -53,8 +53,8 @@ model FriendRequest {
 
 model Profile {
   id             Int      @id @default(autoincrement())
-  user           User     @relation(fields: [userId], references: [id])
-  userId         Int      @unique
+  user           User     @relation(fields: [userUid], references: [uid])
+  userUid        String   @unique
   coverPhoto     String?
   profilePicture String?
   bio            String?
