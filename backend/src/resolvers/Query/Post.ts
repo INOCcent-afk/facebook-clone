@@ -8,7 +8,7 @@ type PostsPayloadType =
 	| Post[];
 
 interface userPosts {
-	id: number;
+	uid: string;
 }
 
 export const postResolvers = {
@@ -51,10 +51,10 @@ export const postResolvers = {
 	// User Profile Posts
 	userPosts: async (
 		_: any,
-		{ id }: userPosts,
+		{ uid }: userPosts,
 		{ prisma }: Context
 	): Promise<PostsPayloadType> => {
-		if (!id) {
+		if (!uid) {
 			throw new GraphQLError("You must provide a ID param");
 		}
 
@@ -66,7 +66,7 @@ export const postResolvers = {
 					},
 				],
 				where: {
-					userId: id,
+					userUid: uid,
 				},
 				include: {
 					user: true,

@@ -28,6 +28,7 @@ export const meResolvers = {
 					},
 				},
 				friends: true,
+				profile: true,
 			},
 		});
 
@@ -35,7 +36,18 @@ export const meResolvers = {
 			throw new GraphQLError("User not found");
 		}
 
-		const result = { ...user, friendsCount: user.friends.length };
+		const photos = await prisma.post.findMany({
+			where: {
+				userUid: userInfo.userUid,
+				images: {
+					some: {
+						// Only post with images
+					},
+				},
+			},
+		});
+
+		const result = { ...user, friendsCount: user.friends.length, photos };
 
 		return result;
 	},

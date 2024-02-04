@@ -60,6 +60,13 @@ export const userResolvers = {
 					lastName,
 					username,
 					uid: result.uid,
+					profile: {
+						create: {
+							bio: null,
+							coverPhoto: null,
+							profilePicture: null,
+						},
+					},
 				},
 			});
 
