@@ -9,6 +9,8 @@ import { NotificationMenu } from "../NotificationMenu/NotificationMenu";
 export const Header = () => {
 	const {} = useDisclosure();
 
+	return null;
+
 	return (
 		<>
 			<HStack
