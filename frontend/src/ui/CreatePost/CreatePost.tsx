@@ -21,9 +21,16 @@ import React, { ChangeEvent, FC, useRef, useState, FormEvent } from "react";
 
 interface Props extends Omit<ModalProps, "children"> {
 	userUid: string;
+	userFirstName: string;
+	userLastName: string;
 }
 
-export const CreatePost: FC<Props> = ({ userUid, ...restProps }) => {
+export const CreatePost: FC<Props> = ({
+	userUid,
+	userFirstName,
+	userLastName,
+	...restProps
+}) => {
 	const { token } = useAuth();
 	const [content, setContent] = useState("");
 
@@ -85,7 +92,9 @@ export const CreatePost: FC<Props> = ({ userUid, ...restProps }) => {
 						<Flex gap={3}>
 							<Avatar />
 							<Box>
-								<Text>Michael Dave</Text>
+								<Text>
+									{userFirstName} {userLastName}
+								</Text>
 							</Box>
 						</Flex>
 						<Box position="relative" height="100%" marginBottom={4}>
@@ -93,7 +102,7 @@ export const CreatePost: FC<Props> = ({ userUid, ...restProps }) => {
 								ref={textareaRef}
 								value={content}
 								onChange={handleInputChange}
-								placeholder="What's on your mind, Michael?"
+								placeholder={`What's on your mind, ${userFirstName}?`}
 								variant="unstyled"
 								resize="none"
 								outline="none"

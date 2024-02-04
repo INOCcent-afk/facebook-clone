@@ -25,7 +25,7 @@ interface Props extends Omit<ModalProps, "children"> {
 }
 
 export const SharePost: FC<Props> = ({ sharePostId, ...restProps }) => {
-	const { token } = useAuth();
+	const { user, token } = useAuth();
 	const [content, setContent] = useState("");
 
 	const queryClient = useQueryClient();
@@ -87,7 +87,9 @@ export const SharePost: FC<Props> = ({ sharePostId, ...restProps }) => {
 						<Flex gap={3}>
 							<Avatar />
 							<Box>
-								<Text>Michael Dave</Text>
+								<Text>
+									{user?.firstName} {user?.lastName}
+								</Text>
 							</Box>
 						</Flex>
 						<Box position="relative" height="100%" marginBottom={4}>
@@ -95,7 +97,7 @@ export const SharePost: FC<Props> = ({ sharePostId, ...restProps }) => {
 								ref={textareaRef}
 								value={content}
 								onChange={handleInputChange}
-								placeholder="What's on your mind, Michael?"
+								placeholder={`What's on your mind, ${user?.firstName}?`}
 								variant="unstyled"
 								resize="none"
 								outline="none"

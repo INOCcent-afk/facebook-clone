@@ -42,10 +42,12 @@ export const Profile = () => {
 							<Posts
 								friendsCount={user?.friendsCount ?? 0}
 								userUid={user.uid}
-								bio={me?.profile?.bio}
+								bio={user?.profile?.bio}
 								token={token}
 								friends={user.friends}
 								photos={user.photos}
+								userFirstName={`${user.firstName}`}
+								userLastName={`${user.lastName}`}
 							/>
 						) : null
 					}

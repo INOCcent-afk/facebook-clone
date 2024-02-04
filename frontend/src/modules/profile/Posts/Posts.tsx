@@ -12,6 +12,8 @@ interface Props {
 	token: string | null;
 	friends: (Partial<User> | null)[] | null | undefined;
 	photos: (Partial<Photo> | null)[] | null | undefined;
+	userFirstName: string;
+	userLastName: string;
 }
 
 export const Posts: FC<Props> = ({
@@ -21,6 +23,8 @@ export const Posts: FC<Props> = ({
 	token,
 	friends,
 	photos,
+	userFirstName,
+	userLastName,
 }) => {
 	const { data: posts } = useUserPosts({
 		uid: userUid,
@@ -38,6 +42,7 @@ export const Posts: FC<Props> = ({
 									bio={bio}
 									userUid={userUid}
 									token={token}
+									userFullName={userFirstName}
 								/>
 							</Stack>
 						)}
@@ -63,7 +68,11 @@ export const Posts: FC<Props> = ({
 			</Box>
 
 			<Stack flexBasis="60%">
-				<CreateFeed userUid={userUid} />
+				<CreateFeed
+					userUid={userUid}
+					userFirstName={userFirstName}
+					userLastName={`${userLastName}`}
+				/>
 
 				{posts &&
 					posts.map((data) => {

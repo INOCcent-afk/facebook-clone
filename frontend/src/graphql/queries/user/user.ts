@@ -13,6 +13,7 @@ export const getUser = graphql(/* GraphQL */ `
 				profilePicture
 				id
 				userUid
+				bio
 			}
 			friends {
 				uid

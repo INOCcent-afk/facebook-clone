@@ -25,7 +25,13 @@ export const FeedPanel = () => {
 		>
 			<StoriesBlock />
 
-			{user?.uid && <CreateFeed userUid={user?.uid} />}
+			{user?.uid && (
+				<CreateFeed
+					userUid={user?.uid}
+					userFirstName={`${user.firstName}`}
+					userLastName={`${user.lastName}`}
+				/>
+			)}
 
 			{posts &&
 				posts.map((data) => {

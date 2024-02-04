@@ -16,9 +16,15 @@ import { MeOnly } from "@/containers/MeOnly/MeOnly";
 
 interface Props {
 	userUid: string;
+	userFirstName: string;
+	userLastName: string;
 }
 
-export const CreateFeed: FC<Props> = ({ userUid }) => {
+export const CreateFeed: FC<Props> = ({
+	userUid,
+	userFirstName,
+	userLastName,
+}) => {
 	const { isOpen, onClose, onOpen } = useDisclosure();
 
 	return (
@@ -37,7 +43,7 @@ export const CreateFeed: FC<Props> = ({ userUid }) => {
 						color="gray.600"
 						onClick={onOpen}
 					>
-						What&apos;s on your mind, Michael?
+						What&apos;s on your mind, {userFirstName}?
 					</Button>
 				</HStack>
 				<Divider marginY={4} />
@@ -80,7 +86,13 @@ export const CreateFeed: FC<Props> = ({ userUid }) => {
 					</Button>
 				</HStack>
 			</ContentContainer>
-			<CreatePost isOpen={isOpen} onClose={onClose} userUid={userUid} />
+			<CreatePost
+				isOpen={isOpen}
+				onClose={onClose}
+				userUid={userUid}
+				userFirstName={`${userFirstName}`}
+				userLastName={`${userLastName}`}
+			/>
 		</MeOnly>
 	);
 };

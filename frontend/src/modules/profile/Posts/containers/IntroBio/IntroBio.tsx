@@ -17,9 +17,10 @@ interface Props {
 	bio: Maybe<string> | undefined;
 	userUid: string;
 	token: string | null;
+	userFullName: string;
 }
 
-export const IntroBio: FC<Props> = ({ bio, userUid, token }) => {
+export const IntroBio: FC<Props> = ({ bio, userUid, token, userFullName }) => {
 	const [displayBio, setDisplayBio] = useState<string | null | undefined>(
 		bio
 	);
@@ -83,7 +84,7 @@ export const IntroBio: FC<Props> = ({ bio, userUid, token }) => {
 								value={content}
 								onChange={handleInputChange}
 								backgroundColor="gray.800"
-								placeholder="What's on your mind, Michael?"
+								placeholder={`What's on your mind, ${userFullName}?`}
 								variant="unstyled"
 								resize="none"
 								outline="none"

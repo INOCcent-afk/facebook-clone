@@ -87,7 +87,9 @@ export const ProfileMenu = () => {
 							name="Dan Abrahmov"
 							src="https://bit.ly/dan-abramov"
 						/>
-						<Text fontSize="lg">Michael Dave Inoc</Text>
+						<Text fontSize="lg">
+							{user?.firstName} {user?.lastName}
+						</Text>
 					</Flex>
 				</Link>
 
