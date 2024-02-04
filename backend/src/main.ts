@@ -8,6 +8,7 @@ import { Context, Me } from "./models/global";
 import { dateScalar } from "./scalars/date";
 import http from "http";
 import { Server, Socket } from "socket.io";
+import AWS from "aws-sdk";
 
 require("dotenv").config();
 
@@ -24,10 +25,12 @@ const server = new ApolloServer({
 	},
 	context: async ({ req }: any): Promise<Context> => {
 		const userInfo = await getUserFromToken(req.headers.authorization);
+		const s3 = new AWS.S3();
 
 		return {
 			prisma,
 			userInfo: userInfo?.uid ? { userUid: userInfo?.uid } : null,
+			s3,
 		};
 	},
 });

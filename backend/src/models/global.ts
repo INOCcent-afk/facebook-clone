@@ -13,4 +13,5 @@ export interface Context {
 		Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
 	>;
 	userInfo: Me;
+	s3: AWS.S3;
 }
