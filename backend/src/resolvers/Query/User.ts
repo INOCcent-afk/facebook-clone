@@ -32,6 +32,7 @@ export const userResolvers = {
 				include: {
 					friendRequestsReceiver: true,
 					friends: true,
+					profile: true,
 				},
 			});
 
@@ -64,6 +65,17 @@ export const userResolvers = {
 						},
 					});
 
+				const photos = await prisma.post.findMany({
+					where: {
+						userUid: uid,
+						images: {
+							some: {
+								// Only post with images
+							},
+						},
+					},
+				});
+
 				const isFriends = isFriendsCount > 0;
 				const isInFriendRequests = friendRequestByFriendCount > 0;
 				const isRequestingToBeFriend = friendRequestCount > 0;
@@ -74,6 +86,7 @@ export const userResolvers = {
 					isFriends,
 					isInFriendRequests,
 					isRequestingToBeFriend,
+					photos,
 				};
 
 				return result;

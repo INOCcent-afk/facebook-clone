@@ -2,8 +2,8 @@ import { gql } from "apollo-server-express";
 
 export const profileTypeDef = gql`
 	type Profile {
-		id: ID!
-		userUid: ID!
+		id: ID
+		userUid: ID
 		coverPhoto: String
 		profilePicture: String
 		bio: String

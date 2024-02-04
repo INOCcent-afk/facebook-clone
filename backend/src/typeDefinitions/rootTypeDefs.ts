@@ -16,7 +16,7 @@ export const rootTypeDefs = gql`
 		friends(uid: String!, skip: Int!, take: Int!): User
 		profiles: [Profile]
 		posts: [Post]
-		userPosts(id: Int): [Post]
+		userPosts(uid: String): [Post]
 		comments: [Comment]
 		chats(uid: String!): [ChatRoom]
 		chat(senderUid: String!, receiverUid: String!): ChatRoom

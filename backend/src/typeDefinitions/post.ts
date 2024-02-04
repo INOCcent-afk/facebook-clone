@@ -16,8 +16,8 @@ export const postTypeDef = gql`
 	}
 
 	type SharedPost {
-		id: ID!
-		userId: ID!
+		id: ID
+		userId: ID
 		user: User
 		images: [String]
 		videos: [String]
