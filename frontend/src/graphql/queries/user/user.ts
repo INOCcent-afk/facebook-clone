@@ -9,10 +9,10 @@ export const getUser = graphql(/* GraphQL */ `
 			lastName
 			email
 			profile {
-				cover_photo
+				coverPhoto
 				profilePicture
 				id
-				userId
+				userUid
 			}
 			friendsCount
 			isFriends

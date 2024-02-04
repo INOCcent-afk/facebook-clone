@@ -29,4 +29,5 @@ export const rootTypeDefs = gql`
 	${friendshipTypeDef}
 	${chatTypeDef}
 	${notificationTypeDef}
+	${profileTypeDef}
 `;
