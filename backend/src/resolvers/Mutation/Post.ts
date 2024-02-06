@@ -7,6 +7,7 @@ interface PostArgs {
 	post: {
 		postContent?: string;
 	};
+	images?: { image: string }[];
 }
 
 interface PostShareArgs {
@@ -21,7 +22,7 @@ type PostPayloadType = null | Prisma.Prisma__PostClient<Post, never> | Post;
 export const postResolvers = {
 	createPost: async (
 		_: any,
-		{ post }: PostArgs,
+		{ post, images }: PostArgs,
 		{ prisma, userInfo }: Context
 	): Promise<PostPayloadType> => {
 		if (!userInfo || (userInfo && !userInfo.userUid)) {
@@ -37,7 +38,22 @@ export const postResolvers = {
 		}
 
 		try {
-			return prisma.post.create({
+			const imagesData = [];
+
+			if (images?.length) {
+				for (const { image } of images) {
+					imagesData.push({
+						user: {
+							connect: {
+								uid: userInfo.userUid,
+							},
+							image: image,
+						},
+					});
+				}
+			}
+
+			return await prisma.post.create({
 				data: {
 					user: {
 						connect: {
@@ -45,6 +61,9 @@ export const postResolvers = {
 						},
 					},
 					postContent,
+					images: {
+						create: [...imagesData],
+					},
 				},
 			});
 		} catch (error) {

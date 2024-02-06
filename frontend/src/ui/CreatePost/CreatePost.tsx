@@ -18,6 +18,8 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import React, { ChangeEvent, FC, useRef, useState, FormEvent } from "react";
+import { MediaUpload } from "./ui/MediaUpload";
+import { MdPhotoLibrary } from "react-icons/md";
 
 interface Props extends Omit<ModalProps, "children"> {
 	userUid: string;
@@ -33,6 +35,7 @@ export const CreatePost: FC<Props> = ({
 }) => {
 	const { token } = useAuth();
 	const [content, setContent] = useState("");
+	const [isMediaUploadOpen, setIsMediaUploadOpen] = useState(false);
 
 	const queryClient = useQueryClient();
 
@@ -114,6 +117,37 @@ export const CreatePost: FC<Props> = ({
 								tabIndex={0}
 							/>
 						</Box>
+
+						{isMediaUploadOpen && (
+							<MediaUpload
+								toggleMediaUpload={setIsMediaUploadOpen}
+							/>
+						)}
+
+						<Flex
+							justifyContent="space-between"
+							alignItems="center"
+							backgroundColor="gray.800"
+							rounded="md"
+							paddingLeft={4}
+							paddingRight={2}
+							paddingY={2}
+							marginY={2}
+						>
+							<Text>Add to your post</Text>
+							<Button
+								variant="circledButton"
+								onClick={() => setIsMediaUploadOpen(true)}
+							>
+								<Text color="green.400">
+									<MdPhotoLibrary
+										size={28}
+										aria-label="add photo"
+									/>
+								</Text>
+							</Button>
+						</Flex>
+
 						<Button
 							type="submit"
 							width="full"
