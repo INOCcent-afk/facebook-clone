@@ -1,5 +1,5 @@
 import { HEADER_HEIGHT } from "@/utils";
-import { Box, HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { ProfileMenu, SearchFacebook } from "../";
@@ -7,10 +7,6 @@ import { MessengerMenu } from "../MessengerMenu/MessengerMenu";
 import { NotificationMenu } from "../NotificationMenu/NotificationMenu";
 
 export const Header = () => {
-	const {} = useDisclosure();
-
-	return null;
-
 	return (
 		<>
 			<HStack
