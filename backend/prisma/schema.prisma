@@ -81,6 +81,8 @@ model Post {
   user        User      @relation(fields: [userUid], references: [uid])
   userUid     String
   comments    Comment[]
+  image       String?
+  video       String?
   images      Post[]    @relation("Images")
   videos      Post[]    @relation("Videos")
   postContent String?
