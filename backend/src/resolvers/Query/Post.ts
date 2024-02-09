@@ -24,6 +24,9 @@ export const postResolvers = {
 
 		try {
 			const posts = await prisma.post.findMany({
+				where: {
+					image: null,
+				},
 				orderBy: [
 					{
 						createdAt: "desc",
@@ -31,6 +34,7 @@ export const postResolvers = {
 				],
 				include: {
 					user: true,
+					images: true,
 					sharedPost: {
 						include: {
 							videos: true,
@@ -45,6 +49,7 @@ export const postResolvers = {
 
 			return posts;
 		} catch (error) {
+			console.log(error);
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},

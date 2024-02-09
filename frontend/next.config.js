@@ -17,6 +17,7 @@ const nextConfig = {
 			"scontent.fmnl30-2.fna.fbcdn.net",
 			"bit.ly",
 			"scontent.fmnl17-4.fna.fbcdn.net",
+			"facebook-clone-images.s3.amazonaws.com",
 		],
 	},
 };

@@ -4,11 +4,13 @@ import { commentTypeDef } from "./comment";
 export const postTypeDef = gql`
 	type Post {
 		id: ID!
-		userId: ID!
+		userUid: ID!
 		user: User
 		sharedPost: SharedPost
-		images: [String]
-		videos: [String]
+		image: String
+		video: String
+		images: [Post]
+		videos: [Post]
 		comments: [Comment]
 		postContent: String
 		createdAt: Date
@@ -16,11 +18,11 @@ export const postTypeDef = gql`
 	}
 
 	type SharedPost {
-		id: ID
-		userId: ID
+		id: ID!
+		userUid: ID!
 		user: User
-		images: [String]
-		videos: [String]
+		images: [Post]
+		videos: [Post]
 		comments: [Comment]
 		postContent: String
 		createdAt: Date
