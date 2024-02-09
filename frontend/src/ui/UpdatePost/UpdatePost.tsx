@@ -22,12 +22,11 @@ import React, { ChangeEvent, FC, useRef, useState, FormEvent } from "react";
 
 interface Props
 	extends Omit<ModalProps, "children" | "id">,
-		Pick<Post, "images" | "videos" | "postContent" | "id"> {}
+		Pick<Post, "images" | "postContent" | "id"> {}
 
 export const UpdatePost: FC<Props> = ({
 	id,
 	images,
-	videos,
 	postContent,
 	...restProps
 }) => {
@@ -62,7 +61,6 @@ export const UpdatePost: FC<Props> = ({
 					id,
 					images,
 					postContent: content,
-					videos,
 				},
 				token: token ?? "",
 			},

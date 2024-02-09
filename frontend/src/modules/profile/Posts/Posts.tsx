@@ -83,7 +83,6 @@ export const Posts: FC<Props> = ({
 								postContent={data.postContent ?? ""}
 								id={data.id}
 								user={data.user}
-								videos={data.videos}
 								images={data.images}
 								createdAt={data.createdAt}
 								sharedPost={data.sharedPost}
