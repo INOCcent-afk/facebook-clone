@@ -4,10 +4,13 @@ export const getUserPosts = graphql(/* GraphQL */ `
 	query userPosts($uid: String) {
 		userPosts(uid: $uid) {
 			id
-			images
+			images {
+				id
+				userUid
+				image
+			}
 			postContent
-			videos
-			userId
+			userUid
 			user {
 				id
 				uid
@@ -16,9 +19,12 @@ export const getUserPosts = graphql(/* GraphQL */ `
 			}
 			sharedPost {
 				id
-				images
-				videos
-				userId
+				images {
+					id
+					userUid
+					image
+				}
+				userUid
 				user {
 					id
 					uid

@@ -15,13 +15,19 @@ const MediaUpload: FC<Props> = React.memo(({ toggleMediaUpload }) => {
 	const selectedFiles = watch("files");
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files) {
-			const files: FileList = e.target.files;
-			const imageFiles: File[] = Array.from(files).filter((file) =>
-				file.type.startsWith("image/")
-			);
+		const MAX_LENGTH = 2;
 
-			setValue("files", [...selectedFiles, ...imageFiles]);
+		if (e.target.files) {
+			if (Array.from(e.target.files).length > MAX_LENGTH) {
+				alert(`Cannot upload files more than ${MAX_LENGTH}`);
+			} else {
+				const files: FileList = e.target.files;
+				const imageFiles: File[] = Array.from(files).filter((file) =>
+					file.type.startsWith("image/")
+				);
+
+				setValue("files", [...selectedFiles, ...imageFiles]);
+			}
 		}
 	};
 
