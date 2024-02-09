@@ -4,14 +4,16 @@ import { useMutation } from "@tanstack/react-query";
 
 interface Props {
 	postContent: string;
+	images?: { image: string }[];
 	token: string;
 }
 
-const createPost = async ({ token, postContent }: Props) => {
+const createPost = async ({ token, postContent, images }: Props) => {
 	const data = await graphQLClient(token).request(createPostQL, {
 		post: {
 			postContent,
 		},
+		images: images,
 	});
 	return data;
 };

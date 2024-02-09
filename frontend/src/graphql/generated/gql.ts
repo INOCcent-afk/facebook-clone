@@ -16,7 +16,7 @@ const documents = {
     "\n\tmutation updateChatViewed($roomId: String!) {\n\t\tupdateChatViewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdateChatViewedDocument,
     "\n\tmutation updateChatUnviewed($roomId: String!) {\n\t\tupdateChatUnviewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdateChatUnviewedDocument,
     "\n\tmutation createNotification(\n\t\t$notificationUrl: String!\n\t\t$notificationMessage: String!\n\t\t$createdFor: String!\n\t) {\n\t\tcreateNotification(\n\t\t\tnotificationUrl: $notificationUrl\n\t\t\tnotificationMessage: $notificationMessage\n\t\t\tcreatedFor: $createdFor\n\t\t) {\n\t\t\tcreatedFor\n\t\t\tid\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tuser {\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n": types.CreateNotificationDocument,
-    "\n\tmutation createPost($post: PostInput!) {\n\t\tcreatePost(post: $post) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t}\n\t}\n": types.CreatePostDocument,
+    "\n\tmutation createPost($post: PostInput!, $images: [ImageInput]) {\n\t\tcreatePost(post: $post, images: $images) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t}\n\t}\n": types.CreatePostDocument,
     "\n\tmutation deletePost($postId: ID!) {\n\t\tdeletePost(postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n": types.DeletePostDocument,
     "\n\tmutation sharePost($post: PostInput!, $sharedPostId: Int!) {\n\t\tsharePost(post: $post, sharedPostId: $sharedPostId) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t\tsharedPost {\n\t\t\t\tvideos\n\t\t\t\tid\n\t\t\t\timages\n\t\t\t\tcreatedAt\n\t\t\t}\n\t\t}\n\t}\n": types.SharePostDocument,
     "\n\tmutation updatePost($postId: ID!, $post: PostInput!) {\n\t\tupdatePost(postId: $postId, post: $post) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdatePostDocument,
@@ -66,7 +66,7 @@ export function graphql(source: "\n\tmutation createNotification(\n\t\t$notifica
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n\tmutation createPost($post: PostInput!) {\n\t\tcreatePost(post: $post) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation createPost($post: PostInput!) {\n\t\tcreatePost(post: $post) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t}\n\t}\n"];
+export function graphql(source: "\n\tmutation createPost($post: PostInput!, $images: [ImageInput]) {\n\t\tcreatePost(post: $post, images: $images) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation createPost($post: PostInput!, $images: [ImageInput]) {\n\t\tcreatePost(post: $post, images: $images) {\n\t\t\tvideos\n\t\t\tid\n\t\t\timages\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
