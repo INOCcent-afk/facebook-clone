@@ -3,8 +3,8 @@ import { Box, HStack } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { ProfileMenu, SearchFacebook } from "../";
-import { MessengerMenu } from "../MessengerMenu/MessengerMenu";
 import { NotificationMenu } from "../NotificationMenu/NotificationMenu";
+import { MessengerMenu } from "../MessengerMenu/MessengerMenu";
 
 export const Header = () => {
 	return (

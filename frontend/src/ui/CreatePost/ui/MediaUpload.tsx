@@ -1,14 +1,18 @@
 import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC } from "react";
+import { useFormContext } from "react-hook-form";
 import { IoCloseCircle } from "react-icons/io5";
+import { CreatePostForm } from "../types/CreatePostForm";
 
 interface Props {
 	toggleMediaUpload: (toggle: boolean) => void;
 }
 
 const MediaUpload: FC<Props> = React.memo(({ toggleMediaUpload }) => {
-	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+	const { setValue, watch } = useFormContext<CreatePostForm>();
+
+	const selectedFiles = watch("files");
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
@@ -16,23 +20,23 @@ const MediaUpload: FC<Props> = React.memo(({ toggleMediaUpload }) => {
 			const imageFiles: File[] = Array.from(files).filter((file) =>
 				file.type.startsWith("image/")
 			);
-			setSelectedFiles([...selectedFiles, ...imageFiles]);
+
+			setValue("files", [...selectedFiles, ...imageFiles]);
 		}
 	};
 
 	const removeMedia = () => {
 		toggleMediaUpload(false);
-		setSelectedFiles([]);
+		setValue("files", []);
 	};
 
 	const removeFile = (selectedFile: File) => {
 		const filteredFiles = selectedFiles.filter(
 			(file) => file !== selectedFile
 		);
-		setSelectedFiles(filteredFiles);
-	};
 
-	console.log("Hi");
+		setValue("files", filteredFiles);
+	};
 
 	return (
 		<>
