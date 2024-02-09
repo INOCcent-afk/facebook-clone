@@ -1,6 +1,6 @@
 import { Header } from "@/ui";
 import { Box } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { CoverPhoto, ProfileHeader } from "./ui";
 import { HEADER_HEIGHT } from "@/utils";
 import { Posts } from "../Posts/Posts";
@@ -13,6 +13,8 @@ export const Profile = () => {
 	const { query } = useRouter();
 	const userId = query.user_id as string;
 
+	const [isEditorMode, setEditorMode] = useState(false);
+
 	const isNotMe = me ? Boolean(userId) && me?.uid !== userId : false;
 
 	const { data: userData } = useGetUser({
@@ -23,11 +25,18 @@ export const Profile = () => {
 
 	const user = isNotMe ? userData : me;
 
+	const handleEditProfile = () => {
+		setEditorMode(true);
+	};
+
 	return (
 		<>
 			<Header />
 			<Box marginTop={HEADER_HEIGHT} backgroundColor="gray.700">
-				<CoverPhoto />
+				<CoverPhoto
+					isEditorMode={isEditorMode}
+					coverPhoto={user?.profile?.coverPhoto}
+				/>
 				<ProfileHeader
 					friendsCount={user?.friendsCount ?? 0}
 					fullName={`${user?.firstName} ${user?.lastName}`}
@@ -37,6 +46,7 @@ export const Profile = () => {
 					isRequestingToBeFriend={Boolean(
 						user?.isRequestingToBeFriend
 					)}
+					handleEditProfile={handleEditProfile}
 					postsPanel={
 						user && user.id && user.uid ? (
 							<Posts

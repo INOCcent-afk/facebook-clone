@@ -3,9 +3,11 @@ import React, { FC } from "react";
 import { HiOutlinePlusSm } from "react-icons/hi";
 import { RiPencilFill } from "react-icons/ri";
 
-interface Props {}
+interface Props {
+	handleEditProfile: () => void;
+}
 
-export const EditProfileControls: FC<Props> = () => {
+export const EditProfileControls: FC<Props> = ({ handleEditProfile }) => {
 	return (
 		<>
 			<Button>
@@ -14,7 +16,7 @@ export const EditProfileControls: FC<Props> = () => {
 				</Text>{" "}
 				Add to story
 			</Button>
-			<Button variant="lightGray">
+			<Button variant="lightGray" onClick={handleEditProfile}>
 				<Text as="span" color="white" mr={2}>
 					<RiPencilFill size={18} />
 				</Text>

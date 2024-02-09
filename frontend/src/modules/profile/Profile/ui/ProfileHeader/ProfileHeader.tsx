@@ -36,6 +36,7 @@ interface Props {
 	postsPanel: ReactNode;
 	aboutPanel: ReactNode;
 	friendsPanel: ReactNode;
+	handleEditProfile: () => void;
 }
 
 export const ProfileHeader: FC<Props> = ({
@@ -48,6 +49,7 @@ export const ProfileHeader: FC<Props> = ({
 	isFriends,
 	isInFriendRequests,
 	isRequestingToBeFriend,
+	handleEditProfile,
 }) => {
 	const containerStyle: BoxProps = {
 		maxWidth: 1250,
@@ -70,7 +72,9 @@ export const ProfileHeader: FC<Props> = ({
 				<Flex gap={4} py={10}>
 					{userUid && (
 						<MeOnly uid={userUid}>
-							<EditProfileControls />
+							<EditProfileControls
+								handleEditProfile={handleEditProfile}
+							/>
 						</MeOnly>
 					)}
 
