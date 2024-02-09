@@ -6,14 +6,13 @@ import { Post } from "@/graphql/generated/graphql";
 interface Props
 	extends Pick<
 		Post,
-		"images" | "id" | "videos" | "postContent" | "user" | "createdAt"
+		"images" | "id" | "postContent" | "user" | "createdAt"
 	> {}
 
 export const SharedFeedPost: FC<Props> = ({
 	images,
 	postContent,
 	id,
-	videos,
 	user,
 	createdAt,
 }) => {

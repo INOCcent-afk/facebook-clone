@@ -29,24 +29,18 @@ import { ConfirmationModal } from "../Modals/ConfirmationModal/ConfirmationModal
 import { UpdatePost } from "../UpdatePost/UpdatePost";
 import { SharePost } from "../SharePost/SharePost";
 import { SharedFeedPost } from "../SharedFeedPost/SharedFeedPost";
+import Image from "next/image";
 
 interface Props
 	extends Pick<
 		Post,
-		| "images"
-		| "id"
-		| "videos"
-		| "postContent"
-		| "user"
-		| "createdAt"
-		| "sharedPost"
+		"images" | "id" | "postContent" | "user" | "createdAt" | "sharedPost"
 	> {}
 
 export const FeedPost: FC<Props> = ({
 	images,
 	postContent,
 	id,
-	videos,
 	user,
 	createdAt,
 	sharedPost,
@@ -120,13 +114,14 @@ export const FeedPost: FC<Props> = ({
 
 	const formattedDate = `${month} ${day} at ${hours}:${minutes} ${ampm}`;
 
+	console.log(images);
+
 	return isDeleted ? null : (
 		<>
 			<UpdatePost
 				isOpen={isUpdatePostModalOpen}
 				onClose={closeUpdatePostModal}
 				id={id}
-				videos={videos}
 				images={images}
 				postContent={postContent}
 			/>
@@ -209,10 +204,38 @@ export const FeedPost: FC<Props> = ({
 
 				<Box marginY={4}>
 					<Box color="white">
-						<Text fontSize={images?.length ? 15 : 24}>
+						<Text fontSize={images?.length ? 16 : 24}>
 							{postContent}
 						</Text>
 					</Box>
+
+					{images?.length ? (
+						<Flex
+							height={images.length > 1 ? 418 : 642}
+							marginTop={2}
+							gap={4}
+						>
+							{images.map((image) => (
+								<Box
+									position="relative"
+									width="full"
+									rounded="lg"
+									overflow="hidden"
+								>
+									<Image
+										src={`${image?.image}`}
+										alt="image"
+										fill={true}
+										style={{
+											objectFit: "cover",
+										}}
+										blurDataURL={`${image?.image}`}
+										placeholder="blur"
+									/>
+								</Box>
+							))}
+						</Flex>
+					) : null}
 
 					<Box paddingY={2}>
 						{sharedPost && (
@@ -220,7 +243,6 @@ export const FeedPost: FC<Props> = ({
 								id={sharedPost.id}
 								createdAt={sharedPost.createdAt}
 								images={sharedPost.images}
-								videos={sharedPost.videos}
 								postContent={sharedPost.postContent}
 								user={sharedPost.user}
 							/>
