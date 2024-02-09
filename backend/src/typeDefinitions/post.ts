@@ -27,8 +27,12 @@ export const postTypeDef = gql`
 		updatedAt: Date
 	}
 
+	input ImageInput {
+		image: String!
+	}
+
 	type Mutation {
-		createPost(post: PostInput!): Post!
+		createPost(post: PostInput!, images: [ImageInput]): Post!
 		updatePost(postId: ID!, post: PostInput!): Post!
 		deletePost(postId: ID!): Post
 		sharePost(post: PostInput!, sharedPostId: Int!): Post!
@@ -36,8 +40,6 @@ export const postTypeDef = gql`
 
 	input PostInput {
 		postContent: String
-		images: [String]
-		videos: [String]
 	}
 
 	${commentTypeDef}

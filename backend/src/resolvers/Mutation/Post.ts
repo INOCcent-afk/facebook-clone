@@ -29,6 +29,8 @@ export const postResolvers = {
 			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
+		console.log(images);
+
 		const { postContent } = post;
 
 		if (!postContent) {
@@ -47,8 +49,8 @@ export const postResolvers = {
 							connect: {
 								uid: userInfo.userUid,
 							},
-							image: image,
 						},
+						image: image,
 					});
 				}
 			}
@@ -62,11 +64,12 @@ export const postResolvers = {
 					},
 					postContent,
 					images: {
-						create: [...imagesData],
+						create: imagesData,
 					},
 				},
 			});
 		} catch (error) {
+			console.log(error);
 			throw new GraphQLError(JSON.stringify(error));
 		}
 	},
@@ -146,6 +149,17 @@ export const postResolvers = {
 		}
 
 		try {
+			await prisma.post.update({
+				data: {
+					images: {
+						deleteMany: {},
+					},
+				},
+				where: {
+					id: Number(postId),
+				},
+			});
+
 			return await prisma.post.delete({
 				where: {
 					id: Number(postId),
