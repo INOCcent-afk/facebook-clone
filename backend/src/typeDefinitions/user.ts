@@ -23,7 +23,7 @@ export const userTypeDef = gql`
 
 	type Photo {
 		id: ID
-		images: [String]
+		image: String
 	}
 
 	type Mutation {
