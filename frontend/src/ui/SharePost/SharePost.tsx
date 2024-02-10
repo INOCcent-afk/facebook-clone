@@ -59,7 +59,7 @@ export const SharePost: FC<Props> = ({ sharePostId, ...restProps }) => {
 			{
 				onSuccess: async () => {
 					setContent("");
-					queryClient.invalidateQueries(["posts"]);
+					await queryClient.invalidateQueries(["posts"]);
 					restProps.onClose();
 				},
 				onError: () => {

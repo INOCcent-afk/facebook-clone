@@ -10,7 +10,7 @@ import {
 	Tooltip,
 	useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useAuth } from "@/contexts";
@@ -124,7 +124,7 @@ export const MessengerMenu = () => {
 				</Flex>
 
 				<Box marginTop={4}>
-					{chats &&
+					{chats?.length ? (
 						chats?.map((chat) => {
 							const filteredUser = chat?.users?.filter(
 								(user) => me?.uid !== user?.uid
@@ -145,13 +145,12 @@ export const MessengerMenu = () => {
 									key={chat.id}
 								/>
 							);
-						})}
-
-					{!chats?.length ? (
+						})
+					) : (
 						<Box textAlign="center" color="white">
 							<Text>No Messages</Text>
 						</Box>
-					) : null}
+					)}
 				</Box>
 			</MenuList>
 		</Menu>
