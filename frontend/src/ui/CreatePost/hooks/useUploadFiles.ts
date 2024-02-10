@@ -33,7 +33,25 @@ export const useUploadFiles = () => {
 		}
 	};
 
-	const handleGenerateUrlAndStore = async (files: File[]) => {
+	const handleGenerateUrlAndStore = async (file: File) => {
+		try {
+			const { preSignedUrl, publicUrl } = await generatePresignedUrl(
+				file
+			);
+
+			await fetch(preSignedUrl, {
+				method: "PUT",
+				body: file,
+			});
+
+			return publicUrl;
+		} catch (error) {
+			console.error("Error:", error);
+			return undefined;
+		}
+	};
+
+	const handleGenerateUrlsAndStore = async (files: File[]) => {
 		try {
 			let images = [];
 
@@ -42,7 +60,6 @@ export const useUploadFiles = () => {
 					file
 				);
 
-				console.log(file);
 				await fetch(preSignedUrl, {
 					method: "PUT",
 					body: file,
@@ -58,5 +75,5 @@ export const useUploadFiles = () => {
 		}
 	};
 
-	return { handleGenerateUrlAndStore };
+	return { handleGenerateUrlAndStore, handleGenerateUrlsAndStore };
 };

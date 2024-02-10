@@ -114,8 +114,6 @@ export const FeedPost: FC<Props> = ({
 
 	const formattedDate = `${month} ${day} at ${hours}:${minutes} ${ampm}`;
 
-	console.log(images);
-
 	return isDeleted ? null : (
 		<>
 			<UpdatePost
@@ -221,6 +219,7 @@ export const FeedPost: FC<Props> = ({
 									width="full"
 									rounded="lg"
 									overflow="hidden"
+									key={image?.id}
 								>
 									<Image
 										src={`${image?.image}`}
