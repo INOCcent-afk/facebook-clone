@@ -8,6 +8,7 @@ import {
 	Divider,
 	Flex,
 	Heading,
+	Input,
 	Menu,
 	MenuButton,
 	MenuItem,
@@ -20,11 +21,16 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import React, { FC, ReactNode } from "react";
+import React, { ChangeEvent, FC, ReactNode } from "react";
 import { HiChevronDown, HiDotsHorizontal } from "react-icons/hi";
 import { EditProfileControls } from "../EditProfileControls/EditProfileControls";
 import { FriendControls } from "../FriendControls/FriendControls";
 import { useProfileStore } from "../../stores/useProfileStore";
+import { useUpdateProfile } from "@/apiHooks/profile/useUpdateProfile";
+import { useAuth } from "@/contexts";
+import { useUploadFiles } from "@/ui/CreatePost/hooks/useUploadFiles";
+import { MdOutlineCameraAlt } from "react-icons/md";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
 	friendsCount: number;
@@ -33,6 +39,7 @@ interface Props {
 	isFriends: boolean;
 	isInFriendRequests: boolean;
 	isRequestingToBeFriend: boolean;
+	profilePicture?: string | null;
 
 	postsPanel: ReactNode;
 	aboutPanel: ReactNode;
@@ -49,24 +56,143 @@ export const ProfileHeader: FC<Props> = ({
 	isFriends,
 	isInFriendRequests,
 	isRequestingToBeFriend,
+	profilePicture,
 }) => {
+	const { token } = useAuth();
+
+	const {
+		newCoverPhoto,
+		isEditorMode,
+		updateEditorMode,
+		newProfilePicture,
+		updateNewProfilePicture,
+		resetProfileStore,
+	} = useProfileStore();
+	const { mutate: updateProfile } = useUpdateProfile();
+
+	const { handleGenerateUrlAndStore } = useUploadFiles();
+
+	const queryClient = useQueryClient();
+
+	const handleEditProfile = () => {
+		updateEditorMode(!isEditorMode);
+	};
+
+	const handleSaveProfile = async () => {
+		let newUploadedCoverPhoto;
+		let newUploadedProfilePicture;
+
+		if (newCoverPhoto) {
+			newUploadedCoverPhoto = await handleGenerateUrlAndStore(
+				newCoverPhoto
+			);
+		}
+
+		if (newProfilePicture) {
+			newUploadedProfilePicture = await handleGenerateUrlAndStore(
+				newProfilePicture
+			);
+		}
+
+		updateProfile(
+			{
+				coverPhoto: newUploadedCoverPhoto,
+				profilePicture: newUploadedProfilePicture,
+				token: token ?? "",
+			},
+			{
+				onSuccess: async () => {
+					await queryClient.invalidateQueries(["me"]);
+				},
+				onError: (error) => {
+					console.log(error);
+				},
+			}
+		);
+
+		resetProfileStore();
+	};
+
+	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const MAX_LENGTH = 1;
+
+		if (e.target.files) {
+			if (Array.from(e.target.files).length > MAX_LENGTH) {
+				alert(`Cannot upload files more than ${MAX_LENGTH}`);
+			} else {
+				const files: FileList = e.target.files;
+				const imageFiles: File[] = Array.from(files).filter((file) =>
+					file.type.startsWith("image/")
+				);
+
+				updateNewProfilePicture(imageFiles[0]);
+			}
+		}
+	};
+
 	const containerStyle: BoxProps = {
 		maxWidth: 1250,
 		mx: "auto",
 		px: 8,
 	};
 
-	const { isEditorMode, updateEditorMode } = useProfileStore();
+	const getImage = () => {
+		if (isEditorMode && newProfilePicture) {
+			return URL.createObjectURL(newProfilePicture);
+		}
 
-	const handleEditProfile = () => {
-		updateEditorMode(!isEditorMode);
+		return profilePicture;
 	};
 
 	return (
 		<Box>
 			<Flex {...containerStyle} justifyContent="space-between">
 				<Box display="flex" textColor="white" gap={4}>
-					<Avatar size="2xl" mt={-10} />
+					<Box
+						position="relative"
+						mt={-10}
+						height="fit-content"
+						overflow="hidden"
+						rounded="full"
+					>
+						<Avatar src={`${getImage()}`} size="2xl" />
+
+						{isEditorMode && (
+							<>
+								<Input
+									type="file"
+									accept="image/png, image/jpeg"
+									aria-hidden="true"
+									height="100%"
+									width="100%"
+									position="absolute"
+									top="0"
+									left="0"
+									opacity="0"
+									appearance="none"
+									multiple
+									cursor="pointer"
+									zIndex={1}
+									onChange={handleFileChange}
+								></Input>
+
+								<Box
+									width="full"
+									height="full"
+									position="absolute"
+									display="flex"
+									alignItems="center"
+									justifyContent="center"
+									backgroundColor="#00000080"
+									color="whiteAlpha.600"
+									top={0}
+									bottom={0}
+								>
+									<MdOutlineCameraAlt size={30} />
+								</Box>
+							</>
+						)}
+					</Box>
 					<Box pb={4} pt={6}>
 						<Heading fontSize={32}>{fullName}</Heading>
 						<Text textColor="gray.600" fontWeight={600}>
@@ -79,6 +205,8 @@ export const ProfileHeader: FC<Props> = ({
 						<MeOnly uid={userUid}>
 							<EditProfileControls
 								handleEditProfile={handleEditProfile}
+								handleSaveProfile={handleSaveProfile}
+								isEditorMode={isEditorMode}
 							/>
 						</MeOnly>
 					)}

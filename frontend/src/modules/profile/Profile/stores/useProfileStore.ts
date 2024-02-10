@@ -1,19 +1,35 @@
 import { create } from "zustand";
 
 type State = {
-	file: File | null;
+	newCoverPhoto: File | null;
+	newProfilePicture: File | null;
 	isEditorMode: boolean;
 };
 
 type Action = {
-	updateFile: (firstName: State["file"]) => void;
-	updateEditorMode: (lastName: State["isEditorMode"]) => void;
+	updateNewCoverPhoto: (newCoverPhoto: State["newCoverPhoto"]) => void;
+	updateNewProfilePicture: (
+		newProfilePicture: State["newProfilePicture"]
+	) => void;
+	updateEditorMode: (isEditorMode: State["isEditorMode"]) => void;
+	resetProfileStore: () => void;
+};
+
+const initialState: State = {
+	newCoverPhoto: null,
+	newProfilePicture: null,
+	isEditorMode: false,
 };
 
 export const useProfileStore = create<State & Action>((set) => ({
-	file: null,
-	isEditorMode: false,
-	updateFile: (file) => set(() => ({ file: file })),
+	...initialState,
+	updateNewProfilePicture: (newProfilePicture) =>
+		set(() => ({ newProfilePicture })),
+	updateNewCoverPhoto: (newCoverPhoto) => set(() => ({ newCoverPhoto })),
 	updateEditorMode: (isEditorMode) =>
 		set(() => ({ isEditorMode: isEditorMode })),
+
+	resetProfileStore: () => {
+		set(initialState);
+	},
 }));
