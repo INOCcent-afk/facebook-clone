@@ -43,6 +43,7 @@ export const Profile = () => {
 					isRequestingToBeFriend={Boolean(
 						user?.isRequestingToBeFriend
 					)}
+					profilePicture={user?.profile?.profilePicture}
 					postsPanel={
 						user && user.id && user.uid ? (
 							<Posts

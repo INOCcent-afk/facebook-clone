@@ -9,6 +9,7 @@ import {
 	Heading,
 	Text,
 } from "@chakra-ui/react";
+import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
 
@@ -41,12 +42,23 @@ export const Photos: FC<Props> = ({ photos, ...restProps }) => {
 					overflow="hidden"
 				>
 					{photos?.length ? (
-						photos.map((photo) => (
+						photos.map((photo, index) => (
 							<GridItem
 								w="100%"
 								h="129px"
 								bg="blue.500"
-							></GridItem>
+								key={index}
+								position="relative"
+							>
+								{photo?.image && (
+									<Image
+										src={photo.image}
+										style={{ objectFit: "cover" }}
+										fill
+										alt="image"
+									/>
+								)}
+							</GridItem>
 						))
 					) : (
 						<GridItem
