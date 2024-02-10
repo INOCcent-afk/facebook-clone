@@ -42,7 +42,7 @@ export const getMe = graphql(/* GraphQL */ `
 			}
 			photos {
 				id
-				images
+				image
 			}
 		}
 	}
