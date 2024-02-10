@@ -1,8 +1,9 @@
 import { Box, Input } from "@chakra-ui/react";
 import Image from "next/image";
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC } from "react";
 import Color from "color-thief-react";
 import { MdOutlineCameraAlt } from "react-icons/md";
+import { useProfileStore } from "../../stores/useProfileStore";
 
 interface Props {
 	isEditorMode: boolean;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export const CoverPhoto: FC<Props> = ({ isEditorMode, coverPhoto }) => {
-	const [file, setFile] = useState<File>();
+	const { file, updateFile } = useProfileStore();
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const MAX_LENGTH = 1;
@@ -24,27 +25,36 @@ export const CoverPhoto: FC<Props> = ({ isEditorMode, coverPhoto }) => {
 					file.type.startsWith("image/")
 				);
 
-				setFile(imageFiles[0]);
+				updateFile(imageFiles[0]);
 			}
 		}
 	};
 
+	const getImage = () => {
+		if (isEditorMode && !file) {
+			return coverPhoto;
+		}
+
+		if (!isEditorMode && coverPhoto) {
+			return coverPhoto;
+		}
+
+		if (isEditorMode && file) {
+			return URL.createObjectURL(file);
+		}
+
+		return null;
+	};
+
 	return (
-		<Color
-			src={
-				file
-					? URL.createObjectURL(file)
-					: "/images/MOCK_COVER_PHOTO.jpg"
-			}
-			format="hex"
-		>
+		<Color src={`${getImage()}`} format="hex">
 			{({ data }) => {
 				return (
 					<Box
 						width="full"
 						height="462px"
 						backgroundImage="linear-gradient(to top, #242526, rgba(36,37,38,.9), rgba(36,37,38,.7), rgba(36,37,38,.4), rgba(36,37,38,0))"
-						backgroundColor={data ?? "gray.700"}
+						backgroundColor={data ?? "black"}
 						display="flex"
 						justifyContent="center"
 						position="relative"
@@ -68,14 +78,9 @@ export const CoverPhoto: FC<Props> = ({ isEditorMode, coverPhoto }) => {
 								backgroundColor="gray.700"
 								color="brand"
 							>
-								{file ? (
+								{file || coverPhoto ? (
 									<Image
-										src={
-											isEditorMode
-												? coverPhoto ??
-												  URL.createObjectURL(file)
-												: coverPhoto
-										}
+										src={`${getImage()}`}
 										alt="cover photo"
 										fill={true}
 										style={{

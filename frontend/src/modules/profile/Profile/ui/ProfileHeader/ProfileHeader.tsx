@@ -24,6 +24,7 @@ import React, { FC, ReactNode } from "react";
 import { HiChevronDown, HiDotsHorizontal } from "react-icons/hi";
 import { EditProfileControls } from "../EditProfileControls/EditProfileControls";
 import { FriendControls } from "../FriendControls/FriendControls";
+import { useProfileStore } from "../../stores/useProfileStore";
 
 interface Props {
 	friendsCount: number;
@@ -36,7 +37,6 @@ interface Props {
 	postsPanel: ReactNode;
 	aboutPanel: ReactNode;
 	friendsPanel: ReactNode;
-	handleEditProfile: () => void;
 }
 
 export const ProfileHeader: FC<Props> = ({
@@ -49,12 +49,17 @@ export const ProfileHeader: FC<Props> = ({
 	isFriends,
 	isInFriendRequests,
 	isRequestingToBeFriend,
-	handleEditProfile,
 }) => {
 	const containerStyle: BoxProps = {
 		maxWidth: 1250,
 		mx: "auto",
 		px: 8,
+	};
+
+	const { isEditorMode, updateEditorMode } = useProfileStore();
+
+	const handleEditProfile = () => {
+		updateEditorMode(!isEditorMode);
 	};
 
 	return (
