@@ -141,14 +141,19 @@ export const NotificationMenu = () => {
 				</Flex>
 
 				<Box marginTop={4}>
-					{notifications &&
+					{notifications?.length ? (
 						notifications.map((data) => (
 							<NotificationPreview
 								key={data?.id}
 								user={data?.user}
 								message={data?.notificationMessage}
 							/>
-						))}
+						))
+					) : (
+						<Box textAlign="center" color="white">
+							<Text>No Messages</Text>
+						</Box>
+					)}
 				</Box>
 			</MenuList>
 		</Menu>

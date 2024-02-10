@@ -65,13 +65,13 @@ export const CreatePost: FC<Props> = ({
 		}
 	};
 
-	const { handleGenerateUrlAndStore } = useUploadFiles();
+	const { handleGenerateUrlsAndStore } = useUploadFiles();
 	const { mutate: createPost } = useCreatePost();
 
 	const handleCreatePost = async (e: FormEvent<HTMLDivElement>) => {
 		e.preventDefault();
 
-		const awsImages = await handleGenerateUrlAndStore(watch("files"));
+		const awsImages = await handleGenerateUrlsAndStore(watch("files"));
 
 		createPost(
 			{
@@ -82,7 +82,11 @@ export const CreatePost: FC<Props> = ({
 			{
 				onSuccess: async () => {
 					setValue("content", "");
-					queryClient.invalidateQueries(["posts", `user-${userUid}`]);
+					await queryClient.invalidateQueries(["posts"]);
+					await queryClient.invalidateQueries([
+						"user-posts",
+						userUid,
+					]);
 					restProps.onClose();
 				},
 				onError: () => {
