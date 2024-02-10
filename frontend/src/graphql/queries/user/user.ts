@@ -29,7 +29,7 @@ export const getUser = graphql(/* GraphQL */ `
 			isRequestingToBeFriend
 			photos {
 				id
-				images
+				image
 			}
 		}
 	}
