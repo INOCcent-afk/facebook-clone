@@ -39,10 +39,8 @@ export const meResolvers = {
 		const photos = await prisma.post.findMany({
 			where: {
 				userUid: userInfo.userUid,
-				images: {
-					some: {
-						// Only post with images
-					},
+				NOT: {
+					image: null,
 				},
 			},
 		});

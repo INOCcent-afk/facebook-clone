@@ -71,10 +71,12 @@ export const postResolvers = {
 					},
 				],
 				where: {
+					image: null,
 					userUid: uid,
 				},
 				include: {
 					user: true,
+					images: true,
 					sharedPost: {
 						include: {
 							videos: true,
