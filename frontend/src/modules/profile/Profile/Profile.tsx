@@ -1,19 +1,18 @@
 import { Header } from "@/ui";
 import { Box } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import { CoverPhoto, ProfileHeader } from "./ui";
 import { HEADER_HEIGHT } from "@/utils";
 import { Posts } from "../Posts/Posts";
 import { useAuth } from "@/contexts";
 import { useRouter } from "next/router";
 import { useGetUser } from "@/apiHooks/user/useGetUser";
+import { useProfileStore } from "./stores/useProfileStore";
 
 export const Profile = () => {
 	const { user: me, token } = useAuth();
 	const { query } = useRouter();
 	const userId = query.user_id as string;
-
-	const [isEditorMode, setEditorMode] = useState(false);
 
 	const isNotMe = me ? Boolean(userId) && me?.uid !== userId : false;
 
@@ -25,9 +24,7 @@ export const Profile = () => {
 
 	const user = isNotMe ? userData : me;
 
-	const handleEditProfile = () => {
-		setEditorMode(true);
-	};
+	const { isEditorMode } = useProfileStore();
 
 	return (
 		<>
@@ -46,7 +43,6 @@ export const Profile = () => {
 					isRequestingToBeFriend={Boolean(
 						user?.isRequestingToBeFriend
 					)}
-					handleEditProfile={handleEditProfile}
 					postsPanel={
 						user && user.id && user.uid ? (
 							<Posts
