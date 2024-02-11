@@ -5,6 +5,7 @@ import { postTypeDef } from "./post";
 import { friendshipTypeDef } from "./friendship";
 import { chatTypeDef } from "./chat";
 import { notificationTypeDef } from "./notification";
+import { reactionTypeDef } from "./reaction";
 
 export const rootTypeDefs = gql`
 	scalar Date
@@ -21,6 +22,7 @@ export const rootTypeDefs = gql`
 		chats(uid: String!): [ChatRoom]
 		chat(senderUid: String!, receiverUid: String!): ChatRoom
 		notifications(uid: String!): [Notification]
+		reactions(postId: ID!): Reactions
 	}
 
 	${userTypeDef}
@@ -30,4 +32,5 @@ export const rootTypeDefs = gql`
 	${chatTypeDef}
 	${notificationTypeDef}
 	${profileTypeDef}
+	${reactionTypeDef}
 `;
