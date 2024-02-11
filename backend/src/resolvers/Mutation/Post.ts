@@ -29,8 +29,6 @@ export const postResolvers = {
 			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
-		console.log(images);
-
 		const { postContent } = post;
 
 		if (!postContent) {
