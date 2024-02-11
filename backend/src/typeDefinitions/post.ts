@@ -12,6 +12,7 @@ export const postTypeDef = gql`
 		images: [Post]
 		videos: [Post]
 		comments: [Comment]
+		reactions: [Reaction]
 		postContent: String
 		createdAt: Date
 		updatedAt: Date
@@ -24,6 +25,7 @@ export const postTypeDef = gql`
 		images: [Post]
 		videos: [Post]
 		comments: [Comment]
+		reactions: [Reaction]
 		postContent: String
 		createdAt: Date
 		updatedAt: Date

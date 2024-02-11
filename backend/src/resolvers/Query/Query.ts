@@ -3,6 +3,7 @@ import { meResolvers } from "./Me";
 import { postResolvers } from "./Post";
 import { chatResolvers } from "./Chat";
 import { notificationResolvers } from "./Notification";
+import { reactionResolvers } from "./Reaction";
 
 export const Query = {
 	...userResolvers,
@@ -10,4 +11,5 @@ export const Query = {
 	...postResolvers,
 	...chatResolvers,
 	...notificationResolvers,
+	...reactionResolvers,
 };
