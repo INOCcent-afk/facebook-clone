@@ -15,21 +15,27 @@ import {
 	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ContentContainer } from "../../containers/ContentContainer/ContentContainer";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { AiOutlineLike } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa";
+
 import { RiShareForwardLine } from "react-icons/ri";
 import { useDeletePost } from "@/apiHooks/post/useDeletePost";
 import { useAuth } from "@/contexts";
-import { Post } from "@/graphql/generated/graphql";
+import { Emoji, Post } from "@/graphql/generated/graphql";
 import { MeOnly } from "@/containers/MeOnly/MeOnly";
 import { ConfirmationModal } from "../Modals/ConfirmationModal/ConfirmationModal";
 import { UpdatePost } from "../UpdatePost/UpdatePost";
 import { SharePost } from "../SharePost/SharePost";
 import { SharedFeedPost } from "../SharedFeedPost/SharedFeedPost";
 import Image from "next/image";
+import { useDeleteReaction } from "@/apiHooks/reaction/useDeleteReaction";
+import { useCreateReaction } from "@/apiHooks/reaction/useCreateReaction";
+import { useUpdateReaction } from "@/apiHooks/reaction/useUpdateReaction";
+import { useReactions } from "@/apiHooks/reaction/useReactions";
+import { ReactionButton } from "../ReactionButton/ReactionButton";
+import { FaRegComment } from "react-icons/fa";
 
 interface Props
 	extends Pick<
@@ -49,7 +55,14 @@ export const FeedPost: FC<Props> = ({
 
 	const { mutate: deletePost } = useDeletePost();
 
+	const { data: reactions } = useReactions({
+		postId: id,
+		token: token ?? "",
+		enabled: Boolean(token),
+	});
+
 	const [isDeleted, setIsDelete] = useState(false);
+	const [showReaction, setShowReaction] = useState(false);
 
 	const {
 		isOpen: isConfirmationModalOpen,
@@ -113,6 +126,53 @@ export const FeedPost: FC<Props> = ({
 	const ampm = date.getHours() < 12 ? "AM" : "PM";
 
 	const formattedDate = `${month} ${day} at ${hours}:${minutes} ${ampm}`;
+
+	const { mutate: deleteReaction } = useDeleteReaction();
+	const { mutate: createReaction } = useCreateReaction();
+
+	const [selectedEmoji, setSelectedEmoji] = useState<
+		Emoji | null | undefined
+	>(null);
+
+	const handleReaction = (react: Emoji) => {
+		console.log(react);
+		if (!selectedEmoji && react === Emoji.Like) {
+			createReaction(
+				{ postId: id, emoji: Emoji.Like, token: token ?? "" },
+				{
+					onSuccess: () => {
+						setSelectedEmoji(Emoji.Like);
+					},
+				}
+			);
+
+			return;
+		}
+
+		createReaction(
+			{ postId: id, emoji: react, token: token ?? "" },
+			{
+				onSuccess: () => {
+					setSelectedEmoji(react);
+				},
+			}
+		);
+	};
+
+	const handleDeleteReaction = () => {
+		deleteReaction(
+			{ postId: id, token: token ?? "" },
+			{
+				onSuccess: () => {
+					setSelectedEmoji(null);
+				},
+			}
+		);
+	};
+
+	useEffect(() => {
+		setSelectedEmoji(reactions?.selectedEmoji);
+	}, [reactions]);
 
 	return isDeleted ? null : (
 		<>
@@ -252,19 +312,12 @@ export const FeedPost: FC<Props> = ({
 				<Box mb={4}>
 					<Divider />
 					<Flex py={2}>
-						<Button
-							display="flex"
-							alignItems="center"
-							variant="unstyled"
-							color="gray.600"
-							gap={2}
-							flexGrow={1}
-						>
-							<Box marginTop={-1}>
-								<AiOutlineLike size={24} />
-							</Box>
-							<Text>Like</Text>
-						</Button>
+						<ReactionButton
+							handleReaction={handleReaction}
+							selectedEmoji={selectedEmoji}
+							handleDeleteReaction={handleDeleteReaction}
+						/>
+
 						<Button
 							display="flex"
 							alignItems="center"
