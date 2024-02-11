@@ -21,6 +21,9 @@ const documents = {
     "\n\tmutation sharePost($post: PostInput!, $sharedPostId: Int!) {\n\t\tsharePost(post: $post, sharedPostId: $sharedPostId) {\n\t\t\tid\n\t\t\timages {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\timage\n\t\t\t}\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t\tsharedPost {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\timages {\n\t\t\t\t\tid\n\t\t\t\t\tuserUid\n\t\t\t\t\timage\n\t\t\t\t}\n\t\t\t\tcreatedAt\n\t\t\t}\n\t\t}\n\t}\n": types.SharePostDocument,
     "\n\tmutation updatePost($postId: ID!, $post: PostInput!) {\n\t\tupdatePost(postId: $postId, post: $post) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdatePostDocument,
     "\n\tmutation updateProfile(\n\t\t$bio: String\n\t\t$coverPhoto: String\n\t\t$profilePicture: String\n\t) {\n\t\tupdateProfile(\n\t\t\tbio: $bio\n\t\t\tcoverPhoto: $coverPhoto\n\t\t\tprofilePicture: $profilePicture\n\t\t) {\n\t\t\tid\n\t\t\tbio\n\t\t\tprofilePicture\n\t\t\tcoverPhoto\n\t\t}\n\t}\n": types.UpdateProfileDocument,
+    "\n\tmutation createReaction($emoji: Emoji!, $postId: ID!) {\n\t\tcreateReaction(emoji: $emoji, postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n": types.CreateReactionDocument,
+    "\n\tmutation deleteReaction($postId: ID!) {\n\t\tdeleteReaction(postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n": types.DeleteReactionDocument,
+    "\n\tmutation updateReaction($emoji: Emoji!, $postId: ID!) {\n\t\tupdateReaction(emoji: $emoji, postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdateReactionDocument,
     "\n\tmutation addFriend($receiverUid: String!) {\n\t\taddFriend(receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tcreatedAt\n\t\t\treceiverUid\n\t\t\tsenderUid\n\t\t}\n\t}\n": types.AddFriendDocument,
     "\n\tmutation cancelFriendRequest($userUid: String!) {\n\t\tcancelFriendRequest(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n": types.CancelFriendRequestDocument,
     "\n\tmutation confirmFriendRequest($userUid: String!) {\n\t\tconfirmFriendRequest(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n": types.ConfirmFriendRequestDocument,
@@ -33,6 +36,7 @@ const documents = {
     "\n\tquery getNotifications($uid: String!) {\n\t\tnotifications(uid: $uid) {\n\t\t\tid\n\t\t\tcreatedFor\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tviewed\n\t\t\tuser {\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n": types.GetNotificationsDocument,
     "\n\tquery getPosts {\n\t\tposts {\n\t\t\tid\n\t\t\timage\n\t\t\timages {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\timage\n\t\t\t}\n\t\t\tuserUid\n\t\t\tpostContent\n\t\t\tuser {\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tsharedPost {\n\t\t\t\tid\n\t\t\t\timages {\n\t\t\t\t\tid\n\t\t\t\t\tuserUid\n\t\t\t\t\timage\n\t\t\t\t}\n\t\t\t\tuserUid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tuid\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t}\n\t\t\t\tpostContent\n\t\t\t\tupdatedAt\n\t\t\t\tcreatedAt\n\t\t\t}\n\t\t\tupdatedAt\n\t\t\tcreatedAt\n\t\t}\n\t}\n": types.GetPostsDocument,
     "\n\tquery userPosts($uid: String) {\n\t\tuserPosts(uid: $uid) {\n\t\t\tid\n\t\t\timages {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\timage\n\t\t\t}\n\t\t\tpostContent\n\t\t\tuserUid\n\t\t\tuser {\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tsharedPost {\n\t\t\t\tid\n\t\t\t\timages {\n\t\t\t\t\tid\n\t\t\t\t\tuserUid\n\t\t\t\t\timage\n\t\t\t\t}\n\t\t\t\tuserUid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tuid\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t}\n\t\t\t\tpostContent\n\t\t\t\tupdatedAt\n\t\t\t\tcreatedAt\n\t\t\t}\n\t\t\tcreatedAt\n\t\t\tupdatedAt\n\t\t}\n\t}\n": types.UserPostsDocument,
+    "\n\tquery getReactions($postId: ID!) {\n\t\treactions(postId: $postId) {\n\t\t\treactionCount\n\t\t\tselectedEmoji\n\t\t}\n\t}\n": types.GetReactionsDocument,
     "\n\tquery getUser($uid: String!) {\n\t\tuser(uid: $uid) {\n\t\t\tid\n\t\t\tuid\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\temail\n\t\t\tprofile {\n\t\t\t\tcoverPhoto\n\t\t\t\tprofilePicture\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\tbio\n\t\t\t}\n\t\t\tfriends {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t\tprofile {\n\t\t\t\t\tprofilePicture\n\t\t\t\t}\n\t\t\t}\n\t\t\tfriendsCount\n\t\t\tisFriends\n\t\t\tisInFriendRequests\n\t\t\tisRequestingToBeFriend\n\t\t\tphotos {\n\t\t\t\tid\n\t\t\t\timage\n\t\t\t}\n\t\t}\n\t}\n": types.GetUserDocument,
     "\n\tquery getUsers {\n\t\tusers {\n\t\t\tfirstName\n\t\t\tlastName\n\t\t}\n\t}\n": types.GetUsersDocument,
 };
@@ -86,6 +90,18 @@ export function graphql(source: "\n\tmutation updateProfile(\n\t\t$bio: String\n
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n\tmutation createReaction($emoji: Emoji!, $postId: ID!) {\n\t\tcreateReaction(emoji: $emoji, postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation createReaction($emoji: Emoji!, $postId: ID!) {\n\t\tcreateReaction(emoji: $emoji, postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation deleteReaction($postId: ID!) {\n\t\tdeleteReaction(postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation deleteReaction($postId: ID!) {\n\t\tdeleteReaction(postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation updateReaction($emoji: Emoji!, $postId: ID!) {\n\t\tupdateReaction(emoji: $emoji, postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation updateReaction($emoji: Emoji!, $postId: ID!) {\n\t\tupdateReaction(emoji: $emoji, postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n\tmutation addFriend($receiverUid: String!) {\n\t\taddFriend(receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tcreatedAt\n\t\t\treceiverUid\n\t\t\tsenderUid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation addFriend($receiverUid: String!) {\n\t\taddFriend(receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tcreatedAt\n\t\t\treceiverUid\n\t\t\tsenderUid\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -131,6 +147,10 @@ export function graphql(source: "\n\tquery getPosts {\n\t\tposts {\n\t\t\tid\n\t
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n\tquery userPosts($uid: String) {\n\t\tuserPosts(uid: $uid) {\n\t\t\tid\n\t\t\timages {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\timage\n\t\t\t}\n\t\t\tpostContent\n\t\t\tuserUid\n\t\t\tuser {\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tsharedPost {\n\t\t\t\tid\n\t\t\t\timages {\n\t\t\t\t\tid\n\t\t\t\t\tuserUid\n\t\t\t\t\timage\n\t\t\t\t}\n\t\t\t\tuserUid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tuid\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t}\n\t\t\t\tpostContent\n\t\t\t\tupdatedAt\n\t\t\t\tcreatedAt\n\t\t\t}\n\t\t\tcreatedAt\n\t\t\tupdatedAt\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery userPosts($uid: String) {\n\t\tuserPosts(uid: $uid) {\n\t\t\tid\n\t\t\timages {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\timage\n\t\t\t}\n\t\t\tpostContent\n\t\t\tuserUid\n\t\t\tuser {\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tsharedPost {\n\t\t\t\tid\n\t\t\t\timages {\n\t\t\t\t\tid\n\t\t\t\t\tuserUid\n\t\t\t\t\timage\n\t\t\t\t}\n\t\t\t\tuserUid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tuid\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t}\n\t\t\t\tpostContent\n\t\t\t\tupdatedAt\n\t\t\t\tcreatedAt\n\t\t\t}\n\t\t\tcreatedAt\n\t\t\tupdatedAt\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tquery getReactions($postId: ID!) {\n\t\treactions(postId: $postId) {\n\t\t\treactionCount\n\t\t\tselectedEmoji\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getReactions($postId: ID!) {\n\t\treactions(postId: $postId) {\n\t\t\treactionCount\n\t\t\tselectedEmoji\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
