@@ -2,6 +2,7 @@ import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { ContentContainer } from "../../containers/ContentContainer/ContentContainer";
 import { Post } from "@/graphql/generated/graphql";
+import Image from "next/image";
 
 interface Props
 	extends Pick<
@@ -16,6 +17,15 @@ export const SharedFeedPost: FC<Props> = ({
 	user,
 	createdAt,
 }) => {
+	if (id && !createdAt)
+		return (
+			<ContentContainer border="1px" borderColor="gray.500">
+				<Box>
+					<Text>Post has been deleted</Text>
+				</Box>
+			</ContentContainer>
+		);
+
 	const date = new Date(createdAt);
 
 	const months = [
@@ -61,6 +71,35 @@ export const SharedFeedPost: FC<Props> = ({
 						{postContent}
 					</Text>
 				</Box>
+
+				{images?.length ? (
+					<Flex
+						height={images.length > 1 ? 418 : 642}
+						marginTop={2}
+						gap={4}
+					>
+						{images.map((image) => (
+							<Box
+								position="relative"
+								width="full"
+								rounded="lg"
+								overflow="hidden"
+								key={image?.id}
+							>
+								<Image
+									src={`${image?.image}`}
+									alt="image"
+									fill={true}
+									style={{
+										objectFit: "cover",
+									}}
+									blurDataURL={`${image?.image}`}
+									placeholder="blur"
+								/>
+							</Box>
+						))}
+					</Flex>
+				) : null}
 			</Box>
 		</ContentContainer>
 	);

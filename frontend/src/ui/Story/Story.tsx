@@ -46,7 +46,7 @@ export const Story: FC<Props> = ({ createStory = false }) => {
 
 					<Box position="absolute" bottom={2} left={2}>
 						<Text fontSize={12} fontWeight="bold" color="white">
-							Jerome Carbonell
+							Mark zuckerburger
 						</Text>
 					</Box>
 				</>
