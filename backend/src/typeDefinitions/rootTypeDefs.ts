@@ -6,6 +6,7 @@ import { friendshipTypeDef } from "./friendship";
 import { chatTypeDef } from "./chat";
 import { notificationTypeDef } from "./notification";
 import { reactionTypeDef } from "./reaction";
+import { commentTypeDef } from "./comment";
 
 export const rootTypeDefs = gql`
 	scalar Date
@@ -33,4 +34,5 @@ export const rootTypeDefs = gql`
 	${notificationTypeDef}
 	${profileTypeDef}
 	${reactionTypeDef}
+	${commentTypeDef}
 `;
