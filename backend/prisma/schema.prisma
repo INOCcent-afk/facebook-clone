@@ -102,14 +102,20 @@ model Post {
 }
 
 model Comment {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userUid], references: [uid])
-  userUid         String
-  post            Post     @relation(fields: [postId], references: [id])
-  postId          Int
-  commentParentId String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                 Int      @id @default(autoincrement())
+  user               User     @relation(fields: [userUid], references: [uid])
+  content            String
+  userUid            String
+  post               Post     @relation(fields: [postId], references: [id])
+  postId             Int
+  repliedCommentToId Int?     @unique
+  repliedCommentTo   Comment? @relation("RepliedCommentTo", fields: [repliedCommentToId], references: [id])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // This second "side" of the Images relation exists solely 
+  // to satisfy prisma's requirements; we won't access it directly.
+  symmetricRepliedCommentTo Comment? @relation("RepliedCommentTo")
 }
 
 model Reaction {
