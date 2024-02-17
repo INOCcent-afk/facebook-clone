@@ -3,6 +3,7 @@ import { userResolvers } from "./User";
 import { notificationResolvers } from "./Notification";
 import { profileResolvers } from "./Profile";
 import { reactionResolvers } from "./Reaction";
+import { commentResolvers } from "./Comment";
 
 export const Mutation = {
 	...postResolvers,
@@ -10,4 +11,5 @@ export const Mutation = {
 	...notificationResolvers,
 	...profileResolvers,
 	...reactionResolvers,
+	...commentResolvers,
 };
