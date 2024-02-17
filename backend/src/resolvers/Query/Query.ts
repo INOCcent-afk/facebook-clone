@@ -4,6 +4,7 @@ import { postResolvers } from "./Post";
 import { chatResolvers } from "./Chat";
 import { notificationResolvers } from "./Notification";
 import { reactionResolvers } from "./Reaction";
+import { commentResolvers } from "./Comment";
 
 export const Query = {
 	...userResolvers,
@@ -12,4 +13,5 @@ export const Query = {
 	...chatResolvers,
 	...notificationResolvers,
 	...reactionResolvers,
+	...commentResolvers,
 };

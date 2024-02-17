@@ -38,7 +38,7 @@ export const postTypeDef = gql`
 	type Mutation {
 		createPost(post: PostInput!, images: [ImageInput]): Post!
 		updatePost(postId: ID!, post: PostInput!): Post!
-		deletePost(postId: ID!): Post
+		deletePost(postId: ID!): Post!
 		sharePost(post: PostInput!, sharedPostId: Int!): Post!
 	}
 
