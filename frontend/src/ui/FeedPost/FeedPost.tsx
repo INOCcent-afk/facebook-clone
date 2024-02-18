@@ -34,6 +34,8 @@ import { FeedCommentInput } from "../FeedCommentInput/FeedCommentInput";
 import { emojiMappings } from "./emojiMappings";
 import { AiFillLike } from "react-icons/ai";
 import { useComments } from "@/apiHooks/comment/useComments";
+import { FeedPostModal } from "../FeedPostModal/FeedPostModal";
+import { getFormmatedDate } from "@/utils/getFormmatedDate";
 
 interface Props
 	extends Pick<
@@ -41,14 +43,9 @@ interface Props
 		"images" | "id" | "postContent" | "user" | "createdAt" | "sharedPost"
 	> {}
 
-export const FeedPost: FC<Props> = ({
-	images,
-	postContent,
-	id,
-	user,
-	createdAt,
-	sharedPost,
-}) => {
+export const FeedPost: FC<Props> = (props) => {
+	const { images, postContent, id, user, createdAt, sharedPost } = props;
+
 	const { token } = useAuth();
 
 	const { mutate: deletePost } = useDeletePost();
@@ -105,31 +102,6 @@ export const FeedPost: FC<Props> = ({
 		);
 	};
 
-	const date = new Date(createdAt);
-
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	];
-
-	const month = months[date.getMonth()];
-	const day = date.getDate();
-	const hours = date.getHours() % 12 || 12;
-	const minutes = ("0" + date.getMinutes()).slice(-2);
-	const ampm = date.getHours() < 12 ? "AM" : "PM";
-
-	const formattedDate = `${month} ${day} at ${hours}:${minutes} ${ampm}`;
-
 	const { mutate: deleteReaction } = useDeleteReaction();
 	const { mutate: createReaction } = useCreateReaction();
 
@@ -176,6 +148,12 @@ export const FeedPost: FC<Props> = ({
 		setSelectedEmoji(reactions?.selectedEmoji);
 	}, [reactions]);
 
+	const {
+		isOpen: isFeedPostModalOpen,
+		onClose: closeFeedPostModal,
+		onOpen: openFeedPostModal,
+	} = useDisclosure();
+
 	return isDeleted ? null : (
 		<>
 			<UpdatePost
@@ -199,6 +177,15 @@ export const FeedPost: FC<Props> = ({
 				sharePostId={Number(id)}
 			/>
 
+			<FeedPostModal
+				isOpen={isFeedPostModalOpen}
+				onClose={closeFeedPostModal}
+				comments={comments}
+				reactions={reactions}
+				selectedEmoji={selectedEmoji}
+				{...props}
+			/>
+
 			<ContentContainer>
 				<Flex justifyContent="space-between">
 					<Flex gap={4}>
@@ -206,7 +193,7 @@ export const FeedPost: FC<Props> = ({
 						<Box color="white">
 							<Text fontWeight="bold">{`${user?.firstName}  ${user?.lastName}`}</Text>
 							<Text fontSize="sm" color="gray.600">
-								{formattedDate}
+								{getFormmatedDate(createdAt)}
 							</Text>
 						</Box>
 					</Flex>
@@ -333,7 +320,16 @@ export const FeedPost: FC<Props> = ({
 					)}
 
 					{comments && comments.totalCount ? (
-						<Flex gap={1} color="gray.300">
+						<Flex
+							as={Button}
+							variant="unstyled"
+							gap={1}
+							color="gray.300"
+							_hover={{
+								textDecoration: "underline",
+							}}
+							onClick={openFeedPostModal}
+						>
 							<Text>{comments.totalCount}</Text>
 							<Text>Comments</Text>
 						</Flex>
