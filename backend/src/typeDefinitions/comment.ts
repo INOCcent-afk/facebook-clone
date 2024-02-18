@@ -15,8 +15,13 @@ export const commentTypeDef = gql`
 		repliedCommentTo: Comment
 	}
 
+	type Comments {
+		comments: [Comment]
+		totalCount: Int
+	}
+
 	type Mutation {
-		createComment(commentId: Int!, content: String!): Post!
+		createComment(postId: Int!, content: String!): Comment!
 		updateComment(commentId: Int!, content: String!): Comment!
 		deleteComment(commentId: Int!): Comment!
 	}
