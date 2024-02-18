@@ -19,7 +19,7 @@ export const rootTypeDefs = gql`
 		profiles: [Profile]
 		posts: [Post]
 		userPosts(uid: String): [Post]
-		comments: [Comment]
+		comments(postId: Int!): Comments
 		chats(uid: String!): [ChatRoom]
 		chat(senderUid: String!, receiverUid: String!): ChatRoom
 		notifications(uid: String!): [Notification]
