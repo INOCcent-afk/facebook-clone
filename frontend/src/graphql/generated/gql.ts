@@ -15,6 +15,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n\tmutation updateChatViewed($roomId: String!) {\n\t\tupdateChatViewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdateChatViewedDocument,
     "\n\tmutation updateChatUnviewed($roomId: String!) {\n\t\tupdateChatUnviewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n": types.UpdateChatUnviewedDocument,
+    "\n\tmutation createComment($postId: Int!, $content: String!) {\n\t\tcreateComment(postId: $postId, content: $content) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n": types.CreateCommentDocument,
+    "\n\tmutation deleteComment($commentId: Int!) {\n\t\tdeleteComment(commentId: $commentId) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n": types.DeleteCommentDocument,
+    "\n\tmutation updateComment($commentId: Int!, $content: String!) {\n\t\tupdateComment(commentId: $commentId, content: $content) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n": types.UpdateCommentDocument,
     "\n\tmutation createNotification(\n\t\t$notificationUrl: String!\n\t\t$notificationMessage: String!\n\t\t$createdFor: String!\n\t) {\n\t\tcreateNotification(\n\t\t\tnotificationUrl: $notificationUrl\n\t\t\tnotificationMessage: $notificationMessage\n\t\t\tcreatedFor: $createdFor\n\t\t) {\n\t\t\tcreatedFor\n\t\t\tid\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tuser {\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n": types.CreateNotificationDocument,
     "\n\tmutation createPost($post: PostInput!, $images: [ImageInput]) {\n\t\tcreatePost(post: $post, images: $images) {\n\t\t\tid\n\t\t\timages {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\timage\n\t\t\t}\n\t\t\tcreatedAt\n\t\t\tpostContent\n\t\t}\n\t}\n": types.CreatePostDocument,
     "\n\tmutation deletePost($postId: ID!) {\n\t\tdeletePost(postId: $postId) {\n\t\t\tid\n\t\t}\n\t}\n": types.DeletePostDocument,
@@ -32,6 +35,7 @@ const documents = {
     "\n\tmutation unfriend($userUid: String!) {\n\t\tunfriend(userUid: $userUid) {\n\t\t\tid\n\t\t}\n\t}\n": types.UnfriendDocument,
     "\n\tquery getChat($senderUid: String!, $receiverUid: String!) {\n\t\tchat(senderUid: $senderUid, receiverUid: $receiverUid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n": types.GetChatDocument,
     "\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t\tviewers {\n\t\t\t\tuserUid\n\t\t\t}\n\t\t}\n\t}\n": types.GetChatsDocument,
+    "\n\tquery getComments($postId: Int!) {\n\t\tcomments(postId: $postId) {\n\t\t\tcomments {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t}\n\t\t\t\tpostId\n\t\t\t}\n\n\t\t\ttotalCount\n\t\t}\n\t}\n": types.GetCommentsDocument,
     "\n\tquery getMe {\n\t\tme {\n\t\t\tid\n\t\t\tuid\n\t\t\temail\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\tfriendsCount\n\t\t\tprofile {\n\t\t\t\tcoverPhoto\n\t\t\t\tprofilePicture\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\tbio\n\t\t\t}\n\t\t\tfriends {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t\tprofile {\n\t\t\t\t\tprofilePicture\n\t\t\t\t}\n\t\t\t}\n\t\t\tfriendRequestsReceiver {\n\t\t\t\tUser {\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t\tuid\n\t\t\t\t\tid\n\t\t\t\t}\n\t\t\t}\n\t\t\tfriendRequestsSender {\n\t\t\t\tUser {\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t\tuid\n\t\t\t\t\tid\n\t\t\t\t}\n\t\t\t}\n\t\t\tphotos {\n\t\t\t\tid\n\t\t\t\timage\n\t\t\t}\n\t\t}\n\t}\n": types.GetMeDocument,
     "\n\tquery getNotifications($uid: String!) {\n\t\tnotifications(uid: $uid) {\n\t\t\tid\n\t\t\tcreatedFor\n\t\t\tnotificationMessage\n\t\t\tnotificationUrl\n\t\t\tviewed\n\t\t\tuser {\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t\tuid\n\t\t\t}\n\t\t}\n\t}\n": types.GetNotificationsDocument,
     "\n\tquery getPosts {\n\t\tposts {\n\t\t\tid\n\t\t\timage\n\t\t\timages {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\timage\n\t\t\t}\n\t\t\tuserUid\n\t\t\tpostContent\n\t\t\tuser {\n\t\t\t\tid\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tsharedPost {\n\t\t\t\tid\n\t\t\t\timages {\n\t\t\t\t\tid\n\t\t\t\t\tuserUid\n\t\t\t\t\timage\n\t\t\t\t}\n\t\t\t\tuserUid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tuid\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t}\n\t\t\t\tpostContent\n\t\t\t\tupdatedAt\n\t\t\t\tcreatedAt\n\t\t\t}\n\t\t\tupdatedAt\n\t\t\tcreatedAt\n\t\t}\n\t}\n": types.GetPostsDocument,
@@ -63,6 +67,18 @@ export function graphql(source: "\n\tmutation updateChatViewed($roomId: String!)
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n\tmutation updateChatUnviewed($roomId: String!) {\n\t\tupdateChatUnviewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation updateChatUnviewed($roomId: String!) {\n\t\tupdateChatUnviewed(roomId: $roomId) {\n\t\t\tid\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation createComment($postId: Int!, $content: String!) {\n\t\tcreateComment(postId: $postId, content: $content) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation createComment($postId: Int!, $content: String!) {\n\t\tcreateComment(postId: $postId, content: $content) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation deleteComment($commentId: Int!) {\n\t\tdeleteComment(commentId: $commentId) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation deleteComment($commentId: Int!) {\n\t\tdeleteComment(commentId: $commentId) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tmutation updateComment($commentId: Int!, $content: String!) {\n\t\tupdateComment(commentId: $commentId, content: $content) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation updateComment($commentId: Int!, $content: String!) {\n\t\tupdateComment(commentId: $commentId, content: $content) {\n\t\t\tid\n\t\t\tuserUid\n\t\t\tpostId\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -131,6 +147,10 @@ export function graphql(source: "\n\tquery getChat($senderUid: String!, $receive
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t\tviewers {\n\t\t\t\tuserUid\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getChats($uid: String!) {\n\t\tchats(uid: $uid) {\n\t\t\tid\n\t\t\tmessages {\n\t\t\t\tid\n\t\t\t\tcontent\n\t\t\t\tuserUid\n\t\t\t}\n\t\t\tusers {\n\t\t\t\tuid\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t\tname\n\t\t\tviewers {\n\t\t\t\tuserUid\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tquery getComments($postId: Int!) {\n\t\tcomments(postId: $postId) {\n\t\t\tcomments {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t}\n\t\t\t\tpostId\n\t\t\t}\n\n\t\t\ttotalCount\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getComments($postId: Int!) {\n\t\tcomments(postId: $postId) {\n\t\t\tcomments {\n\t\t\t\tid\n\t\t\t\tuserUid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t}\n\t\t\t\tpostId\n\t\t\t}\n\n\t\t\ttotalCount\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
