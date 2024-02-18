@@ -4,10 +4,6 @@ import {
 	Button,
 	Divider,
 	Flex,
-	FormControl,
-	FormLabel,
-	HStack,
-	Input,
 	Menu,
 	MenuButton,
 	MenuItem,
@@ -18,7 +14,6 @@ import {
 import React, { FC, useEffect, useState } from "react";
 import { ContentContainer } from "../../containers/ContentContainer/ContentContainer";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { AiOutlineLike } from "react-icons/ai";
 
 import { RiShareForwardLine } from "react-icons/ri";
 import { useDeletePost } from "@/apiHooks/post/useDeletePost";
@@ -32,10 +27,13 @@ import { SharedFeedPost } from "../SharedFeedPost/SharedFeedPost";
 import Image from "next/image";
 import { useDeleteReaction } from "@/apiHooks/reaction/useDeleteReaction";
 import { useCreateReaction } from "@/apiHooks/reaction/useCreateReaction";
-import { useUpdateReaction } from "@/apiHooks/reaction/useUpdateReaction";
 import { useReactions } from "@/apiHooks/reaction/useReactions";
 import { ReactionButton } from "../ReactionButton/ReactionButton";
 import { FaRegComment } from "react-icons/fa";
+import { FeedCommentInput } from "../FeedCommentInput/FeedCommentInput";
+import { emojiMappings } from "./emojiMappings";
+import { AiFillLike } from "react-icons/ai";
+import { useComments } from "@/apiHooks/comment/useComments";
 
 interface Props
 	extends Pick<
@@ -61,8 +59,13 @@ export const FeedPost: FC<Props> = ({
 		enabled: Boolean(token),
 	});
 
+	const { data: comments } = useComments({
+		enabled: Boolean(token),
+		postId: Number(id),
+		token: token ?? "",
+	});
+
 	const [isDeleted, setIsDelete] = useState(false);
-	const [showReaction, setShowReaction] = useState(false);
 
 	const {
 		isOpen: isConfirmationModalOpen,
@@ -135,7 +138,6 @@ export const FeedPost: FC<Props> = ({
 	>(null);
 
 	const handleReaction = (react: Emoji) => {
-		console.log(react);
 		if (!selectedEmoji && react === Emoji.Like) {
 			createReaction(
 				{ postId: id, emoji: Emoji.Like, token: token ?? "" },
@@ -309,6 +311,35 @@ export const FeedPost: FC<Props> = ({
 					</Box>
 				</Box>
 
+				<Flex paddingBottom={4} justifyContent="space-between">
+					{selectedEmoji && (
+						<Flex alignItems="center" gap={2}>
+							{selectedEmoji ? (
+								<Flex gap={1} alignItems="center">
+									{emojiMappings({
+										selectedEmoji: selectedEmoji,
+									})}
+								</Flex>
+							) : (
+								<Box marginTop={-1} color="brand">
+									<AiFillLike size={24} />
+								</Box>
+							)}
+
+							<Text color="gray.300">
+								{reactions?.reactionCount}
+							</Text>
+						</Flex>
+					)}
+
+					{comments && comments.totalCount ? (
+						<Flex gap={1} color="gray.300">
+							<Text>{comments.totalCount}</Text>
+							<Text>Comments</Text>
+						</Flex>
+					) : null}
+				</Flex>
+
 				<Box mb={4}>
 					<Divider />
 					<Flex py={2}>
@@ -349,42 +380,7 @@ export const FeedPost: FC<Props> = ({
 					<Divider />
 				</Box>
 
-				<Flex gap={4}>
-					<Avatar size="sm" />
-					<FormControl
-						backgroundColor="gray.800"
-						borderRadius={16}
-						_hover={{
-							backgroundColor: "gray.500",
-						}}
-					>
-						<FormLabel
-							height={10}
-							_focusVisible={{
-								outline: "none",
-							}}
-							margin={0}
-						>
-							<HStack
-								width="full"
-								height="full"
-								position="relative"
-								px={4}
-							>
-								<Input
-									variant="unstyled"
-									size="sm"
-									padding={0}
-									placeholder="Write a comment..."
-									color="white"
-									_placeholder={{
-										color: "gray.600",
-									}}
-								/>
-							</HStack>
-						</FormLabel>
-					</FormControl>
-				</Flex>
+				<FeedCommentInput postId={Number(id)} />
 			</ContentContainer>
 		</>
 	);
