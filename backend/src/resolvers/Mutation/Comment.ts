@@ -41,6 +41,8 @@ export const commentResolvers = {
 			throw new GraphQLError("Forbidden access (unauthenticated)");
 		}
 
+		console.log(postId, content);
+
 		if (!postId || !content) {
 			throw new GraphQLError("Please provide postId and content");
 		}
